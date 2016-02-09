@@ -1,0 +1,34 @@
+# Ignore everything
+*
+
+# Whitelist subdirectories
+!*/
+
+# Ignore things
+.metadata
+.recommenders
+**/.settings/*
+**/bin
+**/.classpath
+**/.project
+**/mpoo2.iml
+**/.idea/*
+**/out/*
+**/.checkstyle
+
+# Whitelist the following
+!*/lib/*
+!*.xml
+!*.c
+!*.php
+!*.html
+!*.pdf
+!*.js
+!*.php
+!*.h
+!*.java
+!Makefile*
+!.gitignore
+!*.py
+
+**/.idea/*
