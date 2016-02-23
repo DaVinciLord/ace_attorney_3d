@@ -70,11 +70,100 @@ them clearly and concisely.
 Please state the name of
 the defendant in this case.
 
-*QCM1*
-**3**
-***Phoenix Wright->1***
-***Mia Fey->2***
-***Larry Butz->3***
+***Phoenix Wright***************************
+*
+* -Phoenix
+* Um... the defendant...
+* is me, right?
+*
+* -Mia
+* Wright! Have you completely
+* lost your mind? Focus!
+*
+* -Mia
+* The defendant is the
+* person on trial!
+*
+* -Mia
+* You're his lawyer!
+*
+* -Phoenix
+* Um, er, eh?
+* Oh yeah, right! Eh heh heh.
+*
+* -Mia
+* This is no laughing matter!
+*
+* -Mia
+* You did pass the bar,
+* didn't you?
+*
+* -Judge
+* Sorry, I couldn't hear your
+* answer. I'll ask once more:
+*
+* RETURN TO QUESTION
+*
+********************************************
+
+***Mia Fey**********************************
+*
+* -Phoenix
+* The, um, defendant?
+* That's... er... Mia Fey?
+*
+* -Mia
+* Wrong, Wright.
+* Look, I have to leave.
+*
+* -Mia
+* I have to go home. I'm...
+* I'm expecting a delivery.
+*
+* -Phoenix
+* Aw, c'mon Chief.
+* There's no need to be
+* going so soon, is there?
+*
+* -Mia
+* Wright!
+*
+* -Mia
+* Listen: the defendant is
+* the one on trial--your client!
+*
+* -Mia
+* I mean, that's about as 
+* basic as you can get!
+*
+* -Phoenix
+* (I've put my foot in it this time!
+* I've got to relax!)
+*
+* -Judge
+* Sorry, I couldn't hear your
+* answer. I'll ask once more:
+*
+* RETURN TO QUESTION
+*
+********************************************
+
+***Larry Butz*******************************
+*
+* -Phoenix
+* The defendant? Well, that's
+* Larry Butz, Your Honor. 
+*
+* -Judge
+* Correct.
+*
+* -Judge
+* Just keep your wits about
+* you and you'll do fine. 
+*
+* CONTINUE
+*
+********************************************
 
 -Judge
 Next question:
