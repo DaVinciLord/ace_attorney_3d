@@ -73,7 +73,7 @@ void init_SDL(void) {
   
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
     
-  fenetre = SDL_CreateWindow("SDL B-A-BA",
+  fenetre = SDL_CreateWindow("The first Turnabout",
                              SDL_WINDOWPOS_CENTERED,
                              SDL_WINDOWPOS_CENTERED,
                              640, 640,
@@ -133,7 +133,24 @@ int keyboard(SDL_Event * event) {
 void display() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glLoadIdentity();
-    
+
+  glMatrixMode(GL_MODELVIEW);
+  gluLookAt(0.,510.,0.,0.,0.,0.,0.,0.,1.);
+  
+  glColor3f(0.0, 0.0, 1.0);
+  glBegin(GL_QUADS);
+  glVertex3f(-250.,0.,-750.); 
+  glVertex3f(-250.,0.,750.); 
+  glVertex3f(250.,0.,750.);
+  glVertex3f(250.,0.,-750.);
+  glEnd();
+  
+  glLoadIdentity();
+  GLdouble near = 10.;
+  GLdouble far = 550;
+  gluPerspective(120,1.,near,far);
+  
+  glMatrixMode(GL_MODELVIEW);
     
     
   SDL_GL_SwapWindow(fenetre);
