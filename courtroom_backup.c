@@ -15,12 +15,12 @@ void printGLInfos(void);
 void display(void);
 void creer_pave (float a, float c, float e, float b, float d, float f); 
 int keyboard(SDL_Event * event);
-GLfloat whereiamx = 0.;
-GLfloat whereiamy = 0.;
-GLfloat whereiamz = 510.;
+GLfloat angle = 0;
+GLfloat angle2 = 0;
 
 GLdouble near = 10.;
 GLdouble far = 2000.;
+GLfloat whereiam = 700.;
   
 int main(int argc, char **argv) {
   if (argc != 1) {
@@ -57,22 +57,36 @@ int main(int argc, char **argv) {
       break;
     }
     if (event.key.keysym.sym == SDLK_KP_MINUS) {
-        whereiamz+=10;
+        far+=10;
+        whereiam+=10;
     }
     if (event.key.keysym.sym == SDLK_KP_PLUS) {
-        whereiamz -=10;
+        if (whereiam > 10) {
+        far-=10;
+        whereiam-=10;
+        }
     }
     if (event.key.keysym.sym == SDLK_UP) {
-        whereiamy+=10;
+        if (angle < 1.5) {
+        angle+=0.1;
+        }
     }
     if (event.key.keysym.sym == SDLK_DOWN) {
-        whereiamy -=10;
+        if (angle > -1.5) {
+        angle-=0.1;
+        }
+
     }
-    if (event.key.keysym.sym == SDLK_LEFT) {
-        whereiamx -=10;
+        if (event.key.keysym.sym == SDLK_LEFT) {
+        if (angle2 < 1.5) {
+        angle2+=0.1;
+        }
     }
     if (event.key.keysym.sym == SDLK_RIGHT) {
-        whereiamx+=10;
+        if (angle2 > -1.5) {
+        angle2-=0.1;
+        }
+
     }
     display();
 }
@@ -159,7 +173,7 @@ void display() {
   glLoadIdentity();
   
   glMatrixMode(GL_MODELVIEW);
-  gluLookAt(whereiamx,whereiamy,whereiamz,0.,0.,0.,0.,1.,0.);
+  gluLookAt(sin(angle2)*whereiam,sin(angle)*whereiam,cos(angle) * whereiam,0.,0.,0.,0.,1.,0.);
   
   glColor3f(197./255.,167./255., 147./255.);
   glBegin(GL_QUADS);
