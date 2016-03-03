@@ -31,5 +31,6 @@
 !.gitignore
 !*.py
 !*.txt
+!*.bmp
 
 **/.idea/*
