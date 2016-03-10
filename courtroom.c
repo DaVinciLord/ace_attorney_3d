@@ -9,7 +9,7 @@
 
 SDL_Window *fenetre;
 SDL_GLContext context;
-GLuint tex[1];
+GLuint tex[2];
 void sol(int x0, int y0, int x1, int y1);
 void defTexture(const char * filename);
 void init_SDL(void);
@@ -25,6 +25,11 @@ GLfloat whereiamz = 1000.;
 
 GLdouble near = 10.;
 GLdouble far = 2000.;
+
+GLfloat matSpeculaire[4] = {1., 1., 1., 1.};
+GLfloat matShininess = 50.;
+GLfloat matBeige[4] = {197./255.,167./255., 147./255., 1.};
+GLfloat matBrun[4] = {124./255., 64./255., 0., 1.};
   
 int main(int argc, char **argv) {
   if (argc != 1) {
@@ -125,19 +130,19 @@ void init_SDL(void) {
 void init_GL(void) {
   glClearColor(1., 1., 1., 0.);
   glEnable(GL_DEPTH_TEST);
+  glEnable(GL_CULL_FACE);
+  
+  glEnable(GL_LIGHTING);
+  glEnable(GL_LIGHT0);
+  
+  //GLfloat intensite[] = {1.,1.,1, 1.};
+ // glLightfv(GL_LIGHT0, GL_AMBIENT, intensite);
+ // glLightfv(GL_LIGHT0, GL_DIFFUSE, intensite);
+  
+ // glLightfv(GL_LIGHT0, GL_SPECULAR, intensite);
   
   
- // glEnable(GL_LIGHTING);
-  //glEnable(GL_LIGHT0);
-  
-  GLfloat intensite[] = {197./255.,167./255., 147./255., 1.};
-  glLightfv(GL_LIGHT0, GL_AMBIENT, intensite);
-  glLightfv(GL_LIGHT0, GL_DIFFUSE, intensite);
-  glLightfv(GL_LIGHT0, GL_SPECULAR, intensite);
-  
-  
-  GLfloat pos[] = {0, 0, 500, 1};
-  glLightfv(GL_LIGHT0, GL_POSITION, pos);
+ 
 
   glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 }
@@ -178,11 +183,16 @@ void display() {
   glLoadIdentity();
   
   glMatrixMode(GL_MODELVIEW);
-  gluLookAt(whereiamx,whereiamy,whereiamz,0.,0.,0. ,- whereiamx + 1,-whereiamy + 1 ,250.);
+  gluLookAt(whereiamx,whereiamy,whereiamz,0.,100.,180. ,- whereiamx + 1,-whereiamy + 100 ,180.);
+  GLfloat pos[] = {0, 0, 500, 1};
+  glLightfv(GL_LIGHT0, GL_POSITION, pos);
+  glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, matSpeculaire);
+  glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, matShininess);
+  
   
   //glColor3f(197./255.,167./255., 147./255.);
 
-  
+  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBeige);
   sol(-500,-750, 0, -250);
   sol(0,-750, 500, -250);
   sol(-500,-250, 0, 250);
@@ -190,15 +200,18 @@ void display() {
   sol(-500, 250, 0, 750);
   sol(0,250, 500, 750);
   
-  
-/*
+
+  glBindTexture(GL_TEXTURE_2D, tex[1]);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBrun);
+
   creer_pave(-100.,0.,0.,-200,400.,100.);
   creer_pave(100.,0.,0.,200,400.,100.);
+  
   creer_pave(-200.,350.,0.,-300.,400.,100.);
   creer_pave(200.,350.,0.,300.,400.,100.);
   creer_pave(-300.,-300.,0.,-500.,400.,200.);
   creer_pave(300.,-300.,0.,500.,400.,200.);
-  */
+  
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
@@ -220,45 +233,51 @@ void creer_pave (float a, float c, float e, float b,
                     float d, float f) {
               
   glBegin(GL_QUADS);
-  glVertex3f(a, c, f); // c'est le point en bas à gauche
-  glVertex3f(b, c, f);  // on tourne dans le sens trigo
-  glVertex3f(b, d, f);
-  glVertex3f(a, d, f);
+  glNormal3f(0, 0, 1);
+  glTexCoord2f(0., 0.); glVertex3f(a, c, f); // c'est le point en bas à gauche
+  glTexCoord2f(0., 1.); glVertex3f(b, c, f);  // on tourne dans le sens trigo
+  glTexCoord2f(1., 1.); glVertex3f(b, d, f);
+  glTexCoord2f(1., 0.); glVertex3f(a, d, f);
   glEnd();
   // On dessine un carré vert dans le plan -.4xy
   glBegin(GL_QUADS);
-  glVertex3f(a, c, e); 
-  glVertex3f(b, c, e);  
-  glVertex3f(b, d, e);
-  glVertex3f(a, d, e);
+  glNormal3f(0, 0, -1);
+  glTexCoord2f(0., 0.); glVertex3f(a, c, e); 
+  glTexCoord2f(0., 1.); glVertex3f(b, c, e);  
+  glTexCoord2f(1., 1.); glVertex3f(b, d, e);
+  glTexCoord2f(1., 0.); glVertex3f(a, d, e);
   glEnd();
   //On dessine un carré bleu  .2yz
   glBegin(GL_QUADS);
-  glVertex3f(b, d, f); 
-  glVertex3f(b, c, f); 
-  glVertex3f(b, c, e);
-  glVertex3f(b, d, e);
+  glNormal3f(1, 0, 0);
+  glTexCoord2f(0., 0.); glVertex3f(b, d, f); 
+  glTexCoord2f(0., 1.); glVertex3f(b, c, f); 
+  glTexCoord2f(1., 1.);  glVertex3f(b, c, e);
+  glTexCoord2f(1., 0.); glVertex3f(b, d, e);
   glEnd();
     //On dessine un carré jaune  -.2yz
   glBegin(GL_QUADS);
-  glVertex3f(a, d, f); 
-  glVertex3f(a, c, f); 
-  glVertex3f(a, c, e);
-  glVertex3f(a, d, e);
+  glNormal3f(-1, 0, 0);
+  glTexCoord2f(0., 0.); glVertex3f(a, d, f); 
+  glTexCoord2f(0., 1.); glVertex3f(a, c, f); 
+  glTexCoord2f(1., 1.); glVertex3f(a, c, e);
+  glTexCoord2f(1., 0.); glVertex3f(a, d, e);
   glEnd();
   //On dessine un carré cyan  .2xz
   glBegin(GL_QUADS);
-  glVertex3f(a, d, f); 
-  glVertex3f(b, d, f); 
-  glVertex3f(b, d, e);
-  glVertex3f(a, d, e);
+  glNormal3f(0, 1, 0);
+  glTexCoord2f(0., 0.); glVertex3f(a, d, f); 
+  glTexCoord2f(0., 1.); glVertex3f(b, d, f); 
+  glTexCoord2f(1., 1.); glVertex3f(b, d, e);
+  glTexCoord2f(1., 0.); glVertex3f(a, d, e);
   glEnd();
   //On dessine un carré majenta -.2xz
   glBegin(GL_QUADS);
-  glVertex3f(a, c, f); 
-  glVertex3f(b, c, f); 
-  glVertex3f(b, c, e);
-  glVertex3f(a, c, e);
+  glNormal3f(0, -1, 0);
+  glTexCoord2f(0., 0.); glVertex3f(a, c, f); 
+  glTexCoord2f(0., 1.); glVertex3f(b, c, f); 
+  glTexCoord2f(1., 1.); glVertex3f(b, c, e);
+  glTexCoord2f(1., 0.); glVertex3f(a, c, e);
   glEnd();                        
                         
                         
@@ -274,11 +293,14 @@ void creer_pave (float a, float c, float e, float b,
 
 void initTexture() {
     glEnable(GL_TEXTURE_2D);
-    glGenTextures(1, tex);
+    glGenTextures(2, tex);
 
     // On définit la première texture
     glBindTexture(GL_TEXTURE_2D, tex[0]);
     defTexture("texture_sol.bmp");
+    // On définit la deuxième texture
+    glBindTexture(GL_TEXTURE_2D, tex[1]);
+    defTexture("texture_meuble.bmp");
 
     // On spécifie comment les textures seront plaquées sur les facettes
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -334,12 +356,13 @@ void sol(int x0, int y0, int x1, int y1) {
 	   for (int j = y0; j < y1; j += step) {
 			  glBindTexture(GL_TEXTURE_2D, tex[0]);
 			  glNormal3f(0, 0, 1);
+
 			  glBegin(GL_QUADS);
 
 			  glTexCoord2f(0., 0.); glVertex3f(i , j, 0.); 
-			  glTexCoord2f(0., 1.); glVertex3f(i , j + step, 0.); 
+              glTexCoord2f(1., 0.); glVertex3f(i + step, j,0.);
 			  glTexCoord2f(1., 1.); glVertex3f(i + step , j + step, 0.);
-			  glTexCoord2f(1., 0.); glVertex3f(i + step, j,0.);
+              glTexCoord2f(0., 1.); glVertex3f(i , j + step, 0.);
 			  glEnd(); 
 		   
 	   }
