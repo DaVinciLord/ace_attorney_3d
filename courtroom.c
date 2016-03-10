@@ -130,7 +130,7 @@ void init_SDL(void) {
 void init_GL(void) {
   glClearColor(1., 1., 1., 0.);
   glEnable(GL_DEPTH_TEST);
-  glEnable(GL_CULL_FACE);
+  //glEnable(GL_CULL_FACE);
   
   glEnable(GL_LIGHTING);
   glEnable(GL_LIGHT0);
@@ -243,9 +243,9 @@ void creer_pave (float a, float c, float e, float b,
   glBegin(GL_QUADS);
   glNormal3f(0, 0, -1);
   glTexCoord2f(0., 0.); glVertex3f(a, c, e); 
-  glTexCoord2f(0., 1.); glVertex3f(b, c, e);  
-  glTexCoord2f(1., 1.); glVertex3f(b, d, e);
   glTexCoord2f(1., 0.); glVertex3f(a, d, e);
+  glTexCoord2f(1., 1.); glVertex3f(b, d, e); 
+  glTexCoord2f(0., 1.); glVertex3f(b, c, e);  
   glEnd();
   //On dessine un carré bleu  .2yz
   glBegin(GL_QUADS);
@@ -259,9 +259,9 @@ void creer_pave (float a, float c, float e, float b,
   glBegin(GL_QUADS);
   glNormal3f(-1, 0, 0);
   glTexCoord2f(0., 0.); glVertex3f(a, d, f); 
+  glTexCoord2f(1., 0.); glVertex3f(a, d, e); 
+  glTexCoord2f(1., 1.); glVertex3f(a, c, e);  
   glTexCoord2f(0., 1.); glVertex3f(a, c, f); 
-  glTexCoord2f(1., 1.); glVertex3f(a, c, e);
-  glTexCoord2f(1., 0.); glVertex3f(a, d, e);
   glEnd();
   //On dessine un carré cyan  .2xz
   glBegin(GL_QUADS);
@@ -275,9 +275,9 @@ void creer_pave (float a, float c, float e, float b,
   glBegin(GL_QUADS);
   glNormal3f(0, -1, 0);
   glTexCoord2f(0., 0.); glVertex3f(a, c, f); 
+  glTexCoord2f(1., 0.); glVertex3f(a, c, e); 
+  glTexCoord2f(1., 1.); glVertex3f(b, c, e); 
   glTexCoord2f(0., 1.); glVertex3f(b, c, f); 
-  glTexCoord2f(1., 1.); glVertex3f(b, c, e);
-  glTexCoord2f(1., 0.); glVertex3f(a, c, e);
   glEnd();                        
                         
                         
