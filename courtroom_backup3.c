@@ -19,8 +19,6 @@ void display(void);
 void creer_pave (float a, float c, float e, float b, float d, float f);
 void initTexture(); 
 int keyboard(SDL_Event * event);
-void creer_pave_2 (float centrex, float centrey, float centrez, float hauteur,
-                    float largeur, float profondeur);
 GLfloat whereiamx = 0.;
 GLfloat whereiamy = 0.;
 GLfloat whereiamz = 1000.;
@@ -132,7 +130,7 @@ void init_SDL(void) {
 void init_GL(void) {
   glClearColor(1., 1., 1., 0.);
   glEnable(GL_DEPTH_TEST);
-  glEnable(GL_CULL_FACE);
+  //glEnable(GL_CULL_FACE);
   
   glEnable(GL_LIGHTING);
   glEnable(GL_LIGHT0);
@@ -206,21 +204,13 @@ void display() {
   glBindTexture(GL_TEXTURE_2D, tex[1]);
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBrun);
 
- // creer_pave(-100.,0.,0.,-200,400.,100.);
- // creer_pave(100.,0.,0.,200,400.,100.);
+  creer_pave(-100.,0.,0.,-200,400.,100.);
+  creer_pave(100.,0.,0.,200,400.,100.);
   
- // creer_pave(-200.,350.,0.,-300.,400.,100.);
- // creer_pave(200.,350.,0.,300.,400.,100.);
- // creer_pave(-300.,-300.,0.,-500.,400.,200.);
- // creer_pave(300.,-300.,0.,500.,400.,200.);
- 
- creer_pave_2(-150, 200, 50, 100, 400, 100);
- creer_pave_2(150, 200, 50, 100, 400, 100);
- creer_pave_2(-250, 375, 50, 100, 50, 100);
- creer_pave_2(250, 375, 50, 100, 50, 100);
- creer_pave_2(-400, 50, 200, 200, 700, 200);
- creer_pave_2(400, 50, 200, 200, 700, 200);
- 
+  creer_pave(-200.,350.,0.,-300.,400.,100.);
+  creer_pave(200.,350.,0.,300.,400.,100.);
+  creer_pave(-300.,-300.,0.,-500.,400.,200.);
+  creer_pave(300.,-300.,0.,500.,400.,200.);
   
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
@@ -379,73 +369,9 @@ void sol(int x0, int y0, int x1, int y1) {
 	   
    }
 	   
+	   
+
+
+
+  
 }
-   
-void creer_pave_2 (float centrex, float centrey, float centrez, float hauteur,
-                    float largeur, float profondeur) {
-              
-	GLfloat cx = centrex;
-	GLfloat cy = centrey;
-	GLfloat cz = centrez;
-	GLfloat h = hauteur / 2;
-	GLfloat l = largeur / 2;
-	GLfloat p = profondeur / 2; 
-
-  // On dessine un carré sur le plan -x
-  glBegin(GL_QUADS);
-  glNormal3f(0, 0, -1);
-  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy - p, cz - h); 
-  glTexCoord2f(0., 1.); glVertex3f(cx + l, cy - p, cz - h); 
-  glTexCoord2f(1., 1.); glVertex3f(cx + l, cy + p, cz - h);
-  glTexCoord2f(1., 0.); glVertex3f(cx - l, cy + p, cz - h);
-  glEnd();
-  // On dessine un carré sur le plan z
-  glBegin(GL_QUADS);
-  glNormal3f(0, 0, 1);
-  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy - p, cz + h); 
-  glTexCoord2f(0., 1.); glVertex3f(cx + l, cy - p, cz + h); 
-  glTexCoord2f(1., 1.); glVertex3f(cx + l, cy + p, cz + h);
-  glTexCoord2f(1., 0.); glVertex3f(cx - l, cy + p, cz + h);
-  glEnd();
-  //On dessine un carré sur le plan x
-  glBegin(GL_QUADS);
-  glNormal3f(1, 0, 0);
-  glTexCoord2f(0., 0.); glVertex3f(cx + l, cy - p, cz - h); 
-  glTexCoord2f(0., 1.); glVertex3f(cx + l, cy + p, cz - h); 
-  glTexCoord2f(1., 1.); glVertex3f(cx + l, cy + p, cz + h);
-  glTexCoord2f(1., 0.); glVertex3f(cx + l, cy - p, cz + h);
-  glEnd();
-    //On dessine un carré sur le plan -x
-  glBegin(GL_QUADS);
-  glNormal3f(-1, 0, 0);
-  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy - p, cz - h); 
-  glTexCoord2f(0., 1.); glVertex3f(cx - l, cy + p, cz - h); 
-  glTexCoord2f(1., 1.); glVertex3f(cx - l, cy + p, cz + h);
-  glTexCoord2f(1., 0.); glVertex3f(cx - l, cy - p, cz + h);
-  glEnd();
-  //On dessine un carré sur le plan y
-  glBegin(GL_QUADS);
-  glNormal3f(0, 1, 0);
-  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy + p, cz + h); 
-  glTexCoord2f(0., 1.); glVertex3f(cx + l, cy + p, cz + h); 
-  glTexCoord2f(1., 1.); glVertex3f(cx + l, cy + p, cz + h);
-  glTexCoord2f(1., 0.); glVertex3f(cx - l, cy + p, cz + h);
-  glEnd();
-  //On dessine un carré sur le plan -y
-  glBegin(GL_QUADS);
-  glNormal3f(0, 1, 0);
-  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy - p, cz + h); 
-  glTexCoord2f(0., 1.); glVertex3f(cx + l, cy - p, cz + h); 
-  glTexCoord2f(1., 1.); glVertex3f(cx + l, cy - p, cz + h);
-  glTexCoord2f(1., 0.); glVertex3f(cx - l, cy - p, cz + h);
-  glEnd();                      
-                        
-                        
-  
-  
-                        
-  }
-
-
-  
-
