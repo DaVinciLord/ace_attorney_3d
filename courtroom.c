@@ -86,6 +86,7 @@ int main(int argc, char **argv) {
         whereiamx+=10;
     }
     display();
+    
 }
 
   SDL_GL_DeleteContext(context);
@@ -214,14 +215,24 @@ void display() {
  // creer_pave(-300.,-300.,0.,-500.,400.,200.);
  // creer_pave(300.,-300.,0.,500.,400.,200.);
  
- creer_pave_2(-150, 200, 50, 100, 400, 100);
- creer_pave_2(150, 200, 50, 100, 400, 100);
- creer_pave_2(-250, 375, 50, 100, 50, 100);
- creer_pave_2(250, 375, 50, 100, 50, 100);
- creer_pave_2(-400, 50, 200, 200, 700, 200);
- creer_pave_2(400, 50, 200, 200, 700, 200);
+ creer_pave_2(-150., 200., 50., 100., 400., 100.); 
+ creer_pave_2(150., 200., 50., 100., 400., 100.);
+ creer_pave_2(-250., 375., 50., 100., 50., 100.);
+ creer_pave_2(250., 375., 50., 100., 50., 100.);
  
-  
+ 
+ creer_pave_2(-325., 50., 100., 50., 700., 200.);
+ creer_pave_2(325., 50., 100., 50., 700., 200.);
+ 
+ creer_pave_2(-365., 50., 50., 80., 700., 100.);
+ creer_pave_2(365., 50., 50., 80., 700., 100.);
+ creer_pave_2(-425., 50., 25., 40., 700., 50.);
+ creer_pave_2(425., 50., 25., 40., 700., 50.);
+ creer_pave_2(-250., 675., 100., 200., 100., 200.);
+ creer_pave_2(250., 675., 100., 200., 100., 200.);
+ creer_pave_2(0., 650., 100., 300., 100., 200.);
+ creer_pave_2(0., 650., 100., 300., 100., 200.);
+ 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
@@ -381,8 +392,8 @@ void sol(int x0, int y0, int x1, int y1) {
 	   
 }
    
-void creer_pave_2 (float centrex, float centrey, float centrez, float hauteur,
-                    float largeur, float profondeur) {
+void creer_pave_2 (GLfloat centrex, GLfloat centrey, GLfloat centrez, GLfloat largeur,
+                    GLfloat profondeur, GLfloat hauteur) {
               
 	GLfloat cx = centrex;
 	GLfloat cy = centrey;
@@ -391,13 +402,13 @@ void creer_pave_2 (float centrex, float centrey, float centrez, float hauteur,
 	GLfloat l = largeur / 2;
 	GLfloat p = profondeur / 2; 
 
-  // On dessine un carré sur le plan -x
+  // On dessine un carré sur le plan -z
   glBegin(GL_QUADS);
   glNormal3f(0, 0, -1);
   glTexCoord2f(0., 0.); glVertex3f(cx - l, cy - p, cz - h); 
-  glTexCoord2f(0., 1.); glVertex3f(cx + l, cy - p, cz - h); 
+  glTexCoord2f(0., 1.); glVertex3f(cx - l, cy + p, cz - h); 
   glTexCoord2f(1., 1.); glVertex3f(cx + l, cy + p, cz - h);
-  glTexCoord2f(1., 0.); glVertex3f(cx - l, cy + p, cz - h);
+  glTexCoord2f(1., 0.); glVertex3f(cx + l, cy - p, cz - h);
   glEnd();
   // On dessine un carré sur le plan z
   glBegin(GL_QUADS);
@@ -410,35 +421,35 @@ void creer_pave_2 (float centrex, float centrey, float centrez, float hauteur,
   //On dessine un carré sur le plan x
   glBegin(GL_QUADS);
   glNormal3f(1, 0, 0);
-  glTexCoord2f(0., 0.); glVertex3f(cx + l, cy - p, cz - h); 
-  glTexCoord2f(0., 1.); glVertex3f(cx + l, cy + p, cz - h); 
-  glTexCoord2f(1., 1.); glVertex3f(cx + l, cy + p, cz + h);
-  glTexCoord2f(1., 0.); glVertex3f(cx + l, cy - p, cz + h);
+  glTexCoord2f(0., 0.); glVertex3f(cx + l, cy - p, cz + h); 
+  glTexCoord2f(1., 0.); glVertex3f(cx + l, cy - p, cz - h); 
+  glTexCoord2f(1., 1.); glVertex3f(cx + l, cy + p, cz - h);
+  glTexCoord2f(0., 1.); glVertex3f(cx + l, cy + p, cz + h);
   glEnd();
-    //On dessine un carré sur le plan -x
+ //On dessine un carré sur le plan -x
   glBegin(GL_QUADS);
   glNormal3f(-1, 0, 0);
-  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy - p, cz - h); 
-  glTexCoord2f(0., 1.); glVertex3f(cx - l, cy + p, cz - h); 
-  glTexCoord2f(1., 1.); glVertex3f(cx - l, cy + p, cz + h);
-  glTexCoord2f(1., 0.); glVertex3f(cx - l, cy - p, cz + h);
+  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy + p, cz + h); 
+  glTexCoord2f(1., 0.); glVertex3f(cx - l, cy + p, cz - h); 
+  glTexCoord2f(1., 1.); glVertex3f(cx - l, cy - p, cz - h);
+  glTexCoord2f(0., 1.); glVertex3f(cx - l, cy - p, cz + h);
   glEnd();
   //On dessine un carré sur le plan y
   glBegin(GL_QUADS);
   glNormal3f(0, 1, 0);
-  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy + p, cz + h); 
   glTexCoord2f(0., 1.); glVertex3f(cx + l, cy + p, cz + h); 
-  glTexCoord2f(1., 1.); glVertex3f(cx + l, cy + p, cz + h);
-  glTexCoord2f(1., 0.); glVertex3f(cx - l, cy + p, cz + h);
+  glTexCoord2f(1., 1.); glVertex3f(cx + l, cy + p, cz - h); 
+  glTexCoord2f(1., 0.); glVertex3f(cx - l, cy + p, cz - h);
+  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy + p, cz + h);
   glEnd();
   //On dessine un carré sur le plan -y
   glBegin(GL_QUADS);
-  glNormal3f(0, 1, 0);
-  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy - p, cz + h); 
-  glTexCoord2f(0., 1.); glVertex3f(cx + l, cy - p, cz + h); 
+  glNormal3f(0, -1, 0);
+  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy - p, cz - h); 
+  glTexCoord2f(0., 1.); glVertex3f(cx + l, cy - p, cz - h); 
   glTexCoord2f(1., 1.); glVertex3f(cx + l, cy - p, cz + h);
   glTexCoord2f(1., 0.); glVertex3f(cx - l, cy - p, cz + h);
-  glEnd();                      
+  glEnd();                    
                         
                         
   
