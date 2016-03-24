@@ -6,6 +6,11 @@
 #include <SDL_image.h>
 #include <GL/glu.h>
 #include <GL/gl.h>
+#ifndef M_PI
+#define M_PI 3.141592654
+#endif
+
+#define degRad(a) (((double) a) * M_PI / 180.)
 
 SDL_Window *fenetre;
 SDL_GLContext context;
@@ -32,6 +37,7 @@ GLfloat matSpeculaire[4] = {1., 1., 1., 1.};
 GLfloat matShininess = 50.;
 GLfloat matBeige[4] = {197./255.,167./255., 147./255., 1.};
 GLfloat matBrun[4] = {124./255., 64./255., 0., 1.};
+GLfloat matBrunClair[4] = {240./255., 140./255., 70./255., 1.};
   
 int main(int argc, char **argv) {
   if (argc != 1) {
@@ -137,13 +143,14 @@ void init_GL(void) {
   
   glEnable(GL_LIGHTING);
   glEnable(GL_LIGHT0);
-  
-  //GLfloat intensite[] = {1.,1.,1, 1.};
- // glLightfv(GL_LIGHT0, GL_AMBIENT, intensite);
- // glLightfv(GL_LIGHT0, GL_DIFFUSE, intensite);
-  
- // glLightfv(GL_LIGHT0, GL_SPECULAR, intensite);
-  
+  glEnable(GL_LIGHT1);
+  glEnable(GL_LIGHT2);
+  GLfloat intensite[] = {1.,1.,1, 1.};
+
+  //glLightfv(GL_LIGHT1, GL_DIFFUSE, intensite);
+  glLightfv(GL_LIGHT1, GL_SPECULAR, intensite);
+  //glLightfv(GL_LIGHT2, GL_DIFFUSE, intensite);
+  glLightfv(GL_LIGHT2, GL_SPECULAR, intensite);
   
  
 
@@ -189,6 +196,10 @@ void display() {
   gluLookAt(whereiamx,whereiamy,whereiamz,0.,100.,180. ,- whereiamx + 1,-whereiamy + 100 ,180.);
   GLfloat pos[] = {0, 0, 500, 1};
   glLightfv(GL_LIGHT0, GL_POSITION, pos);
+        pos[1] = 650.;
+  glLightfv(GL_LIGHT1, GL_POSITION, pos);
+        pos[1] = -650.;
+  glLightfv(GL_LIGHT2, GL_POSITION, pos);
   glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, matSpeculaire);
   glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, matShininess);
   
@@ -220,18 +231,19 @@ void display() {
  creer_pave_2(-250., 375., 50., 100., 50., 100.);
  creer_pave_2(250., 375., 50., 100., 50., 100.);
  
- 
+ glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBrunClair); 
  creer_pave_2(-325., 50., 100., 50., 700., 200.);
  creer_pave_2(325., 50., 100., 50., 700., 200.);
  
  creer_pave_2(-365., 50., 50., 80., 700., 100.);
  creer_pave_2(365., 50., 50., 80., 700., 100.);
+
  creer_pave_2(-425., 50., 25., 40., 700., 50.);
  creer_pave_2(425., 50., 25., 40., 700., 50.);
- creer_pave_2(-250., 675., 100., 200., 100., 200.);
- creer_pave_2(250., 675., 100., 200., 100., 200.);
- creer_pave_2(0., 650., 100., 300., 100., 200.);
- creer_pave_2(0., 650., 100., 300., 100., 200.);
+ creer_pave_2(-250., 625., 100., 200., 100., 200.);
+ creer_pave_2(250., 625., 100., 200., 100., 200.);
+ creer_pave_2(0., 600., 100., 300., 100., 200.);
+ //creer_pave_2(0., 600., 100., 300., 100., 200.);
  
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
@@ -336,8 +348,10 @@ void initTexture() {
 void defTexture(const char * filename) {
     // On fixe les paramètres de la texture,
     // i.e. comment on calcule les coordonnées pixels -> texels.
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, 4);
 
     // On charge l'image qui va nous servir de texture via la SDL
     SDL_Surface* image = IMG_Load(filename);
