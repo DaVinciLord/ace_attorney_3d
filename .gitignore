@@ -32,6 +32,5 @@
 !*.py
 !*.txt
 !*.bmp
-!*.lua
 
 **/.idea/*

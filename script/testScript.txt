@@ -70,11 +70,7 @@ them clearly and concisely.
 Please state the name of
 the defendant in this case.
 
-*QCM1*
-**3**
-***Phoenix Wright->1***
-***Mia Fey->2***
-***Larry Butz->3***
+[QCM]->1
 
 -Judge
 Next question:
@@ -133,3 +129,9 @@ I'm begging you.
 -Judge
 Let's hear your answer.
 Who is the victim in this case?
+
+*QCM2*
+**3**
+***Mia Fey->1***
+***Cinder Block->2***
+***Cindy Stone->3***
