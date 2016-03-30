@@ -1,31 +1,29 @@
+# coding: utf-8
 import collections
+from collections import OrderedDict
+
+def do_answer(case, cases):
+	cases_array = cases[case].split('[n]')
+	for line in cases_array:
+		print(line, end='\n')
 
 def do_menu(answer, proposition_case):
 	while True: 
 		options=proposition_case.keys()
-		options.sort()
+		i = 1
 		for entry in options: 
-			print ("%s, %s", entry, proposition_case[entry])
-
-		selection=raw_input("Please Select:") 
-		if selection =='1': 
-			print ("add") 
-		elif selection == '2': 
-			print ("delete")
-		elif selection == '3':
-			print ("find") 
-		elif selection == '4': 
-			break
-		else: 
-			print ("Unknown Option Selected!") 
+			print ('{}) {}'.format(i, entry))
+			i += 1
+		selection=input("Enter Choice: ") 
+		return selection
 
 def do_qcm(qcm_nb):
 	qcm_file = open('QCM' + qcm_nb + '.txt')
 	lst = [line for line in qcm_file]
-	proposition_case = dict()
+	proposition_case = OrderedDict()
+	cases = OrderedDict()
 	answer = ''
 	question = ''
-	propositions = dict()
 	for i in range(0, len(lst) - 1):
 		if 'QUESTION' in lst[i]:
 			question = lst[i + 1].strip()
@@ -40,11 +38,18 @@ def do_qcm(qcm_nb):
 				tmp = lst[i].split("->")
 				proposition_case[tmp[0]] = tmp[1].strip()
 				i += 1
-	print(proposition_case)
-	
-	
-	do_menu(answer, proposition_case)
-	
+				
+		if '[CASE' in lst[i]:
+			current_case = lst[i].strip()
+			cases[current_case] = '' 
+			i += 1
+			while '//' not in lst[i]:
+				cases[current_case] += lst[i].replace('\n', '[n]')
+				i += 1
+	selection = do_menu(answer, proposition_case)
+	print(cases.keys());
+	do_answer(proposition_case[selection], cases)
+
 	
 	
 

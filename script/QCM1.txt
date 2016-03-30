@@ -35,8 +35,7 @@ This is no laughing matter!
 -Mia
 You did pass the bar,
 didn't you?
-
-->FAIL
+//
 
 [CASE_2]
 -Phoenix
@@ -70,8 +69,7 @@ basic as you can get!
 -Phoenix
 (I've put my foot in it this time!
 I've got to relax!)
-
-->FAIL
+//
 
 [CASE_3]
 -Phoenix
@@ -84,6 +82,7 @@ Correct.
 -Judge
 Just keep your wits about
 you and you'll do fine.
+//
 
 [FAIL]
 -Judge
