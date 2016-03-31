@@ -14,7 +14,7 @@
 
 SDL_Window *fenetre;
 SDL_GLContext context;
-GLuint tex[3];
+GLuint tex[4];
 GLUquadric * quad;
 
 void sol(int x0, int y0, int x1, int y1);
@@ -42,6 +42,7 @@ GLfloat matBeige[4] = {197./255.,167./255., 147./255., 1.};
 GLfloat matBrun[4] = {124./255., 64./255., 0., 1.};
 GLfloat matBrunClair[4] = {240./255., 140./255., 70./255., 1.};
 GLfloat matArgent[4] = {206./255., 206./255., 206./255., 1.};
+GLfloat matOr[4] = {1., 215./255., 0., 1.};
   
 int main(int argc, char **argv) {
   if (argc != 1) {
@@ -234,63 +235,84 @@ void display() {
      // creer_pave(-300.,-300.,0.,-500.,400.,200.);
      // creer_pave(300.,-300.,0.,500.,400.,200.);
      
-     creer_pave_2(-150., 200., 50., 100., 400., 100.); 
-     creer_pave_2(150., 200., 50., 100., 400., 100.);
-     creer_pave_2(-250., 375., 50., 100., 50., 100.);
-     creer_pave_2(250., 375., 50., 100., 50., 100.);
+     creer_pave_2(-150., 200., 50., 100., 400., 100.); // bureau du procureur
+     creer_pave_2(150., 200., 50., 100., 400., 100.);  // bureau de l'avocat
+     creer_pave_2(-250., 375., 50., 100., 50., 100.);  // jonction gauche
+     creer_pave_2(250., 375., 50., 100., 50., 100.);   // jonction droite
      
      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBrunClair); 
-     creer_pave_2(-325., 50., 100., 50., 700., 200.);
+     creer_pave_2(-325., 50., 100., 50., 700., 200.); //Gradins hauts
      creer_pave_2(325., 50., 100., 50., 700., 200.);
      
-     creer_pave_2(-365., 50., 50., 80., 700., 100.);
+     creer_pave_2(-365., 50., 50., 80., 700., 100.); //Gradins medians
      creer_pave_2(365., 50., 50., 80., 700., 100.);
 
-     creer_pave_2(-425., 50., 25., 40., 700., 50.);
+     creer_pave_2(-425., 50., 25., 40., 700., 50.); //Gradins bas
      creer_pave_2(425., 50., 25., 40., 700., 50.);
-     creer_pave_2(-250., 625., 100., 200., 100., 200.);
-     creer_pave_2(250., 625., 100., 200., 100., 200.);
-     creer_pave_2(0., 600., 100., 300., 100., 200.);
-     //creer_pave_2(0., 600., 100., 300., 100., 200.);
-    glClearColor(1., 1., 1., 0.);
+     
+     creer_pave_2(-250., 625., 100., 200., 100., 200.); // bureaux du juge gauche
+     creer_pave_2(250., 625., 100., 200., 100., 200.);  // droit
+     creer_pave_2(0., 600., 100., 300., 100., 200.);    // centre
+     
+     creer_pave_2(-250., 712.5, 50., 200., 75., 100.);   // estrade
+     creer_pave_2(250., 712.5, 50., 200., 75., 100.);
+     creer_pave_2(0., 700., 50., 300., 100., 100.);
+     
+     creer_pave_2(0., 718., 375., 300., 20., 50.); //revetement derriere le juge 
+     
+     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matOr);
+       
+     creer_pave_2(-125.,725.,250.,50.,50.,300.);  //montants derriere le juge
+     creer_pave_2(125.,725.,250.,50.,50.,300.);
+     
+   
+     
+     creer_pave_2(0., 739, 250., 200., 22., 300.);  // manteau sous le blason
     
   glPushMatrix();
   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBrun);
   glTranslatef(0., 730., 400.);
   glRotatef(90., 1., 0., 0.); 
-  gluDisk(quad, 0., 100., 20., 1.);  
-  glPopMatrix();
-  glPushMatrix();
-  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBrun);
-  glTranslatef(0., 750., 400.);
-  glRotatef(-90., 1., 0., 0.); 
-  gluDisk(quad, 0., 100., 20., 1.);  
-  glPopMatrix();
-  glPushMatrix();
-  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBrun);
-  glTranslatef(0., 750., 400.);
-  glRotatef(90., 1., 0., 0.); 
-  gluCylinder(quad,    100.,    100.,    20.,    20.,    1.);
+  gluDisk(quad, 0., 150., 20., 1.);  //cercle bois situé derriere le juge
   glPopMatrix();
   
-  glBindTexture(GL_TEXTURE_2D, tex[2]);
   glPushMatrix();
-  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matArgent);
-  glTranslatef(0., 710., 400.);
-  glRotatef(90., 1., 0., 0.); 
-  gluDisk(quad, 0., 50., 20., 1.);  
-  glPopMatrix();
-  glPushMatrix();
-  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matArgent);
-  glTranslatef(0., 730., 400.);
+  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBrun);
+  glTranslatef(0., 750., 400.);
   glRotatef(-90., 1., 0., 0.); 
-  gluDisk(quad, 0., 50., 20., 1.);  
+  gluDisk(quad, 0., 150., 20., 1.);  //cercle bois situé derriere le juge -- coté mur
   glPopMatrix();
+  
+  glPushMatrix();
+  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBrun);
+  glTranslatef(0., 750., 400.);
+  glRotatef(90., 1., 0., 0.); 
+  gluCylinder(quad,    150.,    150.,    20.,    20.,    1.); // cylindre reliant les deux cercles 
+  glPopMatrix();
+  
+  
+  
+  glBindTexture(GL_TEXTURE_2D, tex[3]);
   glPushMatrix();
   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matArgent);
-  glTranslatef(0., 730., 400.);
+  glTranslatef(0., 710., 450.);
   glRotatef(90., 1., 0., 0.); 
-  gluCylinder(quad,    50.,    50.,    20.,    20.,    1.);
+  gluDisk(quad, 0., 50., 20., 1.);  //blason coté face
+  glPopMatrix();
+  
+  glPushMatrix();
+  glBindTexture(GL_TEXTURE_2D, tex[2]);
+  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matArgent);
+  glTranslatef(0., 730., 450.);
+  glRotatef(-90., 1., 0., 0.); 
+  gluDisk(quad, 0., 50., 20., 1.);   //blason coté mur
+  glPopMatrix();
+  
+  glPushMatrix();
+  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matArgent);
+  glTranslatef(0., 730., 450.);
+  glRotatef(90., 1., 0., 0.); 
+  gluCylinder(quad,    50.,    50.,    20.,    20.,    1.); // tranche du blason
   glPopMatrix();
   
  
@@ -389,6 +411,8 @@ void initTexture() {
     // On définit la deuxième texture
     glBindTexture(GL_TEXTURE_2D, tex[2]);
     defTexture("argent.bmp");
+        glBindTexture(GL_TEXTURE_2D, tex[3]);
+    defTexture("argent_balance.bmp");
 
     // On spécifie comment les textures seront plaquées sur les facettes
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
