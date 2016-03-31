@@ -1,3 +1,6 @@
+[TALKING]
+Judge
+
 [QUESTION]
 Please state the name of[n]the defendant in this case.
 
@@ -5,86 +8,89 @@ Please state the name of[n]the defendant in this case.
 CASE_3
 
 [PROPOSITION]
-Phoenix Wright->CASE_1
-Mia Fey->CASE_2
-Larry Butz->CASE_3
+CASE_1->Phoenix Wright
+CASE_2->Mia Fey
+CASE_3->Larry Butz
 
 [CASE_1]
--Phoenix
+*Phoenix
 Um... the defendant...
 is me, right?
 
--Mia
+*Mia
 Wright! Have you completely
 lost your mind? Focus!
 
--Mia
+*Mia
 The defendant is the
 person on trial!
 
--Mia
+*Mia
 You're his lawyer!
 
--Phoenix
+*Phoenix
 Um, er, eh?
 Oh yeah, right! Eh heh heh.
 
--Mia
+*Mia
 This is no laughing matter!
 
--Mia
+*Mia
 You did pass the bar,
 didn't you?
-//
 
+++
+//
 [CASE_2]
--Phoenix
+*Phoenix
 The, um, defendant?
 That's... er... Mia Fey?
 
--Mia
+*Mia
 Wrong, Wright.
 Look, I have to leave.
 
--Mia
+*Mia
 I have to go home. I'm...
 I'm expecting a delivery.
 
--Phoenix
+*Phoenix
 Aw, c'mon Chief.
 There's no need to be
 going so soon, is there?
 
--Mia
+*Mia
 Wright!
 
--Mia
+*Mia
 Listen: the defendant is
 the one on trial--your client!
 
--Mia
+*Mia
 I mean, that's about as 
 basic as you can get!
 
--Phoenix
+*Phoenix
 (I've put my foot in it this time!
 I've got to relax!)
-//
 
+++
+//
 [CASE_3]
--Phoenix
+*Phoenix
 The defendant? Well, that's
 Larry Butz, Your Honor. 
 
--Judge
+*Judge
 Correct.
 
--Judge
+*Judge
 Just keep your wits about
 you and you'll do fine.
-//
 
+++
+//
 [FAIL]
--Judge
+*Judge
 Sorry, I couldn't hear your
 answer. I'll ask once more:

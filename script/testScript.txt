@@ -1,137 +1,131 @@
 ###############################################################################
 
+[PLACE]
 August 3, 10:00 AM
 District Court
 Courtroom No. 2
 
--Judge
+*Judge
 The court is now in session for
 the trial of Mr. Larry Butz.
 
--Payne
+*Payne
 The prosecution is ready,
 Your Honor.
 
--Phoenix
+*Phoenix
 The, um, defense is ready,
 Your Honor.
 
--Judge
+*Judge
 Ahem.
 
--Judge
+*Judge
 Mr. Wright?
 
--Judge
+*Judge
 This is your first trial,
 is it not?
 
--Phoenix
+*Phoenix
 Y-Yes, Your Honor.
 I'm, um, a little nervous.
 
--Judge
+*Judge
 Your conduct during this
 trial will decide the fate
 of your client.
 
--Judge
+*Judge
 Murder is a serious charge.
 For your client's sake, I hope
 you can control your nerves.
 
--Phoenix
+*Phoenix
 Thank... thank you, Your Honor.
 
--Judge
+*Judge
 ...
 
--Judge
+*Judge
 Mr. Wright, given the
 circumstances...
 
--Judge
+*Judge
 I think we should have a test
 to ascertain your readiness.
 
--Phoenix
+*Phoenix
 Yes, Your Honor.
 
--Phoenix
+*Phoenix
 (Gulp... Hands shaking...
 Eyesight... fading...)
 
--Judge
+*Judge
 This test will consist of a
 few simple questions. Answer
 them clearly and concisely.
 
--Judge
-Please state the name of
-the defendant in this case.
-
+++
 [QCM]->1
 
--Judge
+*Judge
 Next question:
 
--Judge
+*Judge
 This is a murder trial. Tell me,
 what's the victim's name?
 
--Phoenix
+*Phoenix
 (Whew, I know this one! Glad
 I read the case report cover
 to cover so many times.)
 
--Phoenix
+*Phoenix
 (It's... wait... Uh-oh!)
 
--Phoenix
+*Phoenix
 (No... no way! I forgot!
 I'm drawing a total blank
 here!)
 
--Mia
+*Mia
 Phoenix! Are you absolutely
 SURE you're up to this?
 
--Mia
+*Mia
 You don't even know the
 victim's name!?
 
--Phoenix
+*Phoenix
 Oh, the victim! O-Of course
 I know the victim's name!
 
--Phoenix
+*Phoenix
 I, um, just forgot.
 ... Temporarily.
 
--Mia
+*Mia
 I think I feel a migraine
 coming on.
 
--Mia
+*Mia
 Look, the defendant's name
 is listed in the Court Record.
 
--Mia
+*Mia
 Just touch the Court Record
 button to check it at anytime,
 okay?
 
--Mia
+*Mia
 Remember to check it often.
 Do it for me, please.
 I'm begging you.
 
--Judge
+*Judge
 Let's hear your answer.
 Who is the victim in this case?
 
-*QCM2*
-**3**
-***Mia Fey->1***
-***Cinder Block->2***
-***Cindy Stone->3***
+++
