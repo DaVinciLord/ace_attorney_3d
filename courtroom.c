@@ -14,7 +14,7 @@
 
 SDL_Window *fenetre;
 SDL_GLContext context;
-GLuint tex[4];
+GLuint tex[5];
 GLUquadric * quad;
 
 void sol(int x0, int y0, int x1, int y1);
@@ -258,17 +258,17 @@ void display() {
      creer_pave_2(250., 712.5, 50., 200., 75., 100.);
      creer_pave_2(0., 700., 50., 300., 100., 100.);
      
-     creer_pave_2(0., 718., 375., 300., 20., 50.); //revetement derriere le juge 
-     
-     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matOr);
-       
-     creer_pave_2(-125.,725.,250.,50.,50.,300.);  //montants derriere le juge
-     creer_pave_2(125.,725.,250.,50.,50.,300.);
-     
-   
      
      creer_pave_2(0., 739, 250., 200., 22., 300.);  // manteau sous le blason
+     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matOr);
+     glBindTexture(GL_TEXTURE_2D, tex[4]);  
+     creer_pave_2(-125.,725.,250.,50.,50.,300.);  //montants derriere le juge
+     creer_pave_2(125.,725.,250.,50.,50.,300.);
+     creer_pave_2(0., 718., 375., 200., 20., 50.); //revetement derriere le juge 
+   
+     
     
+    glBindTexture(GL_TEXTURE_2D, tex[1]); 
   glPushMatrix();
   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBrun);
   glTranslatef(0., 730., 400.);
@@ -292,8 +292,9 @@ void display() {
   
   
   
-  glBindTexture(GL_TEXTURE_2D, tex[3]);
+  
   glPushMatrix();
+  glBindTexture(GL_TEXTURE_2D, tex[3]);
   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matArgent);
   glTranslatef(0., 710., 450.);
   glRotatef(90., 1., 0., 0.); 
@@ -400,7 +401,7 @@ void creer_pave (float a, float c, float e, float b,
 
 void initTexture() {
     glEnable(GL_TEXTURE_2D);
-    glGenTextures(3, tex);
+    glGenTextures(5, tex);
 
     // On définit la première texture
     glBindTexture(GL_TEXTURE_2D, tex[0]);
@@ -408,12 +409,15 @@ void initTexture() {
     // On définit la deuxième texture
     glBindTexture(GL_TEXTURE_2D, tex[1]);
     defTexture("texture_meuble.bmp");
-    // On définit la deuxième texture
+
     glBindTexture(GL_TEXTURE_2D, tex[2]);
     defTexture("argent.bmp");
-        glBindTexture(GL_TEXTURE_2D, tex[3]);
+    
+    glBindTexture(GL_TEXTURE_2D, tex[3]);
     defTexture("argent_balance.bmp");
-
+    
+    glBindTexture(GL_TEXTURE_2D, tex[4]);
+    defTexture("or.bmp");
     // On spécifie comment les textures seront plaquées sur les facettes
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
