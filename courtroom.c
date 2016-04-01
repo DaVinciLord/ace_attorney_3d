@@ -6,15 +6,11 @@
 #include <SDL_image.h>
 #include <GL/glu.h>
 #include <GL/gl.h>
-#ifndef M_PI
-#define M_PI 3.141592654
-#endif
 
-#define degRad(a) (((double) a) * M_PI / 180.)
 
 SDL_Window *fenetre;
 SDL_GLContext context;
-GLuint tex[5];
+GLuint tex[6];
 GLUquadric * quad;
 
 void sol(int x0, int y0, int x1, int y1);
@@ -29,6 +25,8 @@ void initTexture();
 int keyboard(SDL_Event * event);
 void creer_pave_2 (float centrex, float centrey, float centrez, float hauteur,
                     float largeur, float profondeur);
+void creer_murs (GLfloat centrex, GLfloat centrey, GLfloat centrez, GLfloat largeur,
+                    GLfloat profondeur, GLfloat hauteur);
 GLfloat whereiamx = 0.;
 GLfloat whereiamy = 0.;
 GLfloat whereiamz = 1000.;
@@ -43,6 +41,8 @@ GLfloat matBrun[4] = {124./255., 64./255., 0., 1.};
 GLfloat matBrunClair[4] = {240./255., 140./255., 70./255., 1.};
 GLfloat matArgent[4] = {206./255., 206./255., 206./255., 1.};
 GLfloat matOr[4] = {1., 215./255., 0., 1.};
+GLfloat matBeigeClair[4] = {245./255., 245./255., 220/255., 1.};
+
   
 int main(int argc, char **argv) {
   if (argc != 1) {
@@ -227,13 +227,7 @@ void display() {
   glBindTexture(GL_TEXTURE_2D, tex[1]);
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBrun);
 
-     // creer_pave(-100.,0.,0.,-200,400.,100.);
-     // creer_pave(100.,0.,0.,200,400.,100.);
-      
-     // creer_pave(-200.,350.,0.,-300.,400.,100.);
-     // creer_pave(200.,350.,0.,300.,400.,100.);
-     // creer_pave(-300.,-300.,0.,-500.,400.,200.);
-     // creer_pave(300.,-300.,0.,500.,400.,200.);
+
      
      creer_pave_2(-150., 200., 50., 100., 400., 100.); // bureau du procureur
      creer_pave_2(150., 200., 50., 100., 400., 100.);  // bureau de l'avocat
@@ -244,8 +238,8 @@ void display() {
      creer_pave_2(-325., 50., 100., 50., 700., 200.); //Gradins hauts
      creer_pave_2(325., 50., 100., 50., 700., 200.);
      
-     creer_pave_2(-365., 50., 50., 80., 700., 100.); //Gradins medians
-     creer_pave_2(365., 50., 50., 80., 700., 100.);
+     creer_pave_2(-380., 50., 50., 50., 700., 100.); //Gradins medians
+     creer_pave_2(380., 50., 50., 50., 700., 100.);
 
      creer_pave_2(-425., 50., 25., 40., 700., 50.); //Gradins bas
      creer_pave_2(425., 50., 25., 40., 700., 50.);
@@ -265,7 +259,10 @@ void display() {
      creer_pave_2(-125.,725.,250.,50.,50.,300.);  //montants derriere le juge
      creer_pave_2(125.,725.,250.,50.,50.,300.);
      creer_pave_2(0., 718., 375., 200., 20., 50.); //revetement derriere le juge 
-   
+     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBeigeClair);
+     glBindTexture(GL_TEXTURE_2D, tex[5]);
+     creer_murs(0., 0., 500, 1000., 1500., 1000.);
+
      
     
     glBindTexture(GL_TEXTURE_2D, tex[1]); 
@@ -337,62 +334,6 @@ void display() {
  
 }
 
-void creer_pave (float a, float c, float e, float b,
-                    float d, float f) {
-              
-  glBegin(GL_QUADS);
-  glNormal3f(0, 0, 1);
-  glTexCoord2f(0., 0.); glVertex3f(a, c, f); // c'est le point en bas à gauche
-  glTexCoord2f(0., 1.); glVertex3f(b, c, f);  // on tourne dans le sens trigo
-  glTexCoord2f(1., 1.); glVertex3f(b, d, f);
-  glTexCoord2f(1., 0.); glVertex3f(a, d, f);
-  glEnd();
-  // On dessine un carré vert dans le plan -.4xy
-  glBegin(GL_QUADS);
-  glNormal3f(0, 0, -1);
-  glTexCoord2f(0., 0.); glVertex3f(a, c, e); 
-  glTexCoord2f(1., 0.); glVertex3f(a, d, e);
-  glTexCoord2f(1., 1.); glVertex3f(b, d, e); 
-  glTexCoord2f(0., 1.); glVertex3f(b, c, e);  
-  glEnd();
-  //On dessine un carré bleu  .2yz
-  glBegin(GL_QUADS);
-  glNormal3f(1, 0, 0);
-  glTexCoord2f(0., 0.); glVertex3f(b, d, f); 
-  glTexCoord2f(0., 1.); glVertex3f(b, c, f); 
-  glTexCoord2f(1., 1.);  glVertex3f(b, c, e);
-  glTexCoord2f(1., 0.); glVertex3f(b, d, e);
-  glEnd();
-    //On dessine un carré jaune  -.2yz
-  glBegin(GL_QUADS);
-  glNormal3f(-1, 0, 0);
-  glTexCoord2f(0., 0.); glVertex3f(a, d, f); 
-  glTexCoord2f(1., 0.); glVertex3f(a, d, e); 
-  glTexCoord2f(1., 1.); glVertex3f(a, c, e);  
-  glTexCoord2f(0., 1.); glVertex3f(a, c, f); 
-  glEnd();
-  //On dessine un carré cyan  .2xz
-  glBegin(GL_QUADS);
-  glNormal3f(0, 1, 0);
-  glTexCoord2f(0., 0.); glVertex3f(a, d, f); 
-  glTexCoord2f(0., 1.); glVertex3f(b, d, f); 
-  glTexCoord2f(1., 1.); glVertex3f(b, d, e);
-  glTexCoord2f(1., 0.); glVertex3f(a, d, e);
-  glEnd();
-  //On dessine un carré majenta -.2xz
-  glBegin(GL_QUADS);
-  glNormal3f(0, -1, 0);
-  glTexCoord2f(0., 0.); glVertex3f(a, c, f); 
-  glTexCoord2f(1., 0.); glVertex3f(a, c, e); 
-  glTexCoord2f(1., 1.); glVertex3f(b, c, e); 
-  glTexCoord2f(0., 1.); glVertex3f(b, c, f); 
-  glEnd();                        
-                        
-                        
-  
-  
-                        
-  }
   
   
   
@@ -401,7 +342,7 @@ void creer_pave (float a, float c, float e, float b,
 
 void initTexture() {
     glEnable(GL_TEXTURE_2D);
-    glGenTextures(5, tex);
+    glGenTextures(6, tex);
 
     // On définit la première texture
     glBindTexture(GL_TEXTURE_2D, tex[0]);
@@ -418,6 +359,8 @@ void initTexture() {
     
     glBindTexture(GL_TEXTURE_2D, tex[4]);
     defTexture("or.bmp");
+        glBindTexture(GL_TEXTURE_2D, tex[5]);
+    defTexture("wall.bmp");
     // On spécifie comment les textures seront plaquées sur les facettes
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
@@ -550,6 +493,58 @@ void creer_pave_2 (GLfloat centrex, GLfloat centrey, GLfloat centrez, GLfloat la
                         
                         
   
+  
+                        
+  }
+  
+  void creer_murs (GLfloat centrex, GLfloat centrey, GLfloat centrez, GLfloat largeur,
+                    GLfloat profondeur, GLfloat hauteur) {
+              
+	GLfloat cx = centrex;
+	GLfloat cy = centrey;
+	GLfloat cz = centrez;
+	GLfloat h = hauteur / 2;
+	GLfloat l = largeur / 2;
+	GLfloat p = profondeur / 2; 
+
+
+
+  //On dessine un carré sur le plan x
+  glBegin(GL_QUADS);
+  glNormal3f(-1, 0, 0);
+  glTexCoord2f(0., 0.); glVertex3f(cx + l, cy - p, cz + h);
+  glTexCoord2f(0., 1.); glVertex3f(cx + l, cy + p, cz + h); 
+  glTexCoord2f(1., 1.); glVertex3f(cx + l, cy + p, cz - h);
+  glTexCoord2f(1., 0.); glVertex3f(cx + l, cy - p, cz - h);
+  glEnd();
+ //On dessine un carré sur le plan -x
+  glBegin(GL_QUADS);
+  glNormal3f(1, 0, 0);
+  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy + p, cz + h);
+  glTexCoord2f(0., 1.); glVertex3f(cx - l, cy - p, cz + h); 
+  glTexCoord2f(1., 1.); glVertex3f(cx - l, cy - p, cz - h);
+  glTexCoord2f(1., 0.); glVertex3f(cx - l, cy + p, cz - h); 
+  glEnd();
+  //On dessine un carré sur le plan y
+  glBegin(GL_QUADS);
+  glNormal3f(0, -1, 0);
+  glTexCoord2f(0., 1.); glVertex3f(cx + l, cy + p, cz + h); 
+  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy + p, cz + h);
+  glTexCoord2f(1., 0.); glVertex3f(cx - l, cy + p, cz - h);
+  glTexCoord2f(1., 1.); glVertex3f(cx + l, cy + p, cz - h);
+  glEnd();
+  //On dessine un carré sur le plan -y
+  glBegin(GL_QUADS);
+  glNormal3f(0, 1, 0);
+  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy - p, cz - h); 
+  glTexCoord2f(1., 0.); glVertex3f(cx - l, cy - p, cz + h);
+  glTexCoord2f(1., 1.); glVertex3f(cx + l, cy - p, cz + h);
+  glTexCoord2f(0., 1.); glVertex3f(cx + l, cy - p, cz - h);
+  glEnd();                    
+                        
+                        
+                  
+                        
   
                         
   }
