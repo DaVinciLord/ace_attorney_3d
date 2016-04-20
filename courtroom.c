@@ -20,19 +20,24 @@ void init_GL(void);
 void GL_Quit();
 void printGLInfos(void);
 void display(void);
-void creer_pave (float a, float c, float e, float b, float d, float f);
 void initTexture(); 
 int keyboard(SDL_Event * event);
 void creer_pave_2 (float centrex, float centrey, float centrez, float hauteur,
                     float largeur, float profondeur);
 void creer_murs (GLfloat centrex, GLfloat centrey, GLfloat centrez, GLfloat largeur,
                     GLfloat profondeur, GLfloat hauteur);
+void creer_witness_stand();
+
 GLfloat whereiamx = 0.;
 GLfloat whereiamy = 0.;
 GLfloat whereiamz = 1000.;
 
+GLfloat whereilookx = 0.;
+GLfloat whereilooky = 100.;
+GLfloat whereilookz = 180.;
+
 GLdouble near = 10.;
-GLdouble far = 2000.;
+GLdouble far = 3000.;
 
 GLfloat matSpeculaire[4] = {1., 1., 1., 1.};
 GLfloat matShininess = 50.;
@@ -78,24 +83,46 @@ int main(int argc, char **argv) {
       continuer = keyboard(&event);
       break;
     }
-    if (event.key.keysym.sym == SDLK_KP_MINUS) {
-        whereiamz+=10;
+    switch (event.key.keysym.sym) {
+        case SDLK_KP_MINUS : 
+        whereiamz += 10;
+        break;
+        case SDLK_KP_PLUS :
+        whereiamz -= 10;
+        break;
+        case SDLK_UP :
+        whereiamy += 10;
+        break;
+        case SDLK_DOWN :
+        whereiamy -= 10;
+        break;
+        case SDLK_LEFT :
+        whereiamx -= 10;
+        break;
+        case SDLK_RIGHT :
+        whereiamx += 10;
+        break;
+        case SDLK_z :
+        whereilooky += 10;
+        break;
+        case  SDLK_s :
+        whereilooky -= 10;
+        break;
+        case SDLK_d :
+        whereilookx += 10;
+        break;
+        case SDLK_q :
+        whereilookx -= 10;
+        break;
+        case SDLK_a :
+        whereilookz -= 10;
+        break;
+        case SDLK_e :
+        whereilookz += 10;
+        break;
+        
     }
-    if (event.key.keysym.sym == SDLK_KP_PLUS) {
-        whereiamz -=10;
-    }
-    if (event.key.keysym.sym == SDLK_UP) {
-        whereiamy+=10;
-    }
-    if (event.key.keysym.sym == SDLK_DOWN) {
-        whereiamy -=10;
-    }
-    if (event.key.keysym.sym == SDLK_LEFT) {
-        whereiamx -=10;
-    }
-    if (event.key.keysym.sym == SDLK_RIGHT) {
-        whereiamx+=10;
-    }
+    
     display();
     
 }
@@ -148,8 +175,8 @@ void init_GL(void) {
   
   glEnable(GL_LIGHTING);
   glEnable(GL_LIGHT0);
-  glEnable(GL_LIGHT1);
-  glEnable(GL_LIGHT2);
+ // glEnable(GL_LIGHT1);
+ // glEnable(GL_LIGHT2);
   GLfloat intensite[] = {1.,1.,1, 1.};
 
   //glLightfv(GL_LIGHT1, GL_DIFFUSE, intensite);
@@ -190,7 +217,7 @@ int keyboard(SDL_Event * event) {
     default:
       break;
     }
-  }
+  } 
   
   return 1;
 }
@@ -202,7 +229,7 @@ void display() {
   glLoadIdentity();
   
   glMatrixMode(GL_MODELVIEW);
-  gluLookAt(whereiamx,whereiamy,whereiamz,0.,100.,180. ,- whereiamx + 1,-whereiamy + 100 ,180.);
+  gluLookAt(whereiamx,whereiamy,whereiamz,whereilookx, whereilooky, whereilookz ,- whereiamx + whereilookx + 1,-whereiamy + whereilooky , whereilookz );
   GLfloat pos[] = {0, 0, 1000, 1};
   glLightfv(GL_LIGHT0, GL_POSITION, pos);
         pos[1] = 650.;
@@ -238,8 +265,8 @@ void display() {
      creer_pave_2(-325., 50., 100., 50., 700., 200.); //Gradins hauts
      creer_pave_2(325., 50., 100., 50., 700., 200.);
      
-     creer_pave_2(-380., 50., 50., 50., 700., 100.); //Gradins medians
-     creer_pave_2(380., 50., 50., 50., 700., 100.);
+     creer_pave_2(-377.5, 50., 50., 55., 700., 100.); //Gradins medians
+     creer_pave_2(377.5, 50., 50., 55., 700., 100.);
 
      creer_pave_2(-425., 50., 25., 40., 700., 50.); //Gradins bas
      creer_pave_2(425., 50., 25., 40., 700., 50.);
@@ -259,6 +286,10 @@ void display() {
      creer_pave_2(-125.,725.,250.,50.,50.,300.);  //montants derriere le juge
      creer_pave_2(125.,725.,250.,50.,50.,300.);
      creer_pave_2(0., 718., 375., 200., 20., 50.); //revetement derriere le juge 
+    
+     creer_witness_stand();
+    
+    
      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBeigeClair);
      glBindTexture(GL_TEXTURE_2D, tex[5]);
      creer_murs(0., 0., 500, 1000., 1500., 1000.);
@@ -548,6 +579,33 @@ void creer_pave_2 (GLfloat centrex, GLfloat centrey, GLfloat centrez, GLfloat la
   
                         
   }
+  
+  void creer_witness_stand() {
+      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBrun);
+      glBindTexture(GL_TEXTURE_2D, tex[1]);
+      
+      for (float c = 0.; c <= 1.1; c += 0.1) {
+         float x = 100. * cos(3.14 * c);
+         creer_pave_2(x, (sqrt(10000. - x * x) - 300.), 75., 10., 10., 150.);
+      }
+
+      
+      for (int i = 150; i < 175; i++) {
+      glPushMatrix();
+      glTranslatef(0., -300., i);
+      gluPartialDisk(quad, 90., 110., 20., 1., -93., 186.);   
+      glPopMatrix();
+
+      glPushMatrix();
+      glTranslatef(0., -300., i);
+      glRotatef(180.,0.,1.,0.);
+      gluPartialDisk(quad, 90., 110., 20., 1., -93., 186.);   
+      glPopMatrix();
+      }
+  
+  
+  }
+  
 
 
 void GL_Quit() {
