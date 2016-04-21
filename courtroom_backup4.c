@@ -10,9 +10,9 @@
 
 SDL_Window *fenetre;
 SDL_GLContext context;
-GLuint tex[7];
+GLuint tex[6];
 GLUquadric * quad;
-void creer_personnage();
+
 void sol(int x0, int y0, int x1, int y1);
 void defTexture(const char * filename);
 void init_SDL(void);
@@ -26,11 +26,6 @@ void creer_pave_2 (float centrex, float centrey, float centrez, float hauteur,
                     float largeur, float profondeur);
 void creer_murs (GLfloat centrex, GLfloat centrey, GLfloat centrez, GLfloat largeur,
                     GLfloat profondeur, GLfloat hauteur);
-void creer_pave_with_texture (GLfloat centrex, GLfloat centrey, 
-                            GLfloat centrez, GLfloat largeur,
-                            GLfloat profondeur, GLfloat hauteur,
-                           GLuint tex1, GLuint tex2, GLuint tex3, 
-                           GLuint tex4, GLuint tex5, GLuint tex6);
 void creer_witness_stand();
 
 GLfloat whereiamx = 0.;
@@ -180,14 +175,14 @@ void init_GL(void) {
   
   glEnable(GL_LIGHTING);
   glEnable(GL_LIGHT0);
-  //glEnable(GL_LIGHT1);
+ // glEnable(GL_LIGHT1);
  // glEnable(GL_LIGHT2);
-  GLfloat intensite[] = {0.2,0.2,0.2, 1.};
+  GLfloat intensite[] = {1.,1.,1, 1.};
 
   //glLightfv(GL_LIGHT1, GL_DIFFUSE, intensite);
-  glLightfv(GL_LIGHT0, GL_AMBIENT, intensite);
+  glLightfv(GL_LIGHT1, GL_SPECULAR, intensite);
   //glLightfv(GL_LIGHT2, GL_DIFFUSE, intensite);
- // glLightfv(GL_LIGHT2, GL_SPECULAR, intensite);
+  glLightfv(GL_LIGHT2, GL_SPECULAR, intensite);
   
  
 
@@ -234,10 +229,10 @@ void display() {
   glLoadIdentity();
   
   glMatrixMode(GL_MODELVIEW);
-  gluLookAt(whereiamx,whereiamy,whereiamz,whereilookx, whereilooky, whereilookz ,- whereiamx + whereilookx ,-whereiamy + whereilooky , whereilookz );
+  gluLookAt(whereiamx,whereiamy,whereiamz,whereilookx, whereilooky, whereilookz ,- whereiamx + whereilookx + 1,-whereiamy + whereilooky , whereilookz );
   GLfloat pos[] = {0, 0, 1000, 1};
   glLightfv(GL_LIGHT0, GL_POSITION, pos);
-        pos[2] = -50.;
+        pos[1] = 650.;
   glLightfv(GL_LIGHT1, GL_POSITION, pos);
         pos[1] = -650.;
   glLightfv(GL_LIGHT2, GL_POSITION, pos);
@@ -257,7 +252,7 @@ void display() {
   
 
   glBindTexture(GL_TEXTURE_2D, tex[1]);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBrunClair);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBrun);
 
 
      
@@ -266,37 +261,31 @@ void display() {
      creer_pave_2(-250., 375., 50., 100., 50., 100.);  // jonction gauche
      creer_pave_2(250., 375., 50., 100., 50., 100.);   // jonction droite
      
-     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBrun); 
+     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBrunClair); 
      creer_pave_2(-325., 50., 100., 50., 700., 200.); //Gradins hauts
      creer_pave_2(325., 50., 100., 50., 700., 200.);
-     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBrunClair);
+     
      creer_pave_2(-377.5, 50., 50., 55., 700., 100.); //Gradins medians
      creer_pave_2(377.5, 50., 50., 55., 700., 100.);
 
      creer_pave_2(-425., 50., 25., 40., 700., 50.); //Gradins bas
      creer_pave_2(425., 50., 25., 40., 700., 50.);
      
-     creer_pave_2(-250., 625., 150., 200., 100., 300.); // bureaux du juge gauche
-     creer_pave_2(250., 625., 150., 200., 100., 300.);  // droit
-     creer_pave_2(0., 600., 150., 300., 100., 300.);    // centre
+     creer_pave_2(-250., 625., 100., 200., 100., 200.); // bureaux du juge gauche
+     creer_pave_2(250., 625., 100., 200., 100., 200.);  // droit
+     creer_pave_2(0., 600., 100., 300., 100., 200.);    // centre
      
-     creer_pave_2(-250., 712.5, 100., 200., 75., 200.);   // estrade
-     creer_pave_2(250., 712.5, 100., 200., 75., 200.);
-     creer_pave_2(0., 700., 100., 300., 100., 200.);
-     
-     
-    creer_pave_2(0., 739, 350., 200., 22., 300.);  // manteau sous le blason
-
-     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBeige);
-     glBindTexture(GL_TEXTURE_2D, tex[6]);  
-     creer_personnage();
+     creer_pave_2(-250., 712.5, 50., 200., 75., 100.);   // estrade
+     creer_pave_2(250., 712.5, 50., 200., 75., 100.);
+     creer_pave_2(0., 700., 50., 300., 100., 100.);
      
      
+     creer_pave_2(0., 739, 250., 200., 22., 300.);  // manteau sous le blason
      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matOr);
      glBindTexture(GL_TEXTURE_2D, tex[4]);  
-     creer_pave_2(-125.,725.,350.,50.,50.,300.);  //montants derriere le juge
-     creer_pave_2(125.,725.,350.,50.,50.,300.);
-     creer_pave_2(0., 718., 475., 200., 20., 50.); //revetement derriere le juge 
+     creer_pave_2(-125.,725.,250.,50.,50.,300.);  //montants derriere le juge
+     creer_pave_2(125.,725.,250.,50.,50.,300.);
+     creer_pave_2(0., 718., 375., 200., 20., 50.); //revetement derriere le juge 
     
      creer_witness_stand();
     
@@ -310,21 +299,21 @@ void display() {
     glBindTexture(GL_TEXTURE_2D, tex[1]); 
   glPushMatrix();
   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBrun);
-  glTranslatef(0., 730., 500.);
+  glTranslatef(0., 730., 400.);
   glRotatef(90., 1., 0., 0.); 
   gluDisk(quad, 0., 150., 20., 1.);  //cercle bois situé derriere le juge
   glPopMatrix();
   
   glPushMatrix();
   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBrun);
-  glTranslatef(0., 750., 500.);
+  glTranslatef(0., 750., 400.);
   glRotatef(-90., 1., 0., 0.); 
   gluDisk(quad, 0., 150., 20., 1.);  //cercle bois situé derriere le juge -- coté mur
   glPopMatrix();
   
   glPushMatrix();
   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBrun);
-  glTranslatef(0., 750., 500.);
+  glTranslatef(0., 750., 400.);
   glRotatef(90., 1., 0., 0.); 
   gluCylinder(quad,    150.,    150.,    20.,    20.,    1.); // cylindre reliant les deux cercles 
   glPopMatrix();
@@ -335,7 +324,7 @@ void display() {
   glPushMatrix();
   glBindTexture(GL_TEXTURE_2D, tex[3]);
   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matArgent);
-  glTranslatef(0., 710., 550.);
+  glTranslatef(0., 710., 450.);
   glRotatef(90., 1., 0., 0.); 
   gluDisk(quad, 0., 50., 20., 1.);  //blason coté face
   glPopMatrix();
@@ -343,14 +332,14 @@ void display() {
   glPushMatrix();
   glBindTexture(GL_TEXTURE_2D, tex[2]);
   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matArgent);
-  glTranslatef(0., 730., 550.);
+  glTranslatef(0., 730., 450.);
   glRotatef(-90., 1., 0., 0.); 
   gluDisk(quad, 0., 50., 20., 1.);   //blason coté mur
   glPopMatrix();
   
   glPushMatrix();
   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matArgent);
-  glTranslatef(0., 730., 550.);
+  glTranslatef(0., 730., 450.);
   glRotatef(90., 1., 0., 0.); 
   gluCylinder(quad,    50.,    50.,    20.,    20.,    1.); // tranche du blason
   glPopMatrix();
@@ -384,7 +373,7 @@ void display() {
 
 void initTexture() {
     glEnable(GL_TEXTURE_2D);
-    glGenTextures(7, tex);
+    glGenTextures(6, tex);
 
     // On définit la première texture
     glBindTexture(GL_TEXTURE_2D, tex[0]);
@@ -403,8 +392,6 @@ void initTexture() {
     defTexture("or.bmp");
         glBindTexture(GL_TEXTURE_2D, tex[5]);
     defTexture("wall.bmp");
-            glBindTexture(GL_TEXTURE_2D, tex[6]);
-    defTexture("phoenix.bmp");
     // On spécifie comment les textures seront plaquées sur les facettes
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
@@ -541,82 +528,6 @@ void creer_pave_2 (GLfloat centrex, GLfloat centrey, GLfloat centrez, GLfloat la
                         
   }
   
-    
-void creer_pave_with_texture (GLfloat centrex, GLfloat centrey, 
-                            GLfloat centrez, GLfloat largeur,
-                            GLfloat profondeur, GLfloat hauteur,
-                           GLuint tex1, GLuint tex2, GLuint tex3, 
-                           GLuint tex4, GLuint tex5, GLuint tex6) {
-              
-	GLfloat cx = centrex;
-	GLfloat cy = centrey;
-	GLfloat cz = centrez;
-	GLfloat h = hauteur / 2;
-	GLfloat l = largeur / 2;
-	GLfloat p = profondeur / 2; 
-
-  // On dessine un carré sur le plan -z
-  glBindTexture(GL_TEXTURE_2D, tex1);
-  glBegin(GL_QUADS);
-  glNormal3f(0, 0, -1);
-  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy - p, cz - h); 
-  glTexCoord2f(0., 1.); glVertex3f(cx - l, cy + p, cz - h); 
-  glTexCoord2f(1., 1.); glVertex3f(cx + l, cy + p, cz - h);
-  glTexCoord2f(1., 0.); glVertex3f(cx + l, cy - p, cz - h);
-  glEnd();
-  // On dessine un carré sur le plan z
-  glBindTexture(GL_TEXTURE_2D, tex2);
-  glBegin(GL_QUADS);
-  glNormal3f(0, 0, 1);
-  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy - p, cz + h); 
-  glTexCoord2f(0., 1.); glVertex3f(cx + l, cy - p, cz + h); 
-  glTexCoord2f(1., 1.); glVertex3f(cx + l, cy + p, cz + h);
-  glTexCoord2f(1., 0.); glVertex3f(cx - l, cy + p, cz + h);
-  glEnd();
-  //On dessine un carré sur le plan x
-  glBindTexture(GL_TEXTURE_2D, tex4);
-  glBegin(GL_QUADS);
-  glNormal3f(1, 0, 0);
-  glTexCoord2f(0., 0.); glVertex3f(cx + l, cy - p, cz + h); 
-  glTexCoord2f(1., 0.); glVertex3f(cx + l, cy - p, cz - h); 
-  glTexCoord2f(1., 1.); glVertex3f(cx + l, cy + p, cz - h);
-  glTexCoord2f(0., 1.); glVertex3f(cx + l, cy + p, cz + h);
-  glEnd();
- //On dessine un carré sur le plan -x
-  glBindTexture(GL_TEXTURE_2D, tex3);
-  glBegin(GL_QUADS);
-  glNormal3f(-1, 0, 0);
-  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy + p, cz + h); 
-  glTexCoord2f(1., 0.); glVertex3f(cx - l, cy + p, cz - h); 
-  glTexCoord2f(1., 1.); glVertex3f(cx - l, cy - p, cz - h);
-  glTexCoord2f(0., 1.); glVertex3f(cx - l, cy - p, cz + h);
-  glEnd();
-  //On dessine un carré sur le plan y
-  glBindTexture(GL_TEXTURE_2D, tex6);
-  glBegin(GL_QUADS);
-  glNormal3f(0, 1, 0);
-  glTexCoord2f(0., 1.); glVertex3f(cx + l, cy + p, cz + h); 
-  glTexCoord2f(1., 1.); glVertex3f(cx + l, cy + p, cz - h); 
-  glTexCoord2f(1., 0.); glVertex3f(cx - l, cy + p, cz - h);
-  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy + p, cz + h);
-  glEnd();
-  //On dessine un carré sur le plan -y
-  glBindTexture(GL_TEXTURE_2D, tex5);
-  glBegin(GL_QUADS);
-  glNormal3f(0, -1, 0);
-  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy - p, cz - h); 
-  glTexCoord2f(0., 1.); glVertex3f(cx + l, cy - p, cz - h); 
-  glTexCoord2f(1., 1.); glVertex3f(cx + l, cy - p, cz + h);
-  glTexCoord2f(1., 0.); glVertex3f(cx - l, cy - p, cz + h);
-  glEnd();                    
-                        
-                        
-  
-  
-                        
-  }
-  
-  
   void creer_murs (GLfloat centrex, GLfloat centrey, GLfloat centrez, GLfloat largeur,
                     GLfloat profondeur, GLfloat hauteur) {
               
@@ -695,14 +606,7 @@ void creer_pave_with_texture (GLfloat centrex, GLfloat centrey,
   
   }
   
-    void creer_personnage() { // centre de pw 250 100 90
-        creer_pave_with_texture(230., 90., 40., 10., 10., 80., tex[6], tex[6], tex[6], tex[6], tex[6], tex[6]); //jg
-        creer_pave_with_texture(230., 110., 40., 10., 10., 80., tex[6], tex[6], tex[6], tex[6], tex[6], tex[6]); //jd
-        creer_pave_with_texture(230., 100., 120., 10., 40., 80., tex[6], tex[6], tex[6], tex[6], tex[6], tex[6]); //corps
-        creer_pave_with_texture(230., 100., 170., 20., 20.,20., tex[6], tex[6], tex[6], tex[6], tex[6], tex[6]); //tete
-        creer_pave_with_texture(230., 125., 120., 10., 10., 80., tex[6], tex[6], tex[6], tex[6], tex[6], tex[6]); // bd
-        creer_pave_with_texture(230., 75., 120., 10., 10., 80., tex[6], tex[6], tex[6], tex[6], tex[6], tex[6]);
-    }
+
 
 void GL_Quit() {
   gluDeleteQuadric(quad);
