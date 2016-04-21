@@ -32,5 +32,6 @@
 !*.py
 !*.txt
 !*.bmp
+!*.png
 
 **/.idea/*
