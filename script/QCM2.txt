@@ -1,0 +1,72 @@
+[TALKING]
+Judge
+
+[QUESTION]
+Let's hear your answer.[n]Who is the victim in this case?
+
+[ANSWER]
+CASE_3
+
+[PROPOSITION]
+CASE_1->Mia Fey
+CASE_2->Cinder Block
+CASE_3->Cindy Stone
+
+[CASE_1]
+*Phoenix
+Um... Mia Fey?
+
+*Mia
+W-W-What!? How can I be 
+the victim!?
+
+*Phoenix
+Oh! Right! Sorry! I, er,
+it was the first name that
+popped into my head, and--
+
+*Mia
+The Court Record button!
+Remember to use it
+when you are in a pinch.
+
+++
+//
+[CASE_2]
+
+*Phoenix
+Oh, um, wasn't it Ms. Block?
+Ms. Cinder Block?
+
+*Judge
+The person in question was a
+victim of murder, not ill-
+conceived naming, Mr. Wright.
+
+*Mia
+Wright?
+
+*Mia
+If you forget something, just
+touch the Court Record button
+to help you remember.
+
+*Mia
+A mistake in court
+could cost you the case.
+
+++
+//
+[CASE_3]
+*Phoenix
+Um... the victim's name 
+is Cindy Stone.
+
+*Judge
+Correct.
+
+++
+//
+[FAIL]
+*Judge
+I ask you again:

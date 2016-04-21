@@ -1,4 +1,6 @@
+#!/usr/bin/python3
 # coding: utf-8
+from hello import *
 import collections
 from collections import OrderedDict
 
@@ -78,7 +80,7 @@ def do_qcm(qcm_nb):
 		print('-{}'.format(talk))
 		for line in question_array:
 			print(line, end='\n')
-		print()	
+		print()
 		proposed_answer = do_menu(answer, proposition_case)
 		do_answer(proposed_answer, cases)
 	
