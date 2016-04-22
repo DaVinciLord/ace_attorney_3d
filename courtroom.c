@@ -10,7 +10,7 @@
 
 SDL_Window *fenetre;
 SDL_GLContext context;
-GLuint tex[55];
+GLuint tex[71];
 GLUquadric * quad;
 void creer_phoenix();
 void creer_winston();
@@ -389,7 +389,7 @@ void display() {
 
 void initTexture() {
     glEnable(GL_TEXTURE_2D);
-    glGenTextures(55, tex);
+    glGenTextures(71, tex);
 
     // On définit la première texture
     glBindTexture(GL_TEXTURE_2D, tex[0]);
@@ -405,7 +405,7 @@ void initTexture() {
     defTexture("argent_balance.bmp");
     
     glBindTexture(GL_TEXTURE_2D, tex[4]);
-    defTexture("or.bmp");
+    defTexture("gold.png");
         glBindTexture(GL_TEXTURE_2D, tex[5]);
     defTexture("wall.bmp");
     glBindTexture(GL_TEXTURE_2D, tex[6]);
@@ -506,6 +506,38 @@ void initTexture() {
     defTexture("jambe_mia.png");
         glBindTexture(GL_TEXTURE_2D, tex[54]);
     defTexture("pied_mia.png");  
+    glBindTexture(GL_TEXTURE_2D, tex[55]);
+    defTexture("face_j.png");
+    glBindTexture(GL_TEXTURE_2D, tex[56]);
+    defTexture("face_arriere_j.png");
+    glBindTexture(GL_TEXTURE_2D, tex[57]);
+    defTexture("face_dessous_j.png");
+    glBindTexture(GL_TEXTURE_2D, tex[58]);
+    defTexture("face_dessus_j.png");
+    glBindTexture(GL_TEXTURE_2D, tex[59]);
+    defTexture("face_droit_j.png");
+    glBindTexture(GL_TEXTURE_2D, tex[60]);
+    defTexture("face_gauche_j.png");
+    glBindTexture(GL_TEXTURE_2D, tex[61]);
+    defTexture("corps_arriere_j.png");
+    glBindTexture(GL_TEXTURE_2D, tex[62]);
+    defTexture("corps_j.png");
+    glBindTexture(GL_TEXTURE_2D, tex[63]);
+    defTexture("corps_cote_j.png");
+    glBindTexture(GL_TEXTURE_2D, tex[64]);
+    defTexture("corps_haut_j.png");
+    glBindTexture(GL_TEXTURE_2D, tex[65]);
+    defTexture("corps_bas_j.png");
+        glBindTexture(GL_TEXTURE_2D, tex[66]);
+    defTexture("bras_j.png");
+        glBindTexture(GL_TEXTURE_2D, tex[67]);
+    defTexture("main_j.png");
+        glBindTexture(GL_TEXTURE_2D, tex[68]);
+    defTexture("jambe_dessus_j.png");
+        glBindTexture(GL_TEXTURE_2D, tex[69]);
+    defTexture("jambe_j.png");
+        glBindTexture(GL_TEXTURE_2D, tex[70]);
+    defTexture("pied_j.png");  
                 
     // On spécifie comment les textures seront plaquées sur les facettes
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -823,12 +855,12 @@ void creer_pave_with_texture (GLfloat centrex, GLfloat centrey,
     }
     
     void creer_juge() { // centre de juge 0., 700., 100.
-        creer_pave_with_texture(-10., 680., 240., 10., 10., 80., tex[22], tex[20], tex[21], tex[21], tex[21], tex[21]); //jg
-        creer_pave_with_texture(10., 680., 240., 10., 10., 80., tex[22], tex[20], tex[21], tex[21], tex[21], tex[21]); //jd
-        creer_pave_with_texture(0., 680., 320., 40., 10., 80., tex[17], tex[16], tex[15], tex[15], tex[14], tex[13]); //corps
-        creer_pave_with_texture(0., 680., 370., 20., 20.,20., tex[9], tex[10], tex[11], tex[12], tex[7], tex[8]); //tete
-        creer_pave_with_texture(25., 680., 320., 10., 10., 80., tex[19], tex[20], tex[18], tex[18], tex[18], tex[18]); // bd
-        creer_pave_with_texture(-25., 680., 320., 10., 10., 80., tex[19], tex[20], tex[18], tex[18], tex[18], tex[18]);  //bg
+        creer_pave_with_texture(-10., 680., 240., 10., 10., 80., tex[70], tex[68], tex[69], tex[69], tex[69], tex[69]); //jg
+        creer_pave_with_texture(10., 680., 240., 10., 10., 80., tex[70], tex[68], tex[69], tex[69], tex[69], tex[69]); //jd
+        creer_pave_with_texture(0., 680., 320., 40., 10., 80., tex[65], tex[64], tex[63], tex[63], tex[62], tex[61]); //corps
+        creer_pave_with_texture(0., 680., 370., 20., 20.,20., tex[57], tex[58], tex[59], tex[60], tex[55], tex[56]); //tete
+        creer_pave_with_texture(25., 680., 320., 10., 10., 80., tex[67], tex[68], tex[66], tex[66], tex[66], tex[66]); // bd
+        creer_pave_with_texture(-25., 680., 320., 10., 10., 80., tex[67], tex[68], tex[66], tex[66], tex[66], tex[66]);  //bg
     }
 
 void GL_Quit() {
