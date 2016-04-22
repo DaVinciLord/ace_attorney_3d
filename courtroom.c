@@ -10,9 +10,12 @@
 
 SDL_Window *fenetre;
 SDL_GLContext context;
-GLuint tex[7];
+GLuint tex[55];
 GLUquadric * quad;
-void creer_personnage();
+void creer_phoenix();
+void creer_winston();
+void creer_mia();
+void creer_juge();
 void sol(int x0, int y0, int x1, int y1);
 void defTexture(const char * filename);
 void init_SDL(void);
@@ -289,8 +292,10 @@ void display() {
 
      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBeige);
      glBindTexture(GL_TEXTURE_2D, tex[6]);  
-     creer_personnage();
-     
+     creer_phoenix();
+     creer_winston();
+     creer_mia();
+     creer_juge();
      
      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matOr);
      glBindTexture(GL_TEXTURE_2D, tex[4]);  
@@ -384,7 +389,7 @@ void display() {
 
 void initTexture() {
     glEnable(GL_TEXTURE_2D);
-    glGenTextures(7, tex);
+    glGenTextures(55, tex);
 
     // On définit la première texture
     glBindTexture(GL_TEXTURE_2D, tex[0]);
@@ -403,8 +408,105 @@ void initTexture() {
     defTexture("or.bmp");
         glBindTexture(GL_TEXTURE_2D, tex[5]);
     defTexture("wall.bmp");
-            glBindTexture(GL_TEXTURE_2D, tex[6]);
+    glBindTexture(GL_TEXTURE_2D, tex[6]);
     defTexture("phoenix.bmp");
+    glBindTexture(GL_TEXTURE_2D, tex[7]);
+    defTexture("face_pw.png");
+    glBindTexture(GL_TEXTURE_2D, tex[8]);
+    defTexture("face_arriere_pw.png");
+    glBindTexture(GL_TEXTURE_2D, tex[9]);
+    defTexture("face_dessous_pw.png");
+    glBindTexture(GL_TEXTURE_2D, tex[10]);
+    defTexture("face_dessus_pw.png");
+    glBindTexture(GL_TEXTURE_2D, tex[11]);
+    defTexture("face_droit_pw.png");
+    glBindTexture(GL_TEXTURE_2D, tex[12]);
+    defTexture("face_gauche_pw.png");
+    glBindTexture(GL_TEXTURE_2D, tex[13]);
+    defTexture("corps_arriere_pw.png");
+    glBindTexture(GL_TEXTURE_2D, tex[14]);
+    defTexture("corps_pw.png");
+    glBindTexture(GL_TEXTURE_2D, tex[15]);
+    defTexture("corps_cote_pw.png");
+    glBindTexture(GL_TEXTURE_2D, tex[16]);
+    defTexture("corps_haut_pw.png");
+    glBindTexture(GL_TEXTURE_2D, tex[17]);
+    defTexture("corps_bas_pw.png");
+        glBindTexture(GL_TEXTURE_2D, tex[18]);
+    defTexture("bras_pw.png");
+        glBindTexture(GL_TEXTURE_2D, tex[19]);
+    defTexture("main_pw.png");
+        glBindTexture(GL_TEXTURE_2D, tex[20]);
+    defTexture("jambe_dessus_pw.png");
+        glBindTexture(GL_TEXTURE_2D, tex[21]);
+    defTexture("jambe_pw.png");
+        glBindTexture(GL_TEXTURE_2D, tex[22]);
+    defTexture("pied_pw.png"); 
+    glBindTexture(GL_TEXTURE_2D, tex[23]);
+    defTexture("face_wp.png");
+    glBindTexture(GL_TEXTURE_2D, tex[24]);
+    defTexture("face_arriere_wp.png");
+    glBindTexture(GL_TEXTURE_2D, tex[25]);
+    defTexture("face_dessous_wp.png");
+    glBindTexture(GL_TEXTURE_2D, tex[26]);
+    defTexture("face_dessus_wp.png");
+    glBindTexture(GL_TEXTURE_2D, tex[27]);
+    defTexture("face_droit_wp.png");
+    glBindTexture(GL_TEXTURE_2D, tex[28]);
+    defTexture("face_gauche_wp.png");
+    glBindTexture(GL_TEXTURE_2D, tex[29]);
+    defTexture("corps_arriere_wp.png");
+    glBindTexture(GL_TEXTURE_2D, tex[30]);
+    defTexture("corps_wp.png");
+    glBindTexture(GL_TEXTURE_2D, tex[31]);
+    defTexture("corps_cote_wp.png");
+    glBindTexture(GL_TEXTURE_2D, tex[32]);
+    defTexture("corps_haut_wp.png");
+    glBindTexture(GL_TEXTURE_2D, tex[33]);
+    defTexture("corps_bas_wp.png");
+        glBindTexture(GL_TEXTURE_2D, tex[34]);
+    defTexture("bras_wp.png");
+        glBindTexture(GL_TEXTURE_2D, tex[35]);
+    defTexture("main_wp.png");
+        glBindTexture(GL_TEXTURE_2D, tex[36]);
+    defTexture("jambe_dessus_wp.png");
+        glBindTexture(GL_TEXTURE_2D, tex[37]);
+    defTexture("jambe_wp.png");
+        glBindTexture(GL_TEXTURE_2D, tex[38]);
+    defTexture("pied_wp.png"); 
+    glBindTexture(GL_TEXTURE_2D, tex[39]);
+    defTexture("face_mia.png");
+    glBindTexture(GL_TEXTURE_2D, tex[40]);
+    defTexture("face_arriere_mia.png");
+    glBindTexture(GL_TEXTURE_2D, tex[41]);
+    defTexture("face_dessous_mia.png");
+    glBindTexture(GL_TEXTURE_2D, tex[42]);
+    defTexture("face_dessus_mia.png");
+    glBindTexture(GL_TEXTURE_2D, tex[43]);
+    defTexture("face_droit_mia.png");
+    glBindTexture(GL_TEXTURE_2D, tex[44]);
+    defTexture("face_gauche_mia.png");
+    glBindTexture(GL_TEXTURE_2D, tex[45]);
+    defTexture("corps_arriere_mia.png");
+    glBindTexture(GL_TEXTURE_2D, tex[46]);
+    defTexture("corps_mia.png");
+    glBindTexture(GL_TEXTURE_2D, tex[47]);
+    defTexture("corps_cote_mia.png");
+    glBindTexture(GL_TEXTURE_2D, tex[48]);
+    defTexture("corps_haut_mia.png");
+    glBindTexture(GL_TEXTURE_2D, tex[49]);
+    defTexture("corps_bas_mia.png");
+        glBindTexture(GL_TEXTURE_2D, tex[50]);
+    defTexture("bras_mia.png");
+        glBindTexture(GL_TEXTURE_2D, tex[51]);
+    defTexture("main_mia.png");
+        glBindTexture(GL_TEXTURE_2D, tex[52]);
+    defTexture("jambe_dessus_mia.png");
+        glBindTexture(GL_TEXTURE_2D, tex[53]);
+    defTexture("jambe_mia.png");
+        glBindTexture(GL_TEXTURE_2D, tex[54]);
+    defTexture("pied_mia.png");  
+                
     // On spécifie comment les textures seront plaquées sur les facettes
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
@@ -559,10 +661,10 @@ void creer_pave_with_texture (GLfloat centrex, GLfloat centrey,
   glBindTexture(GL_TEXTURE_2D, tex1);
   glBegin(GL_QUADS);
   glNormal3f(0, 0, -1);
-  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy - p, cz - h); 
-  glTexCoord2f(0., 1.); glVertex3f(cx - l, cy + p, cz - h); 
-  glTexCoord2f(1., 1.); glVertex3f(cx + l, cy + p, cz - h);
-  glTexCoord2f(1., 0.); glVertex3f(cx + l, cy - p, cz - h);
+  glTexCoord2f(0., 1.); glVertex3f(cx - l, cy - p, cz - h); 
+  glTexCoord2f(1., 1.); glVertex3f(cx - l, cy + p, cz - h); 
+  glTexCoord2f(1., 0.); glVertex3f(cx + l, cy + p, cz - h);
+  glTexCoord2f(0., 0.); glVertex3f(cx + l, cy - p, cz - h);
   glEnd();
   // On dessine un carré sur le plan z
   glBindTexture(GL_TEXTURE_2D, tex2);
@@ -577,37 +679,37 @@ void creer_pave_with_texture (GLfloat centrex, GLfloat centrey,
   glBindTexture(GL_TEXTURE_2D, tex4);
   glBegin(GL_QUADS);
   glNormal3f(1, 0, 0);
-  glTexCoord2f(0., 0.); glVertex3f(cx + l, cy - p, cz + h); 
-  glTexCoord2f(1., 0.); glVertex3f(cx + l, cy - p, cz - h); 
-  glTexCoord2f(1., 1.); glVertex3f(cx + l, cy + p, cz - h);
-  glTexCoord2f(0., 1.); glVertex3f(cx + l, cy + p, cz + h);
+  glTexCoord2f(1., 0.); glVertex3f(cx + l, cy - p, cz + h); 
+  glTexCoord2f(1., 1.); glVertex3f(cx + l, cy - p, cz - h); 
+  glTexCoord2f(0., 1.); glVertex3f(cx + l, cy + p, cz - h);
+  glTexCoord2f(0., 0.); glVertex3f(cx + l, cy + p, cz + h);
   glEnd();
  //On dessine un carré sur le plan -x
   glBindTexture(GL_TEXTURE_2D, tex3);
   glBegin(GL_QUADS);
   glNormal3f(-1, 0, 0);
-  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy + p, cz + h); 
-  glTexCoord2f(1., 0.); glVertex3f(cx - l, cy + p, cz - h); 
-  glTexCoord2f(1., 1.); glVertex3f(cx - l, cy - p, cz - h);
-  glTexCoord2f(0., 1.); glVertex3f(cx - l, cy - p, cz + h);
+  glTexCoord2f(1., 0.); glVertex3f(cx - l, cy + p, cz + h); 
+  glTexCoord2f(1., 1.); glVertex3f(cx - l, cy + p, cz - h); 
+  glTexCoord2f(0., 1.); glVertex3f(cx - l, cy - p, cz - h);
+  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy - p, cz + h);
   glEnd();
   //On dessine un carré sur le plan y
   glBindTexture(GL_TEXTURE_2D, tex6);
   glBegin(GL_QUADS);
   glNormal3f(0, 1, 0);
-  glTexCoord2f(0., 1.); glVertex3f(cx + l, cy + p, cz + h); 
-  glTexCoord2f(1., 1.); glVertex3f(cx + l, cy + p, cz - h); 
-  glTexCoord2f(1., 0.); glVertex3f(cx - l, cy + p, cz - h);
-  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy + p, cz + h);
+  glTexCoord2f(0., 0.); glVertex3f(cx + l, cy + p, cz + h); 
+  glTexCoord2f(0., 1.); glVertex3f(cx + l, cy + p, cz - h); 
+  glTexCoord2f(1., 1.); glVertex3f(cx - l, cy + p, cz - h);
+  glTexCoord2f(1., 0.); glVertex3f(cx - l, cy + p, cz + h);
   glEnd();
   //On dessine un carré sur le plan -y
   glBindTexture(GL_TEXTURE_2D, tex5);
   glBegin(GL_QUADS);
   glNormal3f(0, -1, 0);
-  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy - p, cz - h); 
-  glTexCoord2f(0., 1.); glVertex3f(cx + l, cy - p, cz - h); 
-  glTexCoord2f(1., 1.); glVertex3f(cx + l, cy - p, cz + h);
-  glTexCoord2f(1., 0.); glVertex3f(cx - l, cy - p, cz + h);
+  glTexCoord2f(0., 1.); glVertex3f(cx - l, cy - p, cz - h); 
+  glTexCoord2f(1., 1.); glVertex3f(cx + l, cy - p, cz - h); 
+  glTexCoord2f(1., 0.); glVertex3f(cx + l, cy - p, cz + h);
+  glTexCoord2f(0., 0.); glVertex3f(cx - l, cy - p, cz + h);
   glEnd();                    
                         
                         
@@ -695,13 +797,38 @@ void creer_pave_with_texture (GLfloat centrex, GLfloat centrey,
   
   }
   
-    void creer_personnage() { // centre de pw 250 100 90
-        creer_pave_with_texture(230., 90., 40., 10., 10., 80., tex[6], tex[6], tex[6], tex[6], tex[6], tex[6]); //jg
-        creer_pave_with_texture(230., 110., 40., 10., 10., 80., tex[6], tex[6], tex[6], tex[6], tex[6], tex[6]); //jd
-        creer_pave_with_texture(230., 100., 120., 10., 40., 80., tex[6], tex[6], tex[6], tex[6], tex[6], tex[6]); //corps
-        creer_pave_with_texture(230., 100., 170., 20., 20.,20., tex[6], tex[6], tex[6], tex[6], tex[6], tex[6]); //tete
-        creer_pave_with_texture(230., 125., 120., 10., 10., 80., tex[6], tex[6], tex[6], tex[6], tex[6], tex[6]); // bd
-        creer_pave_with_texture(230., 75., 120., 10., 10., 80., tex[6], tex[6], tex[6], tex[6], tex[6], tex[6]);
+    void creer_phoenix() { // centre de pw 250 100 90
+        creer_pave_with_texture(230., 90., 40., 10., 10., 80., tex[22], tex[20], tex[21], tex[21], tex[21], tex[21]); //jg
+        creer_pave_with_texture(230., 110., 40., 10., 10., 80., tex[22], tex[20], tex[21], tex[21], tex[21], tex[21]); //jd
+        creer_pave_with_texture(230., 100., 120., 10., 40., 80., tex[17], tex[16], tex[14], tex[13], tex[15], tex[15]); //corps
+        creer_pave_with_texture(230., 100., 170., 20., 20.,20., tex[9], tex[10], tex[7], tex[8], tex[12], tex[11]); //tete
+        creer_pave_with_texture(230., 125., 120., 10., 10., 80., tex[19], tex[20], tex[18], tex[18], tex[18], tex[18]); // bd
+        creer_pave_with_texture(230., 75., 120., 10., 10., 80., tex[19], tex[20], tex[18], tex[18], tex[18], tex[18]);  //bg
+    }
+        void creer_mia() { // centre de pw 250 100 90
+        creer_pave_with_texture(230., 190., 40., 10., 10., 80., tex[54], tex[52], tex[53], tex[53], tex[53], tex[53]); //jg
+        creer_pave_with_texture(230., 210., 40., 10., 10., 80., tex[54], tex[52], tex[53], tex[53], tex[53], tex[53]); //jd
+        creer_pave_with_texture(230., 200., 120., 10., 40., 80., tex[19], tex[48], tex[46], tex[45], tex[47], tex[47]); //corps
+        creer_pave_with_texture(230., 200., 170., 20., 20.,20., tex[41], tex[42], tex[39], tex[40], tex[44], tex[43]); //tete
+        creer_pave_with_texture(230., 225., 120., 10., 10., 80., tex[51], tex[52], tex[50], tex[50], tex[50], tex[50]); // bd
+        creer_pave_with_texture(230., 175., 120., 10., 10., 80., tex[51], tex[52], tex[50], tex[50], tex[50], tex[50]);  //bg
+    }
+        void creer_winston() { // centre de pw 250 100 90
+        creer_pave_with_texture(-230., 90., 40., 10., 10., 80., tex[38], tex[36], tex[37], tex[37], tex[37], tex[37]); //jg
+        creer_pave_with_texture(-230., 110., 40., 10., 10., 80., tex[38], tex[36], tex[37], tex[37], tex[37], tex[37]); //jd
+        creer_pave_with_texture(-230., 100., 120., 10., 40., 80., tex[33], tex[32], tex[29], tex[30], tex[31], tex[31]); //corps
+        creer_pave_with_texture(-230., 100., 170., 20., 20.,20., tex[25], tex[26], tex[24], tex[23], tex[27], tex[28]); //tete
+        creer_pave_with_texture(-230., 125., 120., 10., 10., 80., tex[35], tex[36], tex[34], tex[34], tex[34], tex[34]); // bd
+        creer_pave_with_texture(-230., 75., 120., 10., 10., 80., tex[35], tex[36], tex[34], tex[34], tex[34], tex[34]);  //bg
+    }
+    
+    void creer_juge() { // centre de juge 0., 700., 100.
+        creer_pave_with_texture(-10., 680., 240., 10., 10., 80., tex[22], tex[20], tex[21], tex[21], tex[21], tex[21]); //jg
+        creer_pave_with_texture(10., 680., 240., 10., 10., 80., tex[22], tex[20], tex[21], tex[21], tex[21], tex[21]); //jd
+        creer_pave_with_texture(0., 680., 320., 40., 10., 80., tex[17], tex[16], tex[15], tex[15], tex[14], tex[13]); //corps
+        creer_pave_with_texture(0., 680., 370., 20., 20.,20., tex[9], tex[10], tex[11], tex[12], tex[7], tex[8]); //tete
+        creer_pave_with_texture(25., 680., 320., 10., 10., 80., tex[19], tex[20], tex[18], tex[18], tex[18], tex[18]); // bd
+        creer_pave_with_texture(-25., 680., 320., 10., 10., 80., tex[19], tex[20], tex[18], tex[18], tex[18], tex[18]);  //bg
     }
 
 void GL_Quit() {
