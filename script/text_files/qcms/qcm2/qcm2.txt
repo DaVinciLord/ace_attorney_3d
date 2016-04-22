@@ -1,0 +1,14 @@
+[TALKING]
+*Judge
+
+[QUESTION]
+Let's hear your answer._Who is the victim in this case?
+
+[ANSWER]
+CASE_3
+
+[PROPOSITION]
+CASE_1->Mia Fey->case1.txt
+CASE_2->Cinder Block->case2.txt
+CASE_3->Cindy Stone->case3.txt
+__

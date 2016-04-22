@@ -1,12 +1,10 @@
--Phoenix
+*Phoenix
 The defendant? Well, that's
 Larry Butz, Your Honor. 
 
--Judge
+*Judge
 Correct.
 
--Judge
+*Judge
 Just keep your wits about
-you and you'll do fine. 
-
-CONTINUE
+you and you'll do fine.
