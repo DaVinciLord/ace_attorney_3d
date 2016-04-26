@@ -48,7 +48,6 @@ GLfloat whereilookz = 180.;
 
 GLdouble near = 10.;
 GLdouble far = 3000.;
-int langledubrasdephoenixwright = 0;
 
 GLfloat matSpeculaire[4] = {1., 1., 1., 1.};
 GLfloat matShininess = 50.;
@@ -130,20 +129,6 @@ int main(int argc, char **argv) {
         break;
         case SDLK_e :
         whereilookz += 10;
-        break;
-        case SDLK_w :
-        
-			for (int i = 0;  i < 90; i += 10) {
-			langledubrasdephoenixwright += 5;
-			display();
-			}
-        
-        break;
-        case SDLK_x :
-        for (int i = 0;  i < 90; i += 10) {
-			langledubrasdephoenixwright -= 5;
-			display();
-			}
         break;
         
     }
@@ -921,11 +906,10 @@ void creer_pave_with_texture (GLfloat centrex, GLfloat centrey,
         
         
         glPushMatrix();
-        glTranslatef(230., 125., 160. - langledubrasdephoenixwright / 20);
-		
-        glRotatef(langledubrasdephoenixwright,-1.,1.,0.);
-        creer_pave_with_texture(0., 0., -40., 10., 10., 80., tex[19], tex[20], tex[18], tex[18], tex[18], tex[18]); // bd
-        
+        for (int i = 0; i < 50; i++) {
+        glRotatef(i,0.,1.,0.);
+        creer_pave_with_texture(230., 125., 120., 10., 10., 80., tex[19], tex[20], tex[18], tex[18], tex[18], tex[18]); // bd
+        }
         glPopMatrix();
         
         
