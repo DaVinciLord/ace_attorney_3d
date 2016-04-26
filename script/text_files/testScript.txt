@@ -70,3 +70,59 @@ them clearly and concisely.
 ++
 [QCM]->1
 
+*Judge
+Next question:
+
+*Judge
+This is a murder trial. Tell me,
+what's the victim's name?
+
+*Phoenix
+(Whew, I know this one! Glad
+I read the case report cover
+to cover so many times.)
+
+*Phoenix
+(It's... wait... Uh-oh!)
+
+*Phoenix
+(No... no way! I forgot!
+I'm drawing a total blank
+here!)
+
+*Mia
+Phoenix! Are you absolutely
+SURE you're up to this?
+
+*Mia
+You don't even know the
+victim's name!?
+
+*Phoenix
+Oh, the victim! O-Of course
+I know the victim's name!
+
+*Phoenix
+I, um, just forgot.
+... Temporarily.
+
+*Mia
+I think I feel a migraine
+coming on.
+
+*Mia
+Look, the defendant's name
+is listed in the Court Record.
+
+*Mia
+Just touch the Court Record
+button to check it at anytime,
+okay?
+
+*Mia
+Remember to check it often.
+Do it for me, please.
+I'm begging you.
+
+++
+[QCM]->2
