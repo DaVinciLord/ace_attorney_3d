@@ -10,7 +10,7 @@
 
 SDL_Window *fenetre;
 SDL_GLContext context;
-GLuint tex[103];
+GLuint tex[119];
 GLUquadric * quad;
 void creer_phoenix();
 void creer_winston();
@@ -18,6 +18,16 @@ void creer_mia();
 void creer_juge();
 void creer_witness_1();
 void creer_witness_2();
+void creer_public();
+void desk_slaming_pw();
+void public_noding();
+void lookfromjudge();
+void lookphoenix();
+void lookpublic();
+void lookpayne();
+
+void movecamera(GLfloat wtbx, GLfloat wtby, GLfloat wtbz, GLfloat wtlx, GLfloat wtly, GLfloat wtlz);
+void anim_bras_pw(int sens);
 void sol(int x0, int y0, int x1, int y1);
 void defTexture(const char * filename);
 void init_SDL(void);
@@ -49,6 +59,10 @@ GLfloat whereilookz = 180.;
 GLdouble near = 10.;
 GLdouble far = 3000.;
 int langledubrasdephoenixwright = 0;
+int lock = 0;
+int deskslaming = 0;
+int noding = 0;
+
 
 GLfloat matSpeculaire[4] = {1., 1., 1., 1.};
 GLfloat matShininess = 50.;
@@ -82,7 +96,7 @@ int main(int argc, char **argv) {
     
     
     // On attend le prochain évènement
-    SDL_WaitEvent(&event);
+    SDL_PollEvent(&event);
     // On traite l'évènement
     switch (event.type) {
     case SDL_QUIT:
@@ -91,62 +105,95 @@ int main(int argc, char **argv) {
       break;
     case SDL_KEYDOWN:
       // On a appuyé sur une touche
+      lock = 1;
       continuer = keyboard(&event);
       break;
     }
-    switch (event.key.keysym.sym) {
-        case SDLK_KP_MINUS : 
-        whereiamz += 10;
-        break;
-        case SDLK_KP_PLUS :
-        whereiamz -= 10;
-        break;
-        case SDLK_UP :
-        whereiamy += 10;
-        break;
-        case SDLK_DOWN :
-        whereiamy -= 10;
-        break;
-        case SDLK_LEFT :
-        whereiamx -= 10;
-        break;
-        case SDLK_RIGHT :
-        whereiamx += 10;
-        break;
-        case SDLK_z :
-        whereilooky += 10;
-        break;
-        case  SDLK_s :
-        whereilooky -= 10;
-        break;
-        case SDLK_d :
-        whereilookx += 10;
-        break;
-        case SDLK_q :
-        whereilookx -= 10;
-        break;
-        case SDLK_a :
-        whereilookz -= 10;
-        break;
-        case SDLK_e :
-        whereilookz += 10;
-        break;
-        case SDLK_w :
-        
-			for (int i = 0;  i < 90; i += 10) {
-			langledubrasdephoenixwright += 5;
-			display();
-			}
-        
-        break;
-        case SDLK_x :
-        for (int i = 0;  i < 90; i += 10) {
-			langledubrasdephoenixwright -= 5;
-			display();
-			}
-        break;
-        
+    if (lock == 1) {
+        switch (event.key.keysym.sym) {
+            case SDLK_KP_MINUS : 
+                whereiamz += 10;
+            break;
+            case SDLK_KP_PLUS :
+                whereiamz -= 10;
+            break;
+            case SDLK_UP :
+                whereiamy += 10;
+            break;
+            case SDLK_DOWN :
+                whereiamy -= 10;
+            break;
+            case SDLK_LEFT :
+                whereiamx -= 10;
+            break;
+            case SDLK_RIGHT :
+                whereiamx += 10;
+            break;
+            case SDLK_z :
+                whereilooky += 10;
+            break;
+            case  SDLK_s :
+                whereilooky -= 10;
+            break;
+            case SDLK_d :
+                whereilookx += 10;
+            break;
+            case SDLK_q :
+                whereilookx -= 10;
+            break;
+            case SDLK_a :
+                whereilookz -= 10;
+            break;
+            case SDLK_e :
+                whereilookz += 10;
+            break;        
+            case SDLK_w :
+                anim_bras_pw(1);
+            break;
+            case SDLK_x :
+                anim_bras_pw(-1);
+            break;
+            case SDLK_c :
+                desk_slaming_pw();
+            break;
+            case SDLK_v :
+                public_noding();
+            break;
+            case SDLK_j :
+                lookfromjudge();
+            break;
+            case SDLK_p :
+                lookphoenix();
+            break;
+            case SDLK_o :
+                lookpublic();
+            break;
+            case SDLK_i :
+                lookpublic();
+            break;
+            case SDLK_b :
+            printf("%f, %f, %f, %f, %f, %f\n", whereiamx, whereiamy, whereiamz, whereilookx, whereilooky, whereilookz);
+            break;
+        }
+        lock = 0;
     }
+        /*
+       
+
+        
+       
+Où je suis : x = 0.000000, y = 720.000000, z = 400.000000
+Où je regarde : x = 0.000000, y = 110.000000, z = 180.000000
+Point de vu du juge.
+
+
+
+
+
+
+
+         
+    }*/
     
     display();
     
@@ -265,16 +312,15 @@ void display() {
   glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, matShininess);
   
   
-  //glColor3f(197./255.,167./255., 147./255.);
+
 
   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBeige);
   sol(-500,-750, 0, -250);
-  sol(0,-750, 500, -250);
   sol(-500,-250, 0, 250);
+  sol(-500, 250, 0, 750); 
+  sol(0,-750, 500, -250);
   sol(0,-250, 500, 250);
-  sol(-500, 250, 0, 750);
   sol(0,250, 500, 750);
-  
 
   glBindTexture(GL_TEXTURE_2D, tex[1]);
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBrunClair);
@@ -313,8 +359,8 @@ void display() {
      creer_winston();
      creer_mia();
      creer_juge();
-//creer_witness_1();
-     
+    // creer_witness_1();
+     creer_public();
      creer_witness_2();
      
      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matOr);
@@ -409,219 +455,251 @@ void display() {
 
 void initTexture() {
     glEnable(GL_TEXTURE_2D);
-    glGenTextures(103, tex);
+    glGenTextures(119, tex);
 
     // On définit la première texture
     glBindTexture(GL_TEXTURE_2D, tex[0]);
-    defTexture("texture_sol.bmp");
+    defTexture("textures/texture_sol.bmp");
     // On définit la deuxième texture
     glBindTexture(GL_TEXTURE_2D, tex[1]);
-    defTexture("texture_meuble.bmp");
+    defTexture("textures/texture_meuble.bmp");
 
     glBindTexture(GL_TEXTURE_2D, tex[2]);
-    defTexture("argent.bmp");
+    defTexture("textures/argent.bmp");
     
     glBindTexture(GL_TEXTURE_2D, tex[3]);
-    defTexture("argent_balance.bmp");
+    defTexture("textures/argent_balance.bmp");
     
     glBindTexture(GL_TEXTURE_2D, tex[4]);
-    defTexture("gold.png");
+    defTexture("textures/gold.png");
         glBindTexture(GL_TEXTURE_2D, tex[5]);
-    defTexture("wall.bmp");
+    defTexture("textures/wall.bmp");
     glBindTexture(GL_TEXTURE_2D, tex[6]);
-    defTexture("phoenix.bmp");
+    defTexture("textures/phoenix.bmp");
     glBindTexture(GL_TEXTURE_2D, tex[7]);
-    defTexture("face_pw.png");
+    defTexture("textures/face_pw.png");
     glBindTexture(GL_TEXTURE_2D, tex[8]);
-    defTexture("face_arriere_pw.png");
+    defTexture("textures/face_arriere_pw.png");
     glBindTexture(GL_TEXTURE_2D, tex[9]);
-    defTexture("face_dessous_pw.png");
+    defTexture("textures/face_dessous_pw.png");
     glBindTexture(GL_TEXTURE_2D, tex[10]);
-    defTexture("face_dessus_pw.png");
+    defTexture("textures/face_dessus_pw.png");
     glBindTexture(GL_TEXTURE_2D, tex[11]);
-    defTexture("face_droit_pw.png");
+    defTexture("textures/face_droit_pw.png");
     glBindTexture(GL_TEXTURE_2D, tex[12]);
-    defTexture("face_gauche_pw.png");
+    defTexture("textures/face_gauche_pw.png");
     glBindTexture(GL_TEXTURE_2D, tex[13]);
-    defTexture("corps_arriere_pw.png");
+    defTexture("textures/corps_arriere_pw.png");
     glBindTexture(GL_TEXTURE_2D, tex[14]);
-    defTexture("corps_pw.png");
+    defTexture("textures/corps_pw.png");
     glBindTexture(GL_TEXTURE_2D, tex[15]);
-    defTexture("corps_cote_pw.png");
+    defTexture("textures/corps_cote_pw.png");
     glBindTexture(GL_TEXTURE_2D, tex[16]);
-    defTexture("corps_haut_pw.png");
+    defTexture("textures/corps_haut_pw.png");
     glBindTexture(GL_TEXTURE_2D, tex[17]);
-    defTexture("corps_bas_pw.png");
+    defTexture("textures/corps_bas_pw.png");
         glBindTexture(GL_TEXTURE_2D, tex[18]);
-    defTexture("bras_pw.png");
+    defTexture("textures/bras_pw.png");
         glBindTexture(GL_TEXTURE_2D, tex[19]);
-    defTexture("main_pw.png");
+    defTexture("textures/main_pw.png");
         glBindTexture(GL_TEXTURE_2D, tex[20]);
-    defTexture("jambe_dessus_pw.png");
+    defTexture("textures/jambe_dessus_pw.png");
         glBindTexture(GL_TEXTURE_2D, tex[21]);
-    defTexture("jambe_pw.png");
+    defTexture("textures/jambe_pw.png");
         glBindTexture(GL_TEXTURE_2D, tex[22]);
-    defTexture("pied_pw.png"); 
+    defTexture("textures/pied_pw.png"); 
     glBindTexture(GL_TEXTURE_2D, tex[23]);
-    defTexture("face_wp.png");
+    defTexture("textures/face_wp.png");
     glBindTexture(GL_TEXTURE_2D, tex[24]);
-    defTexture("face_arriere_wp.png");
+    defTexture("textures/face_arriere_wp.png");
     glBindTexture(GL_TEXTURE_2D, tex[25]);
-    defTexture("face_dessous_wp.png");
+    defTexture("textures/face_dessous_wp.png");
     glBindTexture(GL_TEXTURE_2D, tex[26]);
-    defTexture("face_dessus_wp.png");
+    defTexture("textures/face_dessus_wp.png");
     glBindTexture(GL_TEXTURE_2D, tex[27]);
-    defTexture("face_droit_wp.png");
+    defTexture("textures/face_droit_wp.png");
     glBindTexture(GL_TEXTURE_2D, tex[28]);
-    defTexture("face_gauche_wp.png");
+    defTexture("textures/face_gauche_wp.png");
     glBindTexture(GL_TEXTURE_2D, tex[29]);
-    defTexture("corps_arriere_wp.png");
+    defTexture("textures/corps_arriere_wp.png");
     glBindTexture(GL_TEXTURE_2D, tex[30]);
-    defTexture("corps_wp.png");
+    defTexture("textures/corps_wp.png");
     glBindTexture(GL_TEXTURE_2D, tex[31]);
-    defTexture("corps_cote_wp.png");
+    defTexture("textures/corps_cote_wp.png");
     glBindTexture(GL_TEXTURE_2D, tex[32]);
-    defTexture("corps_haut_wp.png");
+    defTexture("textures/corps_haut_wp.png");
     glBindTexture(GL_TEXTURE_2D, tex[33]);
-    defTexture("corps_bas_wp.png");
+    defTexture("textures/corps_bas_wp.png");
         glBindTexture(GL_TEXTURE_2D, tex[34]);
-    defTexture("bras_wp.png");
+    defTexture("textures/bras_wp.png");
         glBindTexture(GL_TEXTURE_2D, tex[35]);
-    defTexture("main_wp.png");
+    defTexture("textures/main_wp.png");
         glBindTexture(GL_TEXTURE_2D, tex[36]);
-    defTexture("jambe_dessus_wp.png");
+    defTexture("textures/jambe_dessus_wp.png");
         glBindTexture(GL_TEXTURE_2D, tex[37]);
-    defTexture("jambe_wp.png");
+    defTexture("textures/jambe_wp.png");
         glBindTexture(GL_TEXTURE_2D, tex[38]);
-    defTexture("pied_wp.png"); 
+    defTexture("textures/pied_wp.png"); 
     glBindTexture(GL_TEXTURE_2D, tex[39]);
-    defTexture("face_mia.png");
+    defTexture("textures/face_mia.png");
     glBindTexture(GL_TEXTURE_2D, tex[40]);
-    defTexture("face_arriere_mia.png");
+    defTexture("textures/face_arriere_mia.png");
     glBindTexture(GL_TEXTURE_2D, tex[41]);
-    defTexture("face_dessous_mia.png");
+    defTexture("textures/face_dessous_mia.png");
     glBindTexture(GL_TEXTURE_2D, tex[42]);
-    defTexture("face_dessus_mia.png");
+    defTexture("textures/face_dessus_mia.png");
     glBindTexture(GL_TEXTURE_2D, tex[43]);
-    defTexture("face_droit_mia.png");
+    defTexture("textures/face_droit_mia.png");
     glBindTexture(GL_TEXTURE_2D, tex[44]);
-    defTexture("face_gauche_mia.png");
+    defTexture("textures/face_gauche_mia.png");
     glBindTexture(GL_TEXTURE_2D, tex[45]);
-    defTexture("corps_arriere_mia.png");
+    defTexture("textures/corps_arriere_mia.png");
     glBindTexture(GL_TEXTURE_2D, tex[46]);
-    defTexture("corps_mia.png");
+    defTexture("textures/corps_mia.png");
     glBindTexture(GL_TEXTURE_2D, tex[47]);
-    defTexture("corps_cote_mia.png");
+    defTexture("textures/corps_cote_mia.png");
     glBindTexture(GL_TEXTURE_2D, tex[48]);
-    defTexture("corps_haut_mia.png");
+    defTexture("textures/corps_haut_mia.png");
     glBindTexture(GL_TEXTURE_2D, tex[49]);
-    defTexture("corps_bas_mia.png");
+    defTexture("textures/corps_bas_mia.png");
         glBindTexture(GL_TEXTURE_2D, tex[50]);
-    defTexture("bras_mia.png");
+    defTexture("textures/bras_mia.png");
         glBindTexture(GL_TEXTURE_2D, tex[51]);
-    defTexture("main_mia.png");
+    defTexture("textures/main_mia.png");
         glBindTexture(GL_TEXTURE_2D, tex[52]);
-    defTexture("jambe_dessus_mia.png");
+    defTexture("textures/jambe_dessus_mia.png");
         glBindTexture(GL_TEXTURE_2D, tex[53]);
-    defTexture("jambe_mia.png");
+    defTexture("textures/jambe_mia.png");
         glBindTexture(GL_TEXTURE_2D, tex[54]);
-    defTexture("pied_mia.png");  
+    defTexture("textures/pied_mia.png");  
     glBindTexture(GL_TEXTURE_2D, tex[55]);
-    defTexture("face_j.png");
+    defTexture("textures/face_j.png");
     glBindTexture(GL_TEXTURE_2D, tex[56]);
-    defTexture("face_arriere_j.png");
+    defTexture("textures/face_arriere_j.png");
     glBindTexture(GL_TEXTURE_2D, tex[57]);
-    defTexture("face_dessous_j.png");
+    defTexture("textures/face_dessous_j.png");
     glBindTexture(GL_TEXTURE_2D, tex[58]);
-    defTexture("face_dessus_j.png");
+    defTexture("textures/face_dessus_j.png");
     glBindTexture(GL_TEXTURE_2D, tex[59]);
-    defTexture("face_droit_j.png");
+    defTexture("textures/face_droit_j.png");
     glBindTexture(GL_TEXTURE_2D, tex[60]);
-    defTexture("face_gauche_j.png");
+    defTexture("textures/face_gauche_j.png");
     glBindTexture(GL_TEXTURE_2D, tex[61]);
-    defTexture("corps_arriere_j.png");
+    defTexture("textures/corps_arriere_j.png");
     glBindTexture(GL_TEXTURE_2D, tex[62]);
-    defTexture("corps_j.png");
+    defTexture("textures/corps_j.png");
     glBindTexture(GL_TEXTURE_2D, tex[63]);
-    defTexture("corps_cote_j.png");
+    defTexture("textures/corps_cote_j.png");
     glBindTexture(GL_TEXTURE_2D, tex[64]);
-    defTexture("corps_haut_j.png");
+    defTexture("textures/corps_haut_j.png");
     glBindTexture(GL_TEXTURE_2D, tex[65]);
-    defTexture("corps_bas_j.png");
+    defTexture("textures/corps_bas_j.png");
         glBindTexture(GL_TEXTURE_2D, tex[66]);
-    defTexture("bras_j.png");
+    defTexture("textures/bras_j.png");
         glBindTexture(GL_TEXTURE_2D, tex[67]);
-    defTexture("main_j.png");
+    defTexture("textures/main_j.png");
         glBindTexture(GL_TEXTURE_2D, tex[68]);
-    defTexture("jambe_dessus_j.png");
+    defTexture("textures/jambe_dessus_j.png");
         glBindTexture(GL_TEXTURE_2D, tex[69]);
-    defTexture("jambe_j.png");
+    defTexture("textures/jambe_j.png");
         glBindTexture(GL_TEXTURE_2D, tex[70]);
-    defTexture("pied_j.png"); 
+    defTexture("textures/pied_j.png"); 
         glBindTexture(GL_TEXTURE_2D, tex[71]);
-    defTexture("face_lb.png");
+    defTexture("textures/face_lb.png");
     glBindTexture(GL_TEXTURE_2D, tex[72]);
-    defTexture("face_arriere_lb.png");
+    defTexture("textures/face_arriere_lb.png");
     glBindTexture(GL_TEXTURE_2D, tex[73]);
-    defTexture("face_dessous_lb.png");
+    defTexture("textures/face_dessous_lb.png");
     glBindTexture(GL_TEXTURE_2D, tex[74]);
-    defTexture("face_dessus_lb.png");
+    defTexture("textures/face_dessus_lb.png");
     glBindTexture(GL_TEXTURE_2D, tex[75]);
-    defTexture("face_droit_lb.png");
+    defTexture("textures/face_droit_lb.png");
     glBindTexture(GL_TEXTURE_2D, tex[76]);
-    defTexture("face_gauche_lb.png");
+    defTexture("textures/face_gauche_lb.png");
     glBindTexture(GL_TEXTURE_2D, tex[77]);
-    defTexture("corps_arriere_lb.png");
+    defTexture("textures/corps_arriere_lb.png");
     glBindTexture(GL_TEXTURE_2D, tex[78]);
-    defTexture("corps_lb.png");
+    defTexture("textures/corps_lb.png");
     glBindTexture(GL_TEXTURE_2D, tex[79]);
-    defTexture("corps_cote_lb.png");
+    defTexture("textures/corps_cote_lb.png");
     glBindTexture(GL_TEXTURE_2D, tex[80]);
-    defTexture("corps_haut_lb.png");
+    defTexture("textures/corps_haut_lb.png");
     glBindTexture(GL_TEXTURE_2D, tex[81]);
-    defTexture("corps_bas_lb.png");
+    defTexture("textures/corps_bas_lb.png");
         glBindTexture(GL_TEXTURE_2D, tex[82]);
-    defTexture("bras_lb.png");
+    defTexture("textures/bras_lb.png");
         glBindTexture(GL_TEXTURE_2D, tex[83]);
-    defTexture("main_lb.png");
+    defTexture("textures/main_lb.png");
         glBindTexture(GL_TEXTURE_2D, tex[84]);
-    defTexture("jambe_dessus_lb.png");
+    defTexture("textures/jambe_dessus_lb.png");
         glBindTexture(GL_TEXTURE_2D, tex[85]);
-    defTexture("jambe_lb.png");
+    defTexture("textures/jambe_lb.png");
         glBindTexture(GL_TEXTURE_2D, tex[86]);
-    defTexture("pied_lb.png"); 
+    defTexture("textures/pied_lb.png"); 
             glBindTexture(GL_TEXTURE_2D, tex[87]);
-    defTexture("face_yg.png");
+    defTexture("textures/face_yg.png");
     glBindTexture(GL_TEXTURE_2D, tex[88]);
-    defTexture("face_arriere_yg.png");
+    defTexture("textures/face_arriere_yg.png");
     glBindTexture(GL_TEXTURE_2D, tex[89]);
-    defTexture("face_dessous_yg.png");
+    defTexture("textures/face_dessous_yg.png");
     glBindTexture(GL_TEXTURE_2D, tex[90]);
-    defTexture("face_dessus_yg.png");
+    defTexture("textures/face_dessus_yg.png");
     glBindTexture(GL_TEXTURE_2D, tex[91]);
-    defTexture("face_droit_yg.png");
+    defTexture("textures/face_droit_yg.png");
     glBindTexture(GL_TEXTURE_2D, tex[92]);
-    defTexture("face_gauche_yg.png");
+    defTexture("textures/face_gauche_yg.png");
     glBindTexture(GL_TEXTURE_2D, tex[93]);
-    defTexture("corps_arriere_yg.png");
+    defTexture("textures/corps_arriere_yg.png");
     glBindTexture(GL_TEXTURE_2D, tex[94]);
-    defTexture("corps_yg.png");
+    defTexture("textures/corps_yg.png");
     glBindTexture(GL_TEXTURE_2D, tex[95]);
-    defTexture("corps_cote_yg.png");
+    defTexture("textures/corps_cote_yg.png");
     glBindTexture(GL_TEXTURE_2D, tex[96]);
-    defTexture("corps_haut_yg.png");
+    defTexture("textures/corps_haut_yg.png");
     glBindTexture(GL_TEXTURE_2D, tex[97]);
-    defTexture("corps_bas_yg.png");
+    defTexture("textures/corps_bas_yg.png");
         glBindTexture(GL_TEXTURE_2D, tex[98]);
-    defTexture("bras_yg.png");
+    defTexture("textures/bras_yg.png");
         glBindTexture(GL_TEXTURE_2D, tex[99]);
-    defTexture("main_yg.png");
+    defTexture("textures/main_yg.png");
         glBindTexture(GL_TEXTURE_2D, tex[100]);
-    defTexture("jambe_dessus_yg.png");
+    defTexture("textures/jambe_dessus_yg.png");
         glBindTexture(GL_TEXTURE_2D, tex[101]);
-    defTexture("jambe_yg.png");
+    defTexture("textures/jambe_yg.png");
         glBindTexture(GL_TEXTURE_2D, tex[102]);
-    defTexture("pied_yg.png"); 
+    defTexture("textures/pied_yg.png");
+               glBindTexture(GL_TEXTURE_2D, tex[103]);
+    defTexture("textures/face_dg.png");
+    glBindTexture(GL_TEXTURE_2D, tex[104]);
+    defTexture("textures/face_arriere_dg.png");
+    glBindTexture(GL_TEXTURE_2D, tex[105]);
+    defTexture("textures/face_dessous_dg.png");
+    glBindTexture(GL_TEXTURE_2D, tex[106]);
+    defTexture("textures/face_dessus_dg.png");
+    glBindTexture(GL_TEXTURE_2D, tex[107]);
+    defTexture("textures/face_droit_dg.png");
+    glBindTexture(GL_TEXTURE_2D, tex[108]);
+    defTexture("textures/face_gauche_dg.png");
+    glBindTexture(GL_TEXTURE_2D, tex[109]);
+    defTexture("textures/corps_arriere_dg.png");
+    glBindTexture(GL_TEXTURE_2D, tex[110]);
+    defTexture("textures/corps_dg.png");
+    glBindTexture(GL_TEXTURE_2D, tex[111]);
+    defTexture("textures/corps_cote_dg.png");
+    glBindTexture(GL_TEXTURE_2D, tex[112]);
+    defTexture("textures/corps_haut_dg.png");
+    glBindTexture(GL_TEXTURE_2D, tex[113]);
+    defTexture("textures/corps_bas_dg.png");
+        glBindTexture(GL_TEXTURE_2D, tex[114]);
+    defTexture("textures/bras_dg.png");
+        glBindTexture(GL_TEXTURE_2D, tex[115]);
+    defTexture("textures/main_dg.png");
+        glBindTexture(GL_TEXTURE_2D, tex[116]);
+    defTexture("textures/jambe_dessus_dg.png");
+        glBindTexture(GL_TEXTURE_2D, tex[117]);
+    defTexture("textures/jambe_dg.png");
+        glBindTexture(GL_TEXTURE_2D, tex[118]);
+    defTexture("textures/pied_dg.png");  
                 
     // On spécifie comment les textures seront plaquées sur les facettes
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -922,14 +1000,20 @@ void creer_pave_with_texture (GLfloat centrex, GLfloat centrey,
         
         glPushMatrix();
         glTranslatef(230., 125., 160. - langledubrasdephoenixwright / 20);
-		
+		glRotatef(deskslaming,0.,1.,0.);
         glRotatef(langledubrasdephoenixwright,-1.,1.,0.);
         creer_pave_with_texture(0., 0., -40., 10., 10., 80., tex[19], tex[20], tex[18], tex[18], tex[18], tex[18]); // bd
         
         glPopMatrix();
         
+        glPushMatrix();
+        glTranslatef(230., 75., 160.);
+		
+        glRotatef(deskslaming,0.,1.,0.);
+        creer_pave_with_texture(0., 0., -40., 10., 10., 80., tex[19], tex[20], tex[18], tex[18], tex[18], tex[18]); // bg
         
-        creer_pave_with_texture(230., 75., 120., 10., 10., 80., tex[19], tex[20], tex[18], tex[18], tex[18], tex[18]);  //bg
+        glPopMatrix();
+        
     }
         void creer_mia() { // centre de pw 250 100 90
         creer_pave_with_texture(230., 190., 40., 10., 10., 80., tex[54], tex[52], tex[53], tex[53], tex[53], tex[53]); //jg
@@ -947,6 +1031,42 @@ void creer_pave_with_texture (GLfloat centrex, GLfloat centrey,
         creer_pave_with_texture(-230., 125., 120., 10., 10., 80., tex[35], tex[36], tex[34], tex[34], tex[34], tex[34]); // bd
         creer_pave_with_texture(-230., 75., 120., 10., 10., 80., tex[35], tex[36], tex[34], tex[34], tex[34], tex[34]);  //bg
     }
+    void creer_public() { // centre de pw 250 100 90 
+        for (int i = -200; i <= 300; i += 100) {
+        creer_pave_with_texture(-377., i - 10, 140., 10., 10., 80., tex[118], tex[116], tex[117], tex[117], tex[117], tex[117]); //jg
+        creer_pave_with_texture(-377., i + 10, 140., 10., 10., 80., tex[118], tex[116], tex[117], tex[117], tex[117], tex[117]); //jd
+        creer_pave_with_texture(-377., i, 220., 10., 40., 80., tex[113], tex[112], tex[109], tex[110], tex[111], tex[111]); //corps
+        
+        glPushMatrix();
+        glTranslatef(-377., i, 280.);
+		
+        glRotatef(noding,0.,0.,1.);
+        creer_pave_with_texture(0., 0., -10., 20., 20., 20., tex[105], tex[106], tex[104], tex[103], tex[107], tex[108]); // tete
+        
+        glPopMatrix();
+
+        
+        
+        creer_pave_with_texture(-377., i+ 25, 220., 10., 10., 80., tex[115], tex[116], tex[114], tex[114], tex[114], tex[114]); // bd
+        creer_pave_with_texture(-377., i - 25, 220., 10., 10., 80., tex[115], tex[116], tex[114], tex[114], tex[114], tex[114]);  //bg
+        }
+        for (int i = -200; i <= 300; i += 100) {
+        creer_pave_with_texture(377., i - 10, 140., 10., 10., 80., tex[118], tex[116], tex[117], tex[117], tex[117], tex[117]); //jg
+        creer_pave_with_texture(377., i + 10, 140., 10., 10., 80., tex[118], tex[116], tex[117], tex[117], tex[117], tex[117]); //jd
+        creer_pave_with_texture(377., i, 220., 10., 40., 80., tex[113], tex[112], tex[110], tex[109], tex[111], tex[111]); //corps
+        glPushMatrix();
+        glTranslatef(377., i, 280.);
+		
+        glRotatef(noding,0.,0.,1.);
+        creer_pave_with_texture(0., 0., -10., 20., 20., 20., tex[105], tex[106], tex[103], tex[104], tex[108], tex[107]); // tete
+        
+        glPopMatrix();
+        creer_pave_with_texture(377., i+ 25, 220., 10., 10., 80., tex[115], tex[116], tex[114], tex[114], tex[114], tex[114]); // bd
+        creer_pave_with_texture(377., i - 25, 220., 10., 10., 80., tex[115], tex[116], tex[114], tex[114], tex[114], tex[114]);  //bg
+        }
+    }
+    
+    
     
     void creer_juge() { // centre de juge 0., 700., 100.
         creer_pave_with_texture(-10., 680., 240., 10., 10., 80., tex[70], tex[68], tex[69], tex[69], tex[69], tex[69]); //jg
@@ -974,6 +1094,80 @@ void creer_pave_with_texture (GLfloat centrex, GLfloat centrey,
         creer_pave_with_texture(25., -280., 120., 10., 10., 80., tex[99], tex[100], tex[98], tex[98], tex[98], tex[98]); // bd
         creer_pave_with_texture(-25., -280., 120., 10., 10., 80., tex[99], tex[100], tex[98], tex[98], tex[98], tex[98]);  //bg
     }
+
+void anim_bras_pw(int sens) {
+    for (int i = 0;  i < 90; i += 5) {
+        langledubrasdephoenixwright += 5 * sens;
+        display();
+    }
+}
+void desk_slaming_pw() {
+    for (int i = 0;  i < 90; i += 5) {
+        deskslaming += 5;
+        display();
+    }
+        for (int i = 0;  i < 90; i += 5) {
+        deskslaming -= 5;
+        display();
+    }
+}
+void public_noding() {
+    for (int i = 0;  i < 90; i += 5) {
+        noding += 5;
+        display();
+    }
+        for (int i = 0;  i < 180; i += 5) {
+        noding -= 5;
+        display();
+    }
+        for (int i = 0;  i < 90; i += 5) {
+        noding += 5;
+        display();
+    }
+}
+
+void movecamera(GLfloat wtbx, GLfloat wtby, GLfloat wtbz, GLfloat wtlx, GLfloat wtly, GLfloat wtlz) {
+    GLfloat locwiax = (wtbx - whereiamx) / 100.;
+    GLfloat locwiay = (wtby - whereiamy) / 100.;
+    GLfloat locwiaz = (wtbz - whereiamz) / 100.;
+    GLfloat locwilx = (wtlx - whereilookx) / 100.;
+    GLfloat locwily = (wtly - whereilooky) / 100.;
+    GLfloat locwilz = (wtlz - whereilookz) / 100.;
+    for (int i = 0; i < 100; i ++) {
+        whereiamx += locwiax;
+        whereiamy += locwiay;
+        whereiamz += locwiaz;
+        whereilookx += locwilx;
+        whereilooky += locwily;
+        whereilookz += locwilz;
+        display();
+    }
+       
+}
+
+void lookfromjudge() {
+    movecamera(0.000000, 720.000000, 400.000000, 0.000000, 110.000000, 180.000000);
+}
+
+void lookphoenix() {
+    movecamera(-40.000000, 310.00, 160.00, 170.000000, 90.00, 220.000000);
+ 
+}
+
+void lookpayne() {
+    movecamera(40.000000, 310.00, 160.00, -170.000000, 90.00, 220.000000);
+ 
+}
+
+void lookpublic() {
+    movecamera(-0.000000, -760.000000, 690.000000, 0.000000, 100.000000, 180.000000);
+ 
+}
+
+ 
+ 
+ 
+ 
 
 void GL_Quit() {
   gluDeleteQuadric(quad);
