@@ -1,5 +1,9 @@
 #include "courtroom.h"
 
+Mix_Music *musique = NULL;
+
+
+
 int main(int argc, char **argv) {
 	if (argc != 1) {
 		fprintf(stderr, "Usage %s\n", argv[0]);
@@ -92,6 +96,13 @@ void init_SDL(void) {
 		SDL_DestroyWindow(fenetre);
 		SDL_Quit();
 		exit(EXIT_FAILURE);
+	}
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+		printf("SDL_Mixer Error: %s\n", Mix_GetError());
+	}
+	musique = Mix_LoadMUS("music/courtbegins.mp3");
+	if (musique == NULL) {
+	    printf("Couldn't load beat.wav: %s\n", Mix_GetError());
 	}
 }
 
@@ -633,6 +644,15 @@ void game_loop() {
 				break;
 				case SDLK_u :
 					lookjudge();
+					if (Mix_PlayingMusic() == 0) {
+						Mix_PlayMusic(musique, -1);
+			        } else {
+			            if (Mix_PausedMusic() == 1) {
+			                Mix_ResumeMusic();
+			            } else {
+			                Mix_PauseMusic();
+			            }
+			        }
 				break;
 				case SDLK_p :
 					lookphoenix();
