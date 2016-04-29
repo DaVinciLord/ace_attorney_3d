@@ -62,6 +62,7 @@ void init_globals(void) {
 	deskslaming = 0;
 	noding = 0;
 	langledubrasdephoenixwright = 0;
+	mouvementmarteau = 0;
 }
 
 
@@ -135,7 +136,7 @@ void printGLInfos(void) {
 
 void initTexture() {
 	glEnable(GL_TEXTURE_2D);
-	glGenTextures(121, tex);
+	glGenTextures(122, tex);
 
 	// On définit la première texture
 	glBindTexture(GL_TEXTURE_2D, tex[0]);
@@ -499,8 +500,11 @@ void initTexture() {
 	glBindTexture(GL_TEXTURE_2D, tex[119]);
 	defTexture("textures/porte1.png"); 
 	
-		glBindTexture(GL_TEXTURE_2D, tex[120]);
+	glBindTexture(GL_TEXTURE_2D, tex[120]);
 	defTexture("textures/porte2.png"); 
+	
+	glBindTexture(GL_TEXTURE_2D, tex[121]);
+	defTexture("textures/bras_alternative_j.png");
 
 	// On spécifie comment les textures seront plaquées sur les facettes
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -627,6 +631,9 @@ void game_loop() {
 				case SDLK_j :
 					lookfromjudge();
 				break;
+				case SDLK_u :
+					lookjudge();
+				break;
 				case SDLK_p :
 					lookphoenix();
 				break;
@@ -723,6 +730,8 @@ void display() {
 	creer_witness_stand();
 
     creer_marteau();
+	draw_support();
+
 
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBeigeClair);
 	glBindTexture(GL_TEXTURE_2D, tex[5]);
@@ -1092,8 +1101,14 @@ void creer_juge() { // centre de juge 0., 700., 100.
 	creer_pave_with_texture(10., 680., 240., 10., 10., 80., tex[70], tex[68], tex[69], tex[69], tex[69], tex[69]); //jd
 	creer_pave_with_texture(0., 680., 320., 40., 10., 80., tex[65], tex[64], tex[63], tex[63], tex[62], tex[61]); //corps
 	creer_pave_with_texture(0., 680., 370., 20., 20.,20., tex[57], tex[58], tex[59], tex[60], tex[55], tex[56]); //tete
-	creer_pave_with_texture(25., 680., 320., 10., 10., 80., tex[67], tex[68], tex[66], tex[66], tex[66], tex[66]); // bd
-	creer_pave_with_texture(-25., 680., 320., 10., 10., 80., tex[67], tex[68], tex[66], tex[66], tex[66], tex[66]);  //bg
+	
+	creer_pave_with_texture(25., 680., 320., 10., 10., 80., tex[67], tex[68], tex[66], tex[66], tex[66], tex[66]); // bg
+	
+	creer_pave_with_texture(-25., 680., 333.5, 10., 10., 53., tex[68], tex[68], tex[68], tex[68], tex[68], tex[68]);//bd
+	glPushMatrix();
+		glTranslatef(-25., 665., 312. + mouvementmarteau);
+		creer_pave_with_texture(0, 0, 0, 10., 40., 10., tex[121], tex[121], tex[121], tex[121], tex[67], tex[68]);   //main
+	glPopMatrix();
 }
 
 void creer_witness_1() { // centre de juge 0., 700., 100.
@@ -1238,7 +1253,8 @@ void creer_arcade() {
 }
 
 void creer_marteau() {
-	
+	glPushMatrix();
+	glTranslatef(-25., 620., 302.);
 	glPushMatrix();
 		glBindTexture(GL_TEXTURE_2D, tex[1]); //manche
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matOr);
@@ -1277,12 +1293,14 @@ void creer_marteau() {
 	glPushMatrix();
 		gluCylinder(quad,    10.,    10.,    20.,    20.,    1.); 
 	glPopMatrix();	
-	
+	glPopMatrix();
 	
 	
 }
 
 void draw_support() {
+	glPushMatrix();
+	glTranslatef(-25., 620., 300.);
 	glPushMatrix();// support
 		glBindTexture(GL_TEXTURE_2D, tex[1]);
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matOr);
@@ -1298,7 +1316,8 @@ void draw_support() {
 
 	glPushMatrix();
 		gluCylinder(quad,    12.,    12.,    2.,    20.,    1.); 
-	glPopMatrix();		
+	glPopMatrix();	
+	glPopMatrix();	
 	
 }
 
@@ -1373,6 +1392,10 @@ void lookpayne() {
 
 void lookpublic() {
     movecamera(-0.000000, -760.000000, 690.000000, 0.000000, 100.000000, 180.000000);
+}
+
+void lookjudge() {
+	movecamera(0.000000, 480.0, 320.000000, 0.000000, 1010.0, 350.000000);
 }
 
 

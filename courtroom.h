@@ -21,7 +21,7 @@
 // Global variables
 static SDL_Window *fenetre;
 static SDL_GLContext context;
-static GLuint tex[121];
+static GLuint tex[122];
 static GLUquadric * quad;
 
 static GLfloat whereiamx;
@@ -38,6 +38,7 @@ static int lock;
 static int deskslaming;
 static int noding;
 static int langledubrasdephoenixwright;
+static int mouvementmarteau;
 
 // Constant varaibles
 const GLfloat matSpeculaire[4] = {1., 1., 1., 1.};
@@ -60,7 +61,7 @@ void printGLInfos(void);
 void initTexture(void); 
 void defTexture(const char * filename);
 void creer_marteau();
-
+void draw_support();
 // Main functions
 void game_loop(void);
 int keyboard(SDL_Event * event);
@@ -97,6 +98,7 @@ void lookfromjudge(void);
 void lookphoenix(void);
 void lookpublic(void);
 void lookpayne(void);
+void lookjudge(void);
 
 // Quit functions
 void quit_all(void);
