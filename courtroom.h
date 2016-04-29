@@ -12,7 +12,9 @@
 #include <pthread.h>
 
 #include <SDL.h>
+
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 #include <GL/glu.h>
 #include <GL/gl.h>
 
@@ -21,7 +23,7 @@
 // Global variables
 static SDL_Window *fenetre;
 static SDL_GLContext context;
-static GLuint tex[119];
+static GLuint tex[122];
 static GLUquadric * quad;
 
 static GLfloat whereiamx;
@@ -38,6 +40,7 @@ static int lock;
 static int deskslaming;
 static int noding;
 static int langledubrasdephoenixwright;
+static int mouvementmarteau;
 
 static SDL_Event sdlevent;
 
@@ -60,7 +63,8 @@ void GL_Quit(void);
 void printGLInfos(void);
 void initTexture(void); 
 void defTexture(const char * filename);
-
+void creer_marteau();
+void draw_support();
 // Main functions
 void game_loop(void);
 int keyboard(SDL_Event * event);
@@ -74,6 +78,7 @@ void creer_juge(void);
 void creer_witness_1(void);
 void creer_witness_2(void);
 void creer_public(void);
+void creer_arcade(void);
 void sol(int x0, int y0, int x1, int y1);
 void creer_pave_2 (float centrex, float centrey, float centrez, float hauteur,
                     float largeur, float profondeur);
@@ -90,6 +95,7 @@ void creer_witness_stand(void);
 void anim_bras_pw(int sens);
 void desk_slaming_pw();
 void public_noding();
+void anim_marteau();
 
 // Camera functions
 void lookfromjudge(void);
@@ -97,6 +103,7 @@ void lookphoenix(void);
 void lookpublic(void);
 void lookpayne(void);
 void look_mia_from_phoenix(void);
+void lookjudge(void);
 
 // Quit functions
 void quit_all(void);
