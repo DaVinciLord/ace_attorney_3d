@@ -643,6 +643,9 @@ void game_loop() {
 				case SDLK_i :
 					lookpayne();
 				break;
+				case SDLK_m :
+					anim_marteau();
+				break;
 				case SDLK_b :
 					printf("%f, %f, %f, %f, %f, %f\n", whereiamx, whereiamy, whereiamz, whereilookx, whereilooky, whereilookz);
 				break;
@@ -1104,7 +1107,7 @@ void creer_juge() { // centre de juge 0., 700., 100.
 	
 	creer_pave_with_texture(25., 680., 320., 10., 10., 80., tex[67], tex[68], tex[66], tex[66], tex[66], tex[66]); // bg
 	
-	creer_pave_with_texture(-25., 680., 333.5, 10., 10., 53., tex[68], tex[68], tex[68], tex[68], tex[68], tex[68]);//bd
+	creer_pave_with_texture(-25., 680., 333.5 + mouvementmarteau / 2, 10., 10., 53. - + mouvementmarteau, tex[68], tex[68], tex[68], tex[68], tex[68], tex[68]);//bd
 	glPushMatrix();
 		glTranslatef(-25., 665., 312. + mouvementmarteau);
 		creer_pave_with_texture(0, 0, 0, 10., 40., 10., tex[121], tex[121], tex[121], tex[121], tex[67], tex[68]);   //main
@@ -1254,7 +1257,7 @@ void creer_arcade() {
 
 void creer_marteau() {
 	glPushMatrix();
-	glTranslatef(-25., 620., 302.);
+	glTranslatef(-25., 620., 302. + mouvementmarteau);
 	glPushMatrix();
 		glBindTexture(GL_TEXTURE_2D, tex[1]); //manche
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matOr);
@@ -1358,6 +1361,19 @@ void public_noding() {
 
     
 }
+void anim_marteau() {
+	for (int n = 0; n < 5; n++) {
+	for (int i = 0;  i < 90; i += 5) {
+        mouvementmarteau += 1;
+        display();
+    }
+	for (int i = 0;  i < 90; i += 5) {
+        mouvementmarteau -= 1;
+        display();
+    }
+	}
+}
+
 
 
 void movecamera(GLfloat wtbx, GLfloat wtby, GLfloat wtbz, GLfloat wtlx, GLfloat wtly, GLfloat wtlz) {

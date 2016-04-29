@@ -92,6 +92,7 @@ void creer_witness_stand(void);
 void anim_bras_pw(int sens);
 void desk_slaming_pw();
 void public_noding();
+void anim_marteau();
 
 // Camera functions
 void lookfromjudge(void);
