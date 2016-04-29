@@ -1,3 +1,4 @@
+[CASE_1]
 *Phoenix
 Um... Mia Fey?
 
@@ -14,3 +15,6 @@ popped into my head, and--
 The Court Record button!
 Remember to use it
 when you are in a pinch.
+
+*Judge
+Let me ask that one again:

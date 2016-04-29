@@ -10,15 +10,13 @@ int main(int argc, char **argv) {
 		exit(EXIT_FAILURE);
 	}	
 	init();
-	SDL_ShowWindow(fenetre);
-		
-
-	/*pthread_t th;
+	pthread_t th;
 	int errnum = 0;
 	if ((errnum = pthread_create(&th, NULL, (start_routine_type) run, NULL)) != 0) {
 		fprintf(stderr, "pthread_create(): %s\n", strerror(errnum));
 		exit(EXIT_FAILURE);
-	}*/
+	}
+	SDL_ShowWindow(fenetre);
 	
 	game_loop();
 
@@ -29,7 +27,7 @@ int main(int argc, char **argv) {
 
 
 
-int keyboard(SDL_Event * event) {
+int keyboard(SDL_Event *event) {
 	if (event->type == SDL_KEYDOWN) {
 		switch(event->key.keysym.sym) {
 			case SDLK_ESCAPE:
@@ -663,6 +661,8 @@ void game_loop() {
 				case SDLK_i :
 					lookpayne();
 				break;
+				case SDLK_m :
+					look_mia_from_phoenix();
 				case SDLK_h :
 					anim_marteau();
 				break;
@@ -1426,6 +1426,10 @@ void lookpayne() {
     movecamera(40.000000, 310.00, 160.00, -170.000000, 90.00, 220.000000);
 }
 
+void look_mia_from_phoenix() {
+    movecamera(200.000000, 100.00, 170.00, 230.000000, 420.00, 170.000000);
+}
+
 void lookpublic() {
     movecamera(-0.000000, -760.000000, 690.000000, 0.000000, 100.000000, 180.000000);
 }
@@ -1446,4 +1450,177 @@ void quit_all() {
 
 void GL_Quit() {
 	gluDeleteQuadric(quad);
+}
+
+void *run() {
+		
+	FILE *fic = fopen(SCRIPT_PATH, "r");
+	char buf[512];
+	
+	while (fgets(buf, 512, fic)) {
+		remove_newline(buf);
+		if (buf[0] == '*') {
+			char *tmp = strdup(buf);
+			extract_talking(tmp);
+			printf("%s", talking);
+			change_point_of_view();
+			getchar();
+		} else if(strstr(buf, "[QCM]") != NULL) {
+			char *tmp = strdup(buf);
+			char* token = strtok(tmp, "->");
+			token = strtok(NULL, "->");
+			remove_newline(token);
+			do_qcm(token);
+		} else if(strstr(buf, "++") != NULL) {	
+		
+		} else {
+			printf("%s", buf);
+			getchar();
+		}
+		memset(buf, 512, sizeof(char));
+	}
+	fclose(fic);
+	
+	return NULL;
+}
+
+
+void extract_talking(char *buf) {
+	talking = buf + 1;
+}
+
+void change_point_of_view() {
+	sdlevent.type = SDL_KEYDOWN;
+	if(strcmp(talking, "Judge") == 0) {
+		sdlevent.key.keysym.sym = SDLK_j;
+	} else if(strcmp(talking, "Payne") == 0) {
+		sdlevent.key.keysym.sym = SDLK_i;
+	} else if (strcmp(talking, "Phoenix") == 0) {
+		sdlevent.key.keysym.sym = SDLK_p;
+	} else if (strcmp(talking, "Mia") == 0) {
+		sdlevent.key.keysym.sym = SDLK_m;
+	}
+	SDL_PushEvent(&sdlevent);
+
+}
+
+void do_qcm(char *qcm_nb) {
+	
+	struct qcm_struct qcm;
+	get_info_qcm(&qcm, qcm_nb);
+	
+	int choice;
+	char choice2[10];
+	do {
+		choice = do_question_menu(qcm.talking, qcm.question, qcm.proposition_case, qcm.nb_proposition);
+		do_answer(qcm_nb, choice - 1, qcm.case_files);
+		printf("\n");
+		snprintf(choice2, strlen(qcm.answer) + 1, "CASE_%d", choice);
+		printf("\n");
+	} while(strcmp(choice2, qcm.answer) != 0);
+}
+
+void get_info_qcm(struct qcm_struct *qcm, char *qcm_nb) {
+	char qcm_file[30];
+	snprintf(qcm_file, strlen(QCM_PATH) + strlen(qcm_nb) + strlen("/qcm/") + strlen(qcm_nb) + strlen(".txt") + 1, "%s%s/qcm%s.txt", QCM_PATH, qcm_nb, qcm_nb);
+	
+	char last_string[50];
+	FILE *fic = fopen(qcm_file, "r");
+
+	char buf[512];
+	int n = 0;
+	while (fgets(buf, 512, fic)) {
+		if(strstr(buf, "[TALKING]") != NULL) {
+			snprintf(last_string, sizeof("[TALKING]"), "%s", buf);
+		} else if(strstr(buf, "[QUESTION]") != NULL) {
+			snprintf(last_string, sizeof("[QUESTION]"), "%s", buf);
+		} else if(strstr(buf, "[ANSWER]") != NULL) {
+			snprintf(last_string, sizeof("[ANSWER]"), "%s", buf);
+		} else if(strstr(buf, "[PROPOSITION]") != NULL) {
+			snprintf(last_string, sizeof("[PROPOSITION]"), "%s", buf);
+		} else if(strstr(buf, "__") != NULL) {
+			snprintf(last_string, 1, "0");
+		}
+		else {
+			char *tmp = strdup(buf);
+			remove_newline(tmp);
+			if(strstr(last_string, "[TALKING]") != NULL) {
+				qcm->talking = tmp;
+				snprintf(last_string, 1, "0");
+			} else if(strstr(last_string, "[QUESTION]") != NULL) {
+				qcm->question = tmp;
+				snprintf(last_string, 1, "0");
+			} else if(strstr(last_string, "[ANSWER]") != NULL) {
+				qcm->answer = tmp;
+				snprintf(last_string, 1, "0");
+			} else if(strstr(last_string, "[PROPOSITION]") != NULL) {
+				qcm->proposition_case[n].key = strtok(tmp, "->");
+				qcm->proposition_case[n].value = strtok(NULL, "->");
+				char *file = strtok(NULL, "->");
+				remove_newline(file);
+				qcm->case_files[n] = file;
+				n++;
+			}
+		}		
+		memset(buf, 512, sizeof(char));
+	}
+	qcm->nb_proposition = n;
+	fclose(fic);
+	
+}
+
+int do_question_menu(char *talking, char *question, struct key_value *proposition_case, int nb_proposition) {
+	printf("%s", talking + 1);
+	getchar();
+	if(strstr(question, "_") != NULL) {
+		char *tmp = strdup(question);
+		printf("%s", strtok(tmp, "_"));
+		getchar();
+		printf("%s\n", strtok(NULL, "_"));
+	} else {
+		printf("%s\n", question);
+	}
+	getchar();
+	printf("=========================\n");
+	for(int i = 0; i < nb_proposition; i++) {
+		printf("%d) %s\n", i + 1, proposition_case[i].value);
+	}
+	printf("=========================\n");
+	int choice;
+	do {
+		printf("Make your choice : ");
+		fscanf(stdin, "%d", &choice);
+	} while(choice < 1 || choice > nb_proposition);
+	
+	
+	return choice;
+}
+
+void do_answer(char *qcm_nb, int choice, char **case_files) {
+	printf("\n");
+	char case_path[40];
+	snprintf(case_path, strlen(QCM_PATH) + strlen(qcm_nb) + strlen(case_files[choice]) + 2, "%s%s/%s", QCM_PATH, qcm_nb, case_files[choice]);
+	FILE *fic = fopen(case_path, "r");
+
+	char buf[512];
+	while (fgets(buf, 512, fic)) {
+		remove_newline(buf);
+		if(buf[0] == '*') {
+			extract_talking(buf);
+			change_point_of_view();
+			printf("%s", talking);
+		}
+		else if(strstr(buf, "[CASE") != NULL){
+			
+		} else {
+			printf("%s", buf);
+		}
+		getchar();
+	}
+	fclose(fic);
+}
+
+
+void remove_newline(char *line) {
+	line[strcspn(line, "\r\n")] = 0;
 }

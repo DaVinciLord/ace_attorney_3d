@@ -3,8 +3,6 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "courtroom.h"
-
 #define SCRIPT_PATH "./text_files/testScript.txt"
 #define QCM_PATH "./text_files/qcms/qcm"
 #define FAIL_FILE "fail.txt"
@@ -70,7 +68,6 @@ char *extract_talking(char *buf) {
 
 void change_point_of_view(char *talking) {
 	if(strcmp(talking, "Judge") == 0) {
-		lookfromjudge();
 	}
 }
 
@@ -100,6 +97,7 @@ void get_info_qcm(struct qcm_struct *qcm, char *qcm_nb) {
 	
 	char last_string[50];
 	FILE *fic = fopen(qcm_file, "r");
+	printf("%s\n", qcm_file);
 
 	char buf[512];
 	int n = 0;
@@ -142,15 +140,17 @@ void get_info_qcm(struct qcm_struct *qcm, char *qcm_nb) {
 	qcm->nb_proposition = n;
 	snprintf(qcm->fail_file, 2 + strlen(QCM_PATH)+  strlen(qcm_nb) + strlen(FAIL_FILE), "%s%s/%s", QCM_PATH, qcm_nb, FAIL_FILE);
 	fclose(fic);
-	
 }
 
 int do_question_menu(char *talking, char *question, struct key_value *proposition_case, int nb_proposition) {
 	printf("%s\n", talking);
-	char *tmp = strdup(question);
-	printf("%s\n", strtok(tmp, "_"));
-	printf("%s\n", strtok(NULL, "_"));
-	
+	if(strstr(question, "_") != NULL) {
+		char *tmp = strdup(question);
+		printf("%s\n", strtok(tmp, "_"));
+		printf("%s\n", strtok(NULL, "_"));
+	} else {
+		printf("%s\n", question);
+	}
 	printf("=========================\n");
 	for(int i = 0; i < nb_proposition; i++) {
 		printf("%d) %s\n", i + 1, proposition_case[i].value);
