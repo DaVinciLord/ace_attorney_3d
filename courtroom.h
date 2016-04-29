@@ -39,6 +39,8 @@ static int deskslaming;
 static int noding;
 static int langledubrasdephoenixwright;
 
+static SDL_Event sdlevent;
+
 // Constant varaibles
 const GLfloat matSpeculaire[4] = {1., 1., 1., 1.};
 const GLfloat matShininess = 50.;
@@ -48,7 +50,6 @@ const GLfloat matBrunClair[4] = {240./255., 140./255., 70./255., 1.};
 const GLfloat matArgent[4] = {206./255., 206./255., 206./255., 1.};
 const GLfloat matOr[4] = {1., 215./255., 0., 1.};
 const GLfloat matBeigeClair[4] = {245./255., 245./255., 220/255., 1.};
-
 
 // Init functions
 void init(void);
@@ -95,10 +96,44 @@ void lookfromjudge(void);
 void lookphoenix(void);
 void lookpublic(void);
 void lookpayne(void);
+void look_mia_from_phoenix(void);
 
 // Quit functions
 void quit_all(void);
 void GL_Quit(void);
+
+
+// Partie script
+typedef void *(*start_routine_type)(void *);
+void *run(void);
+
+#define SCRIPT_PATH "./text_files/testScript.txt"
+#define QCM_PATH "./text_files/qcms/qcm"
+#define FAIL_FILE "fail.txt"
+
+
+static char *talking;
+
+struct key_value {
+	char *key;
+	char *value;
+};
+
+struct qcm_struct {
+	char *talking;
+	char *question;
+	char *answer;
+	int nb_proposition;
+	struct key_value proposition_case[5];
+	char *case_files[5];
+};
+void extract_talking(char *buf);
+void change_point_of_view();
+void get_info_qcm(struct qcm_struct *qcm, char *qcm_nb);
+void do_qcm(char *qcm_nb);
+int do_question_menu(char *talking, char *question, struct key_value *proposition_case, int nb_proposition);
+void do_answer(char *qcm_nb, int choice, char **case_files);
+void remove_newline(char *line);
 
 
 #endif // COURTROOM_H_

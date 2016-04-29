@@ -1,0 +1,7 @@
+[CASE_3]
+*Phoenix
+She was struck once,
+by a blunt object.
+
+*Judge
+Correct.
