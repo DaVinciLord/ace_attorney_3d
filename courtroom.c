@@ -643,7 +643,7 @@ void game_loop() {
 				case SDLK_i :
 					lookpayne();
 				break;
-				case SDLK_m :
+				case SDLK_h :
 					anim_marteau();
 				break;
 				case SDLK_b :
