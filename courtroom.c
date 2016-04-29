@@ -95,10 +95,10 @@ void init_SDL(void) {
 		SDL_Quit();
 		exit(EXIT_FAILURE);
 	}
-	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+	if (Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 4096) < 0) {
 		printf("SDL_Mixer Error: %s\n", Mix_GetError());
 	}
-	musique = Mix_LoadMUS("music/courtbegins.mp3");
+	musique = Mix_LoadMUS("music/Trial.ogg");
 	if (musique == NULL) {
 	    printf("Couldn't load beat.wav: %s\n", Mix_GetError());
 	}
