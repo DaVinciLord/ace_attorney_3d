@@ -80,14 +80,14 @@ void init_SDL(void) {
 		SDL_WINDOW_OPENGL);
 
 	if (fenetre == 0) {
-		fprintf(stderr, "Erreur lors de la crÃ©ation de la fenÃƒÂªtre (SDL)\n");
+		fprintf(stderr, "Erreur lors de la création de la fenêtre (SDL)\n");
 		SDL_Quit();
 		exit(EXIT_FAILURE);
 	}
 
 	context = SDL_GL_CreateContext(fenetre);
 	if (context == 0) {
-		fprintf(stderr, "Erreur lors de la crÃ©ation du contexte OpenGL (SDL)\n");
+		fprintf(stderr, "Erreur lors de la création du contexte OpenGL (SDL)\n");
 		SDL_DestroyWindow(fenetre);
 		SDL_Quit();
 		exit(EXIT_FAILURE);
@@ -124,7 +124,7 @@ void printGLInfos(void) {
 	const GLubyte* string;
 
 	string = glGetString(GL_VENDOR);
-	printf("Marque fournissant l'implÃ©mentation OpenGL : %s\n", string);
+	printf("Marque fournissant l'implémentation OpenGL : %s\n", string);
 
 	string = glGetString(GL_RENDERER);
 	printf("Configuration graphique : %s\n", string);
@@ -135,13 +135,13 @@ void printGLInfos(void) {
 
 void initTexture() {
 	glEnable(GL_TEXTURE_2D);
-	glGenTextures(119, tex);
+	glGenTextures(121, tex);
 
-	// On dÃ©finit la premiÃ¨re texture
+	// On définit la première texture
 	glBindTexture(GL_TEXTURE_2D, tex[0]);
 	defTexture("textures/texture_sol.bmp");
 	
-	// On dÃ©finit la deuxiÃ¨me texture
+	// On définit la deuxième texture
 	glBindTexture(GL_TEXTURE_2D, tex[1]);
 	defTexture("textures/texture_meuble.bmp");
 
@@ -426,20 +426,22 @@ void initTexture() {
 	
 	glBindTexture(GL_TEXTURE_2D, tex[95]);
 	defTexture("textures/corps_cote_yg.png");
+	
 	glBindTexture(GL_TEXTURE_2D, tex[96]);
-	
 	defTexture("textures/corps_haut_yg.png");
-	glBindTexture(GL_TEXTURE_2D, tex[97]);
 	
+	glBindTexture(GL_TEXTURE_2D, tex[97]);
 	defTexture("textures/corps_bas_yg.png");
+	
 	glBindTexture(GL_TEXTURE_2D, tex[98]);
 	defTexture("textures/bras_yg.png");
 	
 	glBindTexture(GL_TEXTURE_2D, tex[99]);
 	defTexture("textures/main_yg.png");
-	glBindTexture(GL_TEXTURE_2D, tex[100]);
 	
+	glBindTexture(GL_TEXTURE_2D, tex[100]);
 	defTexture("textures/jambe_dessus_yg.png");
+	
 	glBindTexture(GL_TEXTURE_2D, tex[101]);
 	defTexture("textures/jambe_yg.png");
 	
@@ -466,9 +468,10 @@ void initTexture() {
 	
 	glBindTexture(GL_TEXTURE_2D, tex[109]);
 	defTexture("textures/corps_arriere_dg.png");
-	glBindTexture(GL_TEXTURE_2D, tex[110]);
 	
+	glBindTexture(GL_TEXTURE_2D, tex[110]);
 	defTexture("textures/corps_dg.png");
+	
 	glBindTexture(GL_TEXTURE_2D, tex[111]);
 	defTexture("textures/corps_cote_dg.png");
 	
@@ -493,7 +496,13 @@ void initTexture() {
 	glBindTexture(GL_TEXTURE_2D, tex[118]);
 	defTexture("textures/pied_dg.png");  
 
-	// On spÃ©cifie comment les textures seront plaquÃ©es sur les facettes
+	glBindTexture(GL_TEXTURE_2D, tex[119]);
+	defTexture("textures/porte1.png"); 
+	
+		glBindTexture(GL_TEXTURE_2D, tex[120]);
+	defTexture("textures/porte2.png"); 
+
+	// On spécifie comment les textures seront plaquées sur les facettes
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
 	GLenum erreur;
@@ -506,8 +515,8 @@ void initTexture() {
 
 
 void defTexture(const char * filename) {
-	// On fixe les paramÃ¨tres de la texture,
-	// i.e. comment on calcule les coordonnÃ©es pixels -> texels.
+	// On fixe les paramètres de la texture,
+	// i.e. comment on calcule les coordonnées pixels -> texels.
 	glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -525,20 +534,20 @@ void defTexture(const char * filename) {
 		SDL_LockSurface(image);
 	}
 
-	// On envoie le tableau contenant les texels de la texture Ã  OpenGL
+	// On envoie le tableau contenant les texels de la texture à OpenGL
 	if (image->format->BytesPerPixel == 3) {
 		// L'image d'origine n'a que trois composantes
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image->w, image->h, 0, GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
 	} else if (image->format->BytesPerPixel == 4) {
-		// L'image d'origine Ã  quatre composantes
-		// (la derniÃ¨re est le paramÃ¨tre alpha qui va nous servir Ã  gÃ©rer la transparence)
+		// L'image d'origine à quatre composantes
+		// (la dernière est le paramètre alpha qui va nous servir à gérer la transparence)
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->w, image->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, image->pixels);
 	} else {
-		fprintf(stderr, "Nombre de composants de l'image diffÃ©rent de 3 et 4\n");
+		fprintf(stderr, "Nombre de composants de l'image différent de 3 et 4\n");
 		exit(EXIT_FAILURE);
 	}
 
-	// On libÃ¨re les ressources occupÃ©es par l'image
+	// On libère les ressources occupées par l'image
 	if (SDL_MUSTLOCK(image)) {
 		SDL_UnlockSurface(image);
 	}
@@ -549,16 +558,16 @@ void game_loop() {
 	int continuer = 1;
 	SDL_Event event;
 	while (continuer) {
-		// On attend le prochain Ã©vÃ¨nement
+		// On attend le prochain évènement
 		SDL_PollEvent(&event);
-		// On traite l'Ã©vÃ¨nement
+		// On traite l'évènement
 		switch (event.type) {
 			case SDL_QUIT:
-				// On a fermÃ© la fenetre
+				// On a fermé la fenetre
 				continuer = 0;
 			break;
 			case SDL_KEYDOWN:
-				// On a appuyÃ© sur une touche
+				// On a appuyé sur une touche
 				lock = 1;
 				continuer = keyboard(&event);
 			break;
@@ -566,22 +575,24 @@ void game_loop() {
 		if (lock == 1) {
 			switch (event.key.keysym.sym) {
 				case SDLK_KP_MINUS : 
-					whereiamz += 10;
+				
+					whereiamz += whereiamz < 1000. ? 10 : 0;
+				
 				break;
 				case SDLK_KP_PLUS :
-					whereiamz -= 10;
+					whereiamz -= whereiamz > 10. ? 10 : 0;
 				break;
 				case SDLK_UP :
-					whereiamy += 10;
+					whereiamy += whereiamy < 750. ? 10 : 0;
 				break;
 				case SDLK_DOWN :
-					whereiamy -= 10;
+					whereiamy -= whereiamy > -750. ? 10 : 0;
 				break;
 				case SDLK_LEFT :
-					whereiamx -= 10;
+					whereiamx -= whereiamx > -500. ? 10 : 0;
 				break;
 				case SDLK_RIGHT :
-					whereiamx += 10;
+					whereiamx += whereiamx < 500. ? 10 : 0;
 				break;
 				case SDLK_z :
 					whereilooky += 10;
@@ -699,6 +710,9 @@ void display() {
 	// creer_witness_1();
 	creer_public();
 	creer_witness_2();
+	
+	
+	creer_arcade();
 
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matOr);
 	glBindTexture(GL_TEXTURE_2D, tex[4]);  
@@ -707,6 +721,8 @@ void display() {
 	creer_pave_2(0., 718., 475., 200., 20., 50.); //revetement derriere le juge 
 
 	creer_witness_stand();
+
+    creer_marteau();
 
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBeigeClair);
 	glBindTexture(GL_TEXTURE_2D, tex[5]);
@@ -717,14 +733,14 @@ void display() {
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBrun);
 		glTranslatef(0., 730., 500.);
 		glRotatef(90., 1., 0., 0.); 
-		gluDisk(quad, 0., 150., 20., 1.);  //cercle bois situÃ© derriere le juge
+		gluDisk(quad, 0., 150., 20., 1.);  //cercle bois situé derriere le juge
 	glPopMatrix();
 
 	glPushMatrix();
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBrun);
 		glTranslatef(0., 750., 500.);
 		glRotatef(-90., 1., 0., 0.); 
-		gluDisk(quad, 0., 150., 20., 1.);  //cercle bois situÃ© derriere le juge -- cotÃ© mur
+		gluDisk(quad, 0., 150., 20., 1.);  //cercle bois situé derriere le juge -- coté mur
 	glPopMatrix();
 
 	glPushMatrix();
@@ -740,7 +756,7 @@ void display() {
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matArgent);
 		glTranslatef(0., 710., 550.);
 		glRotatef(90., 1., 0., 0.); 
-		gluDisk(quad, 0., 50., 20., 1.);  //blason cotÃ© face
+		gluDisk(quad, 0., 50., 20., 1.);  //blason coté face
 	glPopMatrix();
 
 	glPushMatrix();
@@ -748,7 +764,7 @@ void display() {
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matArgent);
 		glTranslatef(0., 730., 550.);
 		glRotatef(-90., 1., 0., 0.); 
-		gluDisk(quad, 0., 50., 20., 1.);   //blason cotÃ© mur
+		gluDisk(quad, 0., 50., 20., 1.);   //blason coté mur
 	glPopMatrix();
 
 	glPushMatrix();
@@ -804,7 +820,7 @@ void creer_pave_2 (GLfloat centrex, GLfloat centrey, GLfloat centrez, GLfloat la
 	GLfloat l = largeur / 2;
 	GLfloat p = profondeur / 2; 
 
-	// On dessine un carrÃ© sur le plan -z
+	// On dessine un carré sur le plan -z
 	glBegin(GL_QUADS);
 		glNormal3f(0, 0, -1);
 		glTexCoord2f(0., 0.); glVertex3f(cx - l, cy - p, cz - h); 
@@ -813,7 +829,7 @@ void creer_pave_2 (GLfloat centrex, GLfloat centrey, GLfloat centrez, GLfloat la
 		glTexCoord2f(1., 0.); glVertex3f(cx + l, cy - p, cz - h);
 	glEnd();
 	
-	// On dessine un carrÃ© sur le plan z
+	// On dessine un carré sur le plan z
 	glBegin(GL_QUADS);
 		glNormal3f(0, 0, 1);
 		glTexCoord2f(0., 0.); glVertex3f(cx - l, cy - p, cz + h); 
@@ -822,7 +838,7 @@ void creer_pave_2 (GLfloat centrex, GLfloat centrey, GLfloat centrez, GLfloat la
 		glTexCoord2f(1., 0.); glVertex3f(cx - l, cy + p, cz + h);
 	glEnd();
 	
-	//On dessine un carrÃ© sur le plan x
+	//On dessine un carré sur le plan x
 	glBegin(GL_QUADS);
 		glNormal3f(1, 0, 0);
 		glTexCoord2f(0., 0.); glVertex3f(cx + l, cy - p, cz + h); 
@@ -831,7 +847,7 @@ void creer_pave_2 (GLfloat centrex, GLfloat centrey, GLfloat centrez, GLfloat la
 		glTexCoord2f(0., 1.); glVertex3f(cx + l, cy + p, cz + h);
 	glEnd();
 	
-	//On dessine un carrÃ© sur le plan -x
+	//On dessine un carré sur le plan -x
 	glBegin(GL_QUADS);
 		glNormal3f(-1, 0, 0);
 		glTexCoord2f(0., 0.); glVertex3f(cx - l, cy + p, cz + h); 
@@ -840,7 +856,7 @@ void creer_pave_2 (GLfloat centrex, GLfloat centrey, GLfloat centrez, GLfloat la
 		glTexCoord2f(0., 1.); glVertex3f(cx - l, cy - p, cz + h);
 	glEnd();
 	
-	//On dessine un carrÃ© sur le plan y
+	//On dessine un carré sur le plan y
 	glBegin(GL_QUADS);
 		glNormal3f(0, 1, 0);
 		glTexCoord2f(0., 1.); glVertex3f(cx + l, cy + p, cz + h); 
@@ -849,7 +865,7 @@ void creer_pave_2 (GLfloat centrex, GLfloat centrey, GLfloat centrez, GLfloat la
 		glTexCoord2f(0., 0.); glVertex3f(cx - l, cy + p, cz + h);
 	glEnd();
 	
-	//On dessine un carrÃ© sur le plan -y
+	//On dessine un carré sur le plan -y
 	glBegin(GL_QUADS);
 		glNormal3f(0, -1, 0);
 		glTexCoord2f(0., 0.); glVertex3f(cx - l, cy - p, cz - h); 
@@ -873,7 +889,7 @@ void creer_pave_with_texture (GLfloat centrex, GLfloat centrey,
 	GLfloat l = largeur / 2;
 	GLfloat p = profondeur / 2; 
 
-	// On dessine un carrÃ© sur le plan -z
+	// On dessine un carré sur le plan -z
 	glBindTexture(GL_TEXTURE_2D, tex1);
 	glBegin(GL_QUADS);
 		glNormal3f(0, 0, -1);
@@ -883,7 +899,7 @@ void creer_pave_with_texture (GLfloat centrex, GLfloat centrey,
 		glTexCoord2f(0., 0.); glVertex3f(cx + l, cy - p, cz - h);
 	glEnd();
 	
-	// On dessine un carrÃ© sur le plan z
+	// On dessine un carré sur le plan z
 	glBindTexture(GL_TEXTURE_2D, tex2);
 	glBegin(GL_QUADS);
 		glNormal3f(0, 0, 1);
@@ -893,7 +909,7 @@ void creer_pave_with_texture (GLfloat centrex, GLfloat centrey,
 		glTexCoord2f(1., 0.); glVertex3f(cx - l, cy + p, cz + h);
 	glEnd();
 	
-	//On dessine un carrÃ© sur le plan x
+	//On dessine un carré sur le plan x
 	glBindTexture(GL_TEXTURE_2D, tex4);
 		glBegin(GL_QUADS);
 		glNormal3f(1, 0, 0);
@@ -903,7 +919,7 @@ void creer_pave_with_texture (GLfloat centrex, GLfloat centrey,
 		glTexCoord2f(0., 0.); glVertex3f(cx + l, cy + p, cz + h);
 	glEnd();
 	
-	//On dessine un carrÃ© sur le plan -x
+	//On dessine un carré sur le plan -x
 	glBindTexture(GL_TEXTURE_2D, tex3);
 	glBegin(GL_QUADS);
 		glNormal3f(-1, 0, 0);
@@ -913,7 +929,7 @@ void creer_pave_with_texture (GLfloat centrex, GLfloat centrey,
 		glTexCoord2f(0., 0.); glVertex3f(cx - l, cy - p, cz + h);
 	glEnd();
 	
-	//On dessine un carrÃ© sur le plan y
+	//On dessine un carré sur le plan y
 	glBindTexture(GL_TEXTURE_2D, tex6);
 	glBegin(GL_QUADS);
 		glNormal3f(0, 1, 0);
@@ -923,7 +939,7 @@ void creer_pave_with_texture (GLfloat centrex, GLfloat centrey,
 		glTexCoord2f(1., 0.); glVertex3f(cx - l, cy + p, cz + h);
 	glEnd();
 	
-	//On dessine un carrÃ© sur le plan -y
+	//On dessine un carré sur le plan -y
 	glBindTexture(GL_TEXTURE_2D, tex5);
 	glBegin(GL_QUADS);
 		glNormal3f(0, -1, 0);
@@ -945,7 +961,7 @@ void creer_murs (GLfloat centrex, GLfloat centrey, GLfloat centrez, GLfloat larg
 	GLfloat l = largeur / 2;
 	GLfloat p = profondeur / 2; 
 
-	//On dessine un carrÃ© sur le plan x
+	//On dessine un carré sur le plan x
 	glBegin(GL_QUADS);
 		glNormal3f(-1, 0, 0);
 		glTexCoord2f(0., 0.); glVertex3f(cx + l, cy - p, cz + h);
@@ -954,7 +970,7 @@ void creer_murs (GLfloat centrex, GLfloat centrey, GLfloat centrez, GLfloat larg
 		glTexCoord2f(1., 0.); glVertex3f(cx + l, cy - p, cz - h);
 	glEnd();
 	
-	//On dessine un carrÃ© sur le plan -x
+	//On dessine un carré sur le plan -x
 	glBegin(GL_QUADS);
 		glNormal3f(1, 0, 0);
 		glTexCoord2f(0., 0.); glVertex3f(cx - l, cy + p, cz + h);
@@ -963,7 +979,7 @@ void creer_murs (GLfloat centrex, GLfloat centrey, GLfloat centrez, GLfloat larg
 		glTexCoord2f(1., 0.); glVertex3f(cx - l, cy + p, cz - h); 
 	glEnd();
 	
-	//On dessine un carrÃ© sur le plan y
+	//On dessine un carré sur le plan y
 	glBegin(GL_QUADS);
 		glNormal3f(0, -1, 0);
 		glTexCoord2f(0., 1.); glVertex3f(cx + l, cy + p, cz + h); 
@@ -972,7 +988,7 @@ void creer_murs (GLfloat centrex, GLfloat centrey, GLfloat centrez, GLfloat larg
 		glTexCoord2f(1., 1.); glVertex3f(cx + l, cy + p, cz - h);
 	glEnd();
 	
-	//On dessine un carrÃ© sur le plan -y
+	//On dessine un carré sur le plan -y
 	glBegin(GL_QUADS);
 		glNormal3f(0, 1, 0);
 		glTexCoord2f(0., 0.); glVertex3f(cx - l, cy - p, cz - h); 
@@ -1049,7 +1065,7 @@ void creer_public() { // centre de pw 250 100 90
 
 		glPushMatrix();
 			glTranslatef(-377., i, 280.);
-			glRotatef(noding,0.,0.,1.);
+			glRotatef((i % 200 == 0) ? noding : -noding,0.,0.,1.);
 			creer_pave_with_texture(0., 0., -10., 20., 20., 20., tex[105], tex[106], tex[104], tex[103], tex[107], tex[108]); // tete
 		glPopMatrix();
 
@@ -1062,7 +1078,7 @@ void creer_public() { // centre de pw 250 100 90
 		creer_pave_with_texture(377., i, 220., 10., 40., 80., tex[113], tex[112], tex[110], tex[109], tex[111], tex[111]); //corps
 		glPushMatrix();
 			glTranslatef(377., i, 280.);
-			glRotatef(noding,0.,0.,1.);
+			glRotatef( (i % 200 == 0) ? -noding : noding , 0., 0., 1.);
 			creer_pave_with_texture(0., 0., -10., 20., 20., 20., tex[105], tex[106], tex[103], tex[104], tex[108], tex[107]); // tete
 		glPopMatrix();
 		creer_pave_with_texture(377., i+ 25, 220., 10., 10., 80., tex[115], tex[116], tex[114], tex[114], tex[114], tex[114]); // bd
@@ -1098,12 +1114,204 @@ void creer_witness_2() { // centre de juge 0., 700., 100.
 	creer_pave_with_texture(-25., -280., 120., 10., 10., 80., tex[99], tex[100], tex[98], tex[98], tex[98], tex[98]);  //bg
 }
 
+void creer_arcade() {
+	glBindTexture(GL_TEXTURE_2D, tex[5]); 
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBeigeClair);
+	
+	for (int y = -650; y < 750; y += 130) { 
+
+		creer_pave_2(-500., y + 57.5, 250, 40., 42., 500.);
+		creer_pave_2(-500., y - 57.5, 250, 40., 42., 500.);
+		
+		glPushMatrix();
+			glTranslatef(-500., y - 25 ,525.);
+			glRotatef(-45. , 1., 0., 0.);
+		creer_pave_2(0., 0., 0., 40., 40., 110.);
+		glPopMatrix();
+		
+		glPushMatrix();
+			glTranslatef(-500., y + 25 ,525.);
+			glRotatef(45. , 1., 0., 0.);
+		creer_pave_2(0., 0., 0., 40., 40., 110.);
+		glPopMatrix();
+	
+	}
+	for (int y = -650; y < 750; y += 130) { 
+
+		creer_pave_2(500., y + 57.5, 250, 40., 42., 500.);
+		creer_pave_2(500., y - 57.5, 250, 40., 42., 500.);
+		
+		glPushMatrix();
+			glTranslatef(500., y - 25 ,525.);
+			glRotatef(-45. , 1., 0., 0.);
+		creer_pave_2(0., 0., 0., 40., 40., 110.);
+		glPopMatrix();
+		
+		glPushMatrix();
+			glTranslatef(500., y + 25 ,525.);
+			glRotatef(45. , 1., 0., 0.);
+		creer_pave_2(0., 0., 0., 40., 40., 110.);
+		glPopMatrix();
+		
+	}
+	
+	for (int x = -400; x < -200; x += 130) { 
+
+		creer_pave_2(x + 57.5, -750 , 250, 42., 40., 500.);
+		creer_pave_2(x - 57.5, -750 , 250, 42., 40., 500.);
+		
+		glPushMatrix();
+			glTranslatef(x - 25, -750., 525.);
+			glRotatef(45. , 0., 1., 0.);
+		creer_pave_2(0., 0., 0., 40., 40., 110.);
+		glPopMatrix();
+		
+		glPushMatrix();
+			glTranslatef(x + 25 , -750., 525.);
+			glRotatef(-45. , 0., 1., 0.);
+		creer_pave_2(0., 0., 0., 40., 40., 110.);
+		glPopMatrix();
+		
+	}
+	for (int x = 400; x > 200 ; x -= 130) { 
+
+		creer_pave_2(x + 57.5, -750 , 250, 42., 40., 500.);
+		creer_pave_2(x - 57.5, -750 , 250, 42., 40., 500.);
+		
+		glPushMatrix();
+			glTranslatef(x - 25, -750., 525.);
+			glRotatef(45. , 0., 1., 0.);
+		creer_pave_2(0., 0., 0., 40., 40., 110.);
+		glPopMatrix();
+		
+		glPushMatrix();
+			glTranslatef(x + 25 , -750., 525.);
+			glRotatef(-45. , 0., 1., 0.);
+		creer_pave_2(0., 0., 0., 40., 40., 110.);
+		glPopMatrix();
+		
+	}
+	for (int x = -400; x < -200; x += 130) { 
+
+		creer_pave_2(x + 57.5, 750 , 250, 42., 40., 500.);
+		creer_pave_2(x - 57.5, 750 , 250, 42., 40., 500.);
+		
+		glPushMatrix();
+			glTranslatef(x - 25, 750., 525.);
+			glRotatef(45. , 0., 1., 0.);
+		creer_pave_2(0., 0., 0., 40., 40., 110.);
+		glPopMatrix();
+		
+		glPushMatrix();
+			glTranslatef(x + 25 , 750., 525.);
+			glRotatef(-45. , 0., 1., 0.);
+		creer_pave_2(0., 0., 0., 40., 40., 110.);
+		glPopMatrix();
+	
+	}
+	for (int x = 400; x > 200 ; x -= 130) { 
+
+		creer_pave_2(x + 57.5, 750 , 250, 42., 40., 500.);
+		creer_pave_2(x - 57.5, 750 , 250, 42., 40., 500.);
+		
+		glPushMatrix();
+			glTranslatef(x - 25, 750., 525.);
+			glRotatef(45. , 0., 1., 0.);
+		creer_pave_2(0., 0., 0., 40., 40., 110.);
+		glPopMatrix();
+		
+		glPushMatrix();
+			glTranslatef(x + 25 , 750., 525.);
+			glRotatef(-45. , 0., 1., 0.);
+		creer_pave_2(0., 0., 0., 40., 40., 110.);
+		glPopMatrix();
+		
+	}		
+	
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matBrun);
+	glBindTexture(GL_TEXTURE_2D, tex[119]); 
+	creer_pave_2(100., -750,  200., 200., 20, 400.);
+	glBindTexture(GL_TEXTURE_2D, tex[120]); 
+	creer_pave_2(-100., -750,  200., 200., 20, 400.);
+
+	
+}
+
+void creer_marteau() {
+	
+	glPushMatrix();
+		glBindTexture(GL_TEXTURE_2D, tex[1]); //manche
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matOr);
+		glTranslatef(0., 30., 10.);
+		glRotatef(90., 1., 0., 0.); 
+		glRotatef(180., 1., 0., 0.); 
+		gluDisk(quad, 0., 2., 20., 1.);  
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(0., 30., 10.);
+		glRotatef(90., 1., 0., 0.); 
+	    glTranslatef(0., 0., 20.);
+		gluDisk(quad, 0., 2., 20., 1.);   
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(0., 30., 10.);
+		glRotatef(90., 1., 0., 0.); 
+		gluCylinder(quad,    2.,    2.,    20.,    20.,    1.); 
+	glPopMatrix();	
+	
+	glPushMatrix(); // marteau
+		glBindTexture(GL_TEXTURE_2D, tex[1]);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matOr);
+		
+		glRotatef(180., 1., 0., 0.); 
+		gluDisk(quad, 0., 10., 20., 1.);  
+	glPopMatrix();
+
+	glPushMatrix();
+	    glTranslatef(0., 0., 20.);
+		gluDisk(quad, 0., 10., 20., 1.);   
+	glPopMatrix();
+
+	glPushMatrix();
+		gluCylinder(quad,    10.,    10.,    20.,    20.,    1.); 
+	glPopMatrix();	
+	
+	
+	
+}
+
+void draw_support() {
+	glPushMatrix();// support
+		glBindTexture(GL_TEXTURE_2D, tex[1]);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matOr);
+		
+		glRotatef(180., 1., 0., 0.); 
+		gluDisk(quad, 0., 12., 20., 1.);  
+	glPopMatrix();
+
+	glPushMatrix();
+	    glTranslatef(0., 0., 2.);
+		gluDisk(quad, 0., 12., 20., 1.);   
+	glPopMatrix();
+
+	glPushMatrix();
+		gluCylinder(quad,    12.,    12.,    2.,    20.,    1.); 
+	glPopMatrix();		
+	
+}
+
 
 void anim_bras_pw(int sens) {
-	for (int i = 0;  i < 90; i += 5) {
-		langledubrasdephoenixwright += 5 * sens;
-		display();
+	if ((sens == -1 && langledubrasdephoenixwright > 0)
+		|| (sens == 1 && langledubrasdephoenixwright < 90)) {
+		for (int i = 0;  i < 90; i += 5) {
+			langledubrasdephoenixwright += 5 * sens;
+			display();
+		}
 	}
+	
 }
 void desk_slaming_pw() {
     for (int i = 0;  i < 90; i += 5) {
@@ -1128,6 +1336,8 @@ void public_noding() {
         noding += 5;
         display();
     }
+
+    
 }
 
 

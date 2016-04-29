@@ -21,7 +21,7 @@
 // Global variables
 static SDL_Window *fenetre;
 static SDL_GLContext context;
-static GLuint tex[119];
+static GLuint tex[121];
 static GLUquadric * quad;
 
 static GLfloat whereiamx;
@@ -59,6 +59,7 @@ void GL_Quit(void);
 void printGLInfos(void);
 void initTexture(void); 
 void defTexture(const char * filename);
+void creer_marteau();
 
 // Main functions
 void game_loop(void);
@@ -73,6 +74,7 @@ void creer_juge(void);
 void creer_witness_1(void);
 void creer_witness_2(void);
 void creer_public(void);
+void creer_arcade(void);
 void sol(int x0, int y0, int x1, int y1);
 void creer_pave_2 (float centrex, float centrey, float centrez, float hauteur,
                     float largeur, float profondeur);
