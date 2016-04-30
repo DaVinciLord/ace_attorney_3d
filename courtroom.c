@@ -65,6 +65,7 @@ void init_globals(void) {
 	noding = 0;
 	langledubrasdephoenixwright = 0;
 	mouvementmarteau = 0;
+	cornered = 0;
 }
 
 
@@ -99,6 +100,7 @@ void init_SDL(void) {
 		printf("SDL_Mixer Error: %s\n", Mix_GetError());
 	}
 	musique = Mix_LoadMUS("music/Trial.ogg");
+	
 	if (musique == NULL) {
 	    printf("Couldn't load beat.wav: %s\n", Mix_GetError());
 	}
@@ -572,7 +574,7 @@ void game_loop() {
 	SDL_Event event;
 	while (continuer) {
 		// On attend le prochain évènement
-		SDL_PollEvent(&event);
+		SDL_WaitEvent(&event);
 		// On traite l'évènement
 		switch (event.type) {
 			case SDL_QUIT:
@@ -627,9 +629,17 @@ void game_loop() {
 				break;        
 				case SDLK_w :
 					anim_bras_pw(1);
+					
+					musique = cornered == 0 ? Mix_LoadMUS("music/Objection.ogg") : Mix_LoadMUS("music/Cornered.ogg");
+					
+					Mix_PlayMusic(musique, -1);
+					cornered = (cornered + 1) % 2;
 				break;
 				case SDLK_x :
 					anim_bras_pw(-1);
+					
+					musique = Mix_LoadMUS("music/Trial.ogg");
+					Mix_PlayMusic(musique, -1);
 				break;
 				case SDLK_c :
 					desk_slaming_pw();
@@ -644,13 +654,8 @@ void game_loop() {
 					lookjudge();
 					if (Mix_PlayingMusic() == 0) {
 						Mix_PlayMusic(musique, -1);
-			        } else {
-			            if (Mix_PausedMusic() == 1) {
-			                Mix_ResumeMusic();
-			            } else {
-			                Mix_PauseMusic();
-			            }
-			        }
+					}
+
 				break;
 				case SDLK_p :
 					lookphoenix();
@@ -1382,7 +1387,7 @@ void public_noding() {
     
 }
 void anim_marteau() {
-	for (int n = 0; n < 5; n++) {
+	for (int n = 0; n < 3; n++) {
 	for (int i = 0;  i < 90; i += 5) {
         mouvementmarteau += 1;
         display();

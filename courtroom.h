@@ -37,6 +37,7 @@ static GLfloat whereilookz;
 static GLdouble near;
 static GLdouble far;
 static int lock;
+static int cornered;
 static int deskslaming;
 static int noding;
 static int langledubrasdephoenixwright;
