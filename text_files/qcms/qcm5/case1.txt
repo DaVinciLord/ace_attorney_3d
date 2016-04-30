@@ -3,17 +3,33 @@
 (I know! I'll send him
 a signal...)
 
-*Phoenix
-[DESK_SLAM]
-(TELL THE TRUTH)
+++
+[DESK_SLAM]->Phoenix Wright
+
+++
 [OBJECTION_STANCE]
+
+*Phoenix
+(TELL THE TRUTH)
+
+++
+[END_OBJECTION_STANCE]
 
 *Butz
 Er... Yeah! Yeah!
 I was there! I went!
 
+++
+[PUBLIC_TALK]
+
+++
+[JUDGE_HAMMER]->1
+
 *Judge
 Order!
+
+++
+[START_MUSIC_TRIAL]
 
 *Judge
 Well, Mr. Butz?

@@ -1,9 +1,18 @@
-[CASE_1]
+[CASE_2]
 *Phoenix
 (I'll send him a signal...)
 
+++
+[DESK_SLAM]->Phoenix Wright
+
+++
+[OBJECTION_STANCE]
+
 *Phoenix
 (LIE LIKE A DOG)
+
+++
+[END_OBJECTION_STANCE]
 
 *Butz
 Um, well, see, it's like this:

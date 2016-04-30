@@ -1,596 +1,90 @@
-August 3, 10:00 AM
-District Court
-Courtroom No. 2
-
-*Judge
-The court is now in session for
-the trial of Mr. Larry Butz.
-
-*Payne
-The prosecution is ready,
-Your Honor.
-
-*Phoenix
-The, um, defense is ready,
-Your Honor.
-
-*Judge
-Ahem.
-
-*Judge
-Mr. Wright?
-
-*Judge
-This is your first trial,
-is it not?
-
-*Phoenix
-Y-Yes, Your Honor.
-I'm, um, a little nervous.
-
-*Judge
-Your conduct during this
-trial will decide the fate
-of your client.
-
-*Judge
-Murder is a serious charge.
-For your client's sake, I hope
-you can control your nerves.
-
-*Phoenix
-Thank... thank you, Your Honor.
-
-*Judge
-...
-
-*Judge
-Mr. Wright, given the
-circumstances...
-
-*Judge
-I think we should have a test
-to ascertain your readiness.
-
-*Phoenix
-Yes, Your Honor.
-
-*Phoenix
-(Gulp... Hands shaking...
-Eyesight... fading...)
-
-*Judge
-This test will consist of a
-few simple questions. Answer
-them clearly and concisely.
-
 ++
-[QCM]->1
-
-*Judge
-Next question:
-
-*Judge
-This is a murder trial. Tell me,
-what's the victim's name?
+[OBJECTION_STANCE]
 
 *Phoenix
-(Whew, I know this one! Glad
-I read the case report cover
-to cover so many times.)
-
-*Phoenix
-(It's... wait... Uh-oh!)
-
-*Phoenix
-(No... no way! I forgot!
-I'm drawing a total blank
-here!)
-
-*Mia
-Phoenix! Are you absolutely
-SURE you're up to this?
-
-*Mia
-You don't even know the
-victim's name!?
-
-*Phoenix
-Oh, the victim! O-Of course
-I know the victim's name!
-
-*Phoenix
-I, um, just forgot.
-... Temporarily.
-
-*Mia
-I think I feel a migraine
-coming on.
-
-*Mia
-Look, the defendant's name
-is listed in the Court Record.
-
-*Mia
-Just touch the Court Record
-button to check it at anytime,
-okay?
-
-*Mia
-Remember to check it often.
-Do it for me, please.
-I'm begging you.
-
 ++
-[QCM]->2
-
-*Judge
-Now, tell me, what
-was the cause of death?
-
-++
-[QCM]->3
-
-*Judge
-You've answered all my
-questions. I see no reason
-why we shouldn't proceed.
-
-*Judge
-You seem much more relaxed,
-Mr. Wright. Good for you.
-
-*Phoenix
-Thank you, Your Honor.
-(Because I don't FEEL
-relaxed, that's for sure.)
-
-*Judge
-Well, then...
-
-*Judge
-First, a question for the
-prosecution. Mr. Payne?
-
-*Payne
-Yes, Your Honor?
-
-*Judge
-As Mr. Wright just told us,
-the victim was struck with
-a blunt object.
-
-*Judge
-Would you explain to the court
-just what that "object" was?
-
-*Payne
-The murder weapon was this
-statue of "The Thinker."
-
-*Payne
-It was found lying on the
-floor, next to the victim.
-
-*Judge
-I see... the court accepts
-it into evidence.
-
-Statue added to
-the Court Record.
-
-++
-[EVIDENCE]->2
-
-*Mia
-Wright...
-
-*Mia
-Be sure to pay attention to
-any evidence added during
-the trial.
-
-*Mia
-That evidence is the only
-ammunition you have in court.
-
-*Mia
-Touch the Court Record
-button to check the Court
-Record frequently.
-
-*Judge
-Mr. Payne, the prosecution
-may call its first witness.
-
-*Payne
-The prosecution calls the
-defendant, Mr. Butz, to the
-stand.
-
-*Phoenix
-Um, Chief, what do I do now?
-
-*Mia
-Pay attention. You don't want
-to miss any information that
-might help your client's case.
-
-*Mia
-You'll get your chance to
-respond to the prosecution
-later, so be ready!
-
-*Mia
-Let's just hope he doesn't
-say anything... unfortunate.
-
-*Phoenix
-(Uh oh, Larry gets excited
-easily... this could be bad.)
-
-++
-[WITNESS]->1
-
-*Payne
-Ahem.
-
-*Payne
-Mr. Butz. Is it not true that
-the victim had recently
-dumped you?
-
-*Butz
-Hey, watch it buddy!
-
-*Butz
-We were great together!
-We were Romeo and Juliet,
-Cleopatra and Mark Anthony!
-
-*Phoenix
-(Um... didn't they all die?)
-
-*Butz
-I wasn't dumped! She just
-wasn't taking my phone calls.
-Or seeing me... Ever.
-
-*Butz
-WHAT'S IT TO YOU, ANYWAY!?
-
-*Payne
-Mr. Butz, what you describe
-is generally what we mean
-by "dumped."
-
-*Payne
-In fact, she had completely
-abandoned you... and was
-seeing other men!
-
-*Payne
-She had just returned from
-overseas with one of them
-the day before the murder!
-
-*Butz
-Whaddya mean, "one of them"!?
-
-*Butz
-Lies! All of it, lies!
-I don't believe a word of it!
-
-*Payne
-Your Honor, the
-victim's passport.
-
-*Payne
-According to this, she was
-in Paris until the day before
-she died.
-
-Passport added to
-the Court Record.
-
-++
-[EVIDENCE]->3
-
-*Judge
-Hmm... Indeed, she appears
-to have returned the day
-before the murder.
-
-*Butz
-Dude... no way...
-
-*Payne
-The victim was a model, but
-did not have a large income.
-
-*Payne
-It appears that she had
-several "Sugar Daddies."
-
-*Butz
-Daddies?
-Sugar?
-
-*Payne
-Yes. Older men, who gave
-her money and gifts.
-
-*Payne
-She took their money and used
-it to support her lifestyle.
-
-*Butz
-Duuude!
-
-*Payne
-We can clearly see what kind
-of woman this Ms. Stone was.
-
-*Payne
-Tell me, Mr. Butz, what do
-you think of her now?
-
-*Mia
-Wright...
-
-*Mia
-I don't think you want
-him to answer that question.
-
-*Phoenix
-(Yeah... Larry has a way of
-running his mouth in all
-the wrong directions.)
-
-++
-[QCM]->4
-
-*Butz
-I'm gonna die.
-I'm just gonna drop dead!
-
-*Butz
-Yeah, and when I meet her in
-the afterlife...
-
-*Butz
-I'm going to get to the bottom
-of this!
-
-*Judge
-Let's continue with the trial,
-shall we?
-
-*Payne
-I believe the accused's
-motive is clear to everyone.
-
-*Judge
-Yes, quite.
-
-*Phoenix
-(Oh boy. This is so not
-looking good.)
-
-*Payne
-Next question!
-
-*Payne
-You went to the victim's
-apartment on the day of
-the murder, did you not?
-
-*Butz
-Gulp!
-
-*Payne
-Well, did you, or did you not?
-
-*Butz
-Heh? Heh heh. Well, maybe
-I did, and maybe I didn't!
-
-*Phoenix
-(Uh oh. He went.)
-
-++
-[QCM]->5
-
-*Judge
-Well, that simplifies matters.
-Who is your witness?
-
-*Payne
-The man who found
-the victim's body.
-
-*Payne
-Just before making the
-gruesome discovery...
-
-*Payne
-He saw the defendant fleeing
-the scene of the crime!
-
-*Judge
-Order! Order in the court!
-
-*Judge
-Mr. Payne, the prosecution
-may call its witness.
-
-*Payne
-Yes, Your Honor.
-
-*Phoenix
-(This is bad...)
-
-*Payne
-On the day of the murder, my
-witness was selling newspapers
-at the victim's building.
-
-*Payne
-Please bring Mr. Frank Sahwit
-to the stand!
-
-++
-[WITNESS]->2
-
-*Payne
-Mr. Sahwit, you sell newspaper
-subscriptions, is this correct?
+[END_OBJECTION_STANCE]
+You found the body at 1:00 PM.
+You're sure?
 
 *Sahwit
-Oh, oh yes!
-Newspapers, yes!
+Yes.
+It was 1:00 PM, for certain.
 
-*Judge
-Mr. Sahwit, you may
-proceed with your testimony.
-
-*Judge
-Please tell the court what
-you saw on the day of the
-murder.
+*Phoenix
+Frankly, I find that
+[DESK_SLAM]->Phoenix Wright
+hard to believe!
 
 ++
-[TESTIMONY]->1
-
-*Judge
-Hmm...
+[OBJECTION_MUSIC]
 
 *Phoenix
-(Larry! Why didn't you
-tell the truth?)
+Your statement directly
+contradicts the autopsy report.
 
 *Phoenix
-(I can't defend you against
-a testimony like that!)
+The autopsy notes the time
+of death at sometime after
+4PM.
 
-*Judge
-Incidentally, why wasn't
-the phone in the victim's
-apartment working?
+*Phoenix
+There was nobody to... er...
+no "body" to find at 1:00 PM!
 
-*Payne
-Your Honor, at the time of
-the murder, there was a
-blackout in the building.
+*Phoenix
+How do you explain this
+three-hour gap?
 
-*Judge
-Aren't phones supposed to
-work during a blackout?
+*Sahwit
+!!!
 
-*Payne
-Yes, Your Honor...
-
-*Payne
-However, some cordless phones
-do not function normally.
-
-*Payne
-The phone that Mr. Sahwit
-used was one of those.
-
-*Payne
-Your Honor...
-
-*Payne
-I have a record of the
-blackout, for your perusal.
-
-Blackout Record added
-to the Court Record.
+*Sahwit
+Oh, that! Oh, er...
 
 ++
-[EVIDENCE]->4
+[OBJECTION]->Payne
+
+*Payne
+This is trivial! The witness
+merely forgot the time!
 
 *Judge
-Now, Mr. Wright...
-
-*Phoenix
-Yes!
-Er... yes, Your Honor?
+After his testimony, I find
+that hard to believe.
 
 *Judge
-You may begin your
-cross-examination.
+Mr. Sahwit...
 
-*Phoenix
-C-Cross-examination,
-Your Honor?
+*Judge
+Why were you so certain
+that you found the body
+at 1:00 PM?
 
-*Mia
-Alright, Wright, this is it.
-The real deal!
-
-*Phoenix
-Uh... what exactly am I
-supposed to do?
+*Sahwit
+I.. er... well, I...
+Gee, that's a really good
+question!
 
 *Mia
-Why, you expose the lies in
-the testimony the witness
-just gave!
-
-*Phoenix
-Lies! What?! He was lying!?
+Great job, Wright!
+Way to put him on the spot!
 
 *Mia
-Your client is innocent,
-right?
+That's all you have to do:
+point out contradictions!
 
 *Mia
-Then that witness must have
-lied in his testimony!
+Lies always beget more lies!
 
 *Mia
-Or is your client really...
-guilty?
+See through one, and their
+whole story falls apart!
 
-*Phoenix
-!!! How do I prove he's not?
+*Sahwit
+Wait!
+I remember now!
 
-*Mia
-You hold the key!
-It's in the evidence!
-
-*Mia
-Compare the witness's
-testimony to the
-evidence at hand.
-
-*Mia
-There's bound to be a
-contradiction in there!
-
-*Mia
-First find contradictions
-between the Court Record
-and the witness's testimony.
-
-*Mia
-Then, once you've found the
-contradicting evidence...
-
-*Mia
-present it and rub
-it in the witness's face!
-
-*Phoenix
-Um... okay.
-
-
-*Mia
-Touch the Court Record button
-and point out contradictions
-in the testimony!
-
-++
-[CROSS_EXAM]->1
+*Judge
+Would you care to give
+your testimony again?

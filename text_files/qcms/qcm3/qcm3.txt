@@ -5,10 +5,10 @@
 She died because she was...?
 
 [ANSWER]
-CASE_3
+CASE_2
 
 [PROPOSITION]
 CASE_1->Poisoned->case1.txt
-CASE_2->Strangled->case2.txt
-CASE_3->Hit with a blunt object->case3.txt
+CASE_2->Hit with a blunt object->case2.txt
+CASE_3->Strangled->case3.txt
 __

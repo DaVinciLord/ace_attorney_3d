@@ -1,6 +1,9 @@
 *Phoenix
 [HOLD_IT]
 
+++
+[DESK_SLAM]->Phoenix Wright
+
 *Phoenix
 Are you sure she was dead?
 

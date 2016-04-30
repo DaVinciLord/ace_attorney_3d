@@ -1,4 +1,11 @@
 [CASE_2]
+
+++
+[DESK_SLAM]->Phoenix Wright
+
+++
+[OBJECTION_STANCE]
+
 *Phoenix
 My client had no idea the
 victim was seeing other men!
@@ -6,6 +13,12 @@ victim was seeing other men!
 *Phoenix
 That question is
 irrelevant to this case!
+
+++
+[END_OBJECTION_STANCE]
+
+++
+[START_MUSIC_TRIAL]
 
 *Payne
 Oof! *wince*

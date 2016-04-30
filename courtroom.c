@@ -98,6 +98,8 @@ void init_SDL(void) {
 	if (Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 4096) < 0) {
 		printf("SDL_Mixer Error: %s\n", Mix_GetError());
 	}
+	Mix_AllocateChannels(32);
+
 
 	musique_allegro = Mix_LoadMUS("music/Examination_Allegro.ogg");
 	musique_moderate = Mix_LoadMUS("music/Examination_Moderate.ogg");
@@ -106,10 +108,11 @@ void init_SDL(void) {
 	musique_trial = Mix_LoadMUS("music/Trial.ogg");
 	musique_foule = Mix_LoadMUS("music/Bruit_Foule.ogg");
 	musique_marteau = Mix_LoadMUS("music/Marteau.ogg");
-	musique_slam = Mix_LoadMUS("music/Desk_Slaming.ogg");
-	musique_takethat = Mix_LoadMUS("music/TakeThat.ogg");
-	musique_holdit = Mix_LoadMUS("music/HoldIt.ogg");
-	musique_payne = Mix_LoadMUS("music/Objection_Payne.ogg");
+	musique_slam = Mix_LoadWAV("music/Desk_Slaming.ogg");
+	musique_takethat = Mix_LoadWAV("music/TakeThat.ogg");
+	musique_holdit = Mix_LoadWAV("music/HoldIt.ogg");
+	musique_phoenix = Mix_LoadWAV("music/Objection_Phoenix.ogg");
+	musique_payne = Mix_LoadWAV("music/Objection_Payne.ogg");
 }
 
 
@@ -635,22 +638,14 @@ void game_loop() {
 				break;        
 				case SDLK_w :
 					anim_bras_pw(1);
-					
-					musique = cross < 2 ? musique_objection  :  musique_cornered;
-					
-					Mix_PlayMusic(musique, -1);
 				break;
 				case SDLK_x :
 					anim_bras_pw(-1);
-					
-					musique = (cross < 1 ) ? musique_moderate : musique_allegro;
-					Mix_PlayMusic(musique, -1);
-					cross = (cross + 1) % 5 ;
 				break;
 				case SDLK_c :
 					desk_slaming_pw();
-					musique = musique_slam;
-					Mix_PlayMusic(musique, 1);
+					chunk = musique_slam;
+					Mix_PlayChannel(-1, chunk, 0);
 				break;
 				case SDLK_v :
 					musique = musique_foule;
@@ -662,12 +657,6 @@ void game_loop() {
 				break;
 				case SDLK_u :
 					lookjudge();
-					
-					if (Mix_PlayingMusic() == 0) {
-						musique = musique_trial;
-						Mix_PlayMusic(musique, -1);
-					}
-
 				break;
 				case SDLK_p :
 					lookphoenix();
@@ -687,35 +676,60 @@ void game_loop() {
 				case SDLK_h :
 				    musique = musique_marteau;
 					anim_marteau();
-					Mix_PlayMusic(musique, 1);
+					Mix_PlayMusic(musique, 0);
 					
 				break;
 				case SDLK_r :
-				    musique = musique_holdit;
-					Mix_PlayMusic(musique, 1);
+				    chunk = musique_holdit;
+					Mix_PlayChannel(-1, chunk, 0);
 					
 				break;
 				
 				case SDLK_f :
-				    musique = musique_takethat;
-					Mix_PlayMusic(musique, 1);
+				    chunk = musique_takethat;
+					Mix_PlayChannel(-1, chunk, 0);
 					
 				break;
 				
 				case SDLK_g :
-				    musique = musique_payne;
-					Mix_PlayMusic(musique, 1);
+				    chunk = musique_payne;
+					Mix_PlayChannel(-1, chunk, 0);
+					
+				break;
+				case SDLK_n :
+				    chunk = musique_phoenix;
+				    if(good_objection) {
+						Mix_HaltMusic();
+					}
+					Mix_PlayChannel(-1, chunk, 0);
+					
+				break;
+				case SDLK_l :
+				    musique = musique_trial;
+					Mix_PlayMusic(musique, -1);
+					
+				break;
+				case SDLK_SEMICOLON :
+				    musique = musique_moderate;
+					Mix_PlayMusic(musique, -1);
 					
 				break;
 				case SDLK_t :
 				lookwitness();
-				if (!(musique == musique_allegro || musique == musique_moderate || musique == musique_objection || musique == musique_cornered)) {
+				/*if (!(musique == musique_allegro || musique == musique_moderate || musique == musique_objection || musique == musique_cornered)) {
 					musique = (cross < 2 ) ? musique_moderate : musique_allegro;
 					Mix_PlayMusic(musique, -1);
-				}
+				}*/
+				break;
+				case SDLK_EXCLAIM:
+					musique = musique_objection;
+					Mix_PlayMusic(musique, -1);
 				break;
 				case SDLK_b :
 					printf("%f, %f, %f, %f, %f, %f\n", whereiamx, whereiamy, whereiamz, whereilookx, whereilooky, whereilookz);
+				break;
+				case SDLK_COLON:
+					Mix_HaltMusic();
 				break;
 			}
 			lock = 0;
@@ -1528,11 +1542,34 @@ void *run() {
 			remove_newline(token);
 			do_qcm(atoi(token));
 		} else if(strstr(buf, "++") != NULL) {	
-		
+			
+		} else if (strstr(buf, "[PUBLIC_TALK]") != NULL) {
+			sdlevent.type = SDL_KEYDOWN;
+			sdlevent.key.keysym.sym = SDLK_v;
+			SDL_PushEvent(&sdlevent);
+		} else if (strstr(buf, "[JUDGE_HAMMER]") != NULL) {
+			talking = "Judge";
+			change_point_of_view();
+			strtok(tmp, "->");
+			sdlevent.type = SDL_KEYDOWN;
+			sdlevent.key.keysym.sym = SDLK_h;
+			int n = atoi(strtok(NULL, "->"));
+			for(int i = 0; i < n; i++) {
+				SDL_PushEvent(&sdlevent);
+			}
+		} else if (strstr(buf, "[START_MUSIC_TRIAL]") != NULL) {
+			sdlevent.key.keysym.sym = SDLK_l;
+			SDL_PushEvent(&sdlevent);
+		} else if (strstr(buf, "[STOP_MUSIC]") != NULL) {
+			sdlevent.type = SDL_KEYDOWN;
+			sdlevent.key.keysym.sym = SDLK_COLON;
+			SDL_PushEvent(&sdlevent);
 		} else if (strstr(buf, "[WITNESS]") != NULL) {
 			strtok(tmp, "->");
 			witness = atoi(strtok(NULL, "->"));
 			sdlevent.type = SDL_KEYDOWN;
+			sdlevent.key.keysym.sym = SDLK_COLON;
+			SDL_PushEvent(&sdlevent);
 			sdlevent.key.keysym.sym = SDLK_y;
 			SDL_PushEvent(&sdlevent);
 		} else if (strstr(buf, "[EVIDENCE]") != NULL) {
@@ -1543,12 +1580,38 @@ void *run() {
 			char* token = strtok(tmp, "->");
 			token = strtok(NULL, "->");
 			remove_newline(token);
+			sdlevent.type = SDL_KEYDOWN;
+			sdlevent.key.keysym.sym = SDLK_SEMICOLON;
+			SDL_PushEvent(&sdlevent);
 			do_testimony(atoi(token));
 		} else if (strstr(buf, "[CROSS_EXAM]") != NULL) {
 			char* token = strtok(tmp, "->");
 			token = strtok(NULL, "->");
 			remove_newline(token);
+			sdlevent.type = SDL_KEYDOWN;
+			sdlevent.key.keysym.sym = SDLK_SEMICOLON;
+			SDL_PushEvent(&sdlevent);
 			do_cross_exam(atoi(token), &evidences);
+		} else if (strstr(buf, "[OBJECTION_MUSIC]") != NULL) {
+			sdlevent.type = SDL_KEYDOWN;
+			sdlevent.key.keysym.sym = SDLK_EXCLAIM;
+			SDL_PushEvent(&sdlevent);
+		} else if (strstr(buf, "[OBJECTION_STANCE]") != NULL) {
+			sdlevent.type = SDL_KEYDOWN;
+			sdlevent.key.keysym.sym = SDLK_w;
+			SDL_PushEvent(&sdlevent);
+		} else if (strstr(buf, "[END_OBJECTION_STANCE]") != NULL) {
+			sdlevent.type = SDL_KEYDOWN;
+			sdlevent.key.keysym.sym = SDLK_x;
+			SDL_PushEvent(&sdlevent);
+		} else if (strstr(buf, "[DESK_SLAM]") != NULL) {
+			sdlevent.type = SDL_KEYDOWN;
+			sdlevent.key.keysym.sym = SDLK_c;
+			SDL_PushEvent(&sdlevent);
+		} else if (strstr(buf, "[OBJECTION]") != NULL) {
+			strtok(tmp, "->");
+			objecting = strtok(NULL, "->");
+			do_objection();
 		} else {
 			printf("%s", buf);
 			getchar();
@@ -1578,7 +1641,6 @@ void load_evidences(struct evidence *evidences) {
 		i++;
 	}
 	evidences->nb_evidence = i;
-	printf("%d\n", evidences->nb_evidence);
 	fclose(fic);
 }
 
@@ -1597,11 +1659,10 @@ void change_point_of_view() {
 		sdlevent.key.keysym.sym = SDLK_p;
 	} else if (strcmp(talking, "Mia") == 0) {
 		sdlevent.key.keysym.sym = SDLK_m;
-	} else if (strcmp(talking, "Butz") == 0){
+	} else if (strcmp(talking, "Butz") == 0 || strcmp(talking, "Sahwit") == 0){
 		sdlevent.key.keysym.sym = SDLK_y;
 	}
 	SDL_PushEvent(&sdlevent);
-
 }
 
 void do_qcm(int qcm_nb) {
@@ -1620,6 +1681,7 @@ void do_qcm(int qcm_nb) {
 		printf("\n");
 		int i = 0;
 		while(qcm.answer[i] != NULL) {
+			printf("%s\n", qcm.answer[i]);
 			if(strcmp(choice2, qcm.answer[i]) == 0) {
 				good_answer = 1;
 				break;
@@ -1727,6 +1789,7 @@ void do_answer(int qcm_nb, int choice, char **case_files) {
 	char buf[512];
 	while (fgets(buf, 512, fic)) {
 		remove_newline(buf);
+		char *tmp = strdup(buf);
 		if(buf[0] == '*') {
 			extract_talking(buf);
 			change_point_of_view();
@@ -1734,12 +1797,66 @@ void do_answer(int qcm_nb, int choice, char **case_files) {
 		}
 		else if(strstr(buf, "[CASE") != NULL){
 			
+		} else if(strstr(buf, "[DESK_SLAM]") != NULL){
+			strtok(tmp, "->");
+			slamming = strtok(NULL, "->");
+			do_slam();
+		} else if(strstr(buf, "[OBJECTION_STANCE]") != NULL){
+			sdlevent.type = SDL_KEYDOWN;
+			sdlevent.key.keysym.sym = SDLK_w;
+			SDL_PushEvent(&sdlevent);
+		} else if(strstr(buf, "[END_OBJECTION_STANCE]") != NULL){
+			sdlevent.type = SDL_KEYDOWN;
+			sdlevent.key.keysym.sym = SDLK_x;
+			SDL_PushEvent(&sdlevent);
+		} else if(strstr(buf, "[START_MUSIC_TRIAL]") != NULL) {
+			sdlevent.type = SDL_KEYDOWN;
+			sdlevent.key.keysym.sym = SDLK_l;
+			SDL_PushEvent(&sdlevent);
+		} else if(strstr(buf, "[PUBLIC_TALK]") != NULL) {
+			sdlevent.type = SDL_KEYDOWN;
+			sdlevent.key.keysym.sym = SDLK_v;
+			SDL_PushEvent(&sdlevent);
+		} else if(strstr(buf, "[OBJECTION]") != NULL) {
+			strtok(tmp, "->");
+			objecting = strtok(NULL, "->");
+			do_objection();
+		} else if (strstr(buf, "[JUDGE_HAMMER]") != NULL) {
+			talking = "Judge";
+			change_point_of_view();
+			strtok(tmp, "->");
+			sdlevent.type = SDL_KEYDOWN;
+			sdlevent.key.keysym.sym = SDLK_h;
+			int n = atoi(strtok(NULL, "->"));
+			for(int i = 0; i < n; i++) {
+				SDL_PushEvent(&sdlevent);
+			}
+		} else if(strstr(buf, "++") != NULL) {
+		
 		} else {
 			printf("%s", buf);
 		}
 		getchar();
 	}
 	fclose(fic);
+}
+
+void do_slam() {
+	sdlevent.type = SDL_KEYDOWN;
+	if(strcmp(slamming, "Phoenix Wright") == 0) {
+		sdlevent.key.keysym.sym = SDLK_c;
+	}
+	SDL_PushEvent(&sdlevent);
+}
+
+void do_objection() {
+	sdlevent.type = SDL_KEYDOWN;
+	if(strcmp(objecting, "Payne") == 0) {
+		sdlevent.key.keysym.sym = SDLK_g;
+	} else if (strcmp(objecting, "Phoenix Wright") == 0) {
+		sdlevent.key.keysym.sym = SDLK_n;
+	}
+	SDL_PushEvent(&sdlevent);
 }
 
 void do_testimony(int testimony_nb) {
@@ -1772,7 +1889,7 @@ void do_cross_exam(int cross_exam_nb, struct evidence *evidences) {
 	struct cross_exam_struct cross_exam_infos;
 	get_cross_exam_info(&cross_exam_infos, cross_exam_nb);
 	
-	int good_objection = 0;
+	good_objection = 0;
 	cross_exam_infos.current_line = 0;
 	char *line;
 	char *token;
@@ -1785,6 +1902,7 @@ void do_cross_exam(int cross_exam_nb, struct evidence *evidences) {
 		talking = token + 1;
 		getchar();
 		printf("%s", talking);
+		change_point_of_view();
 		getchar();
 		while(token != NULL) {
 			token = strtok(NULL, "_");
@@ -1813,6 +1931,8 @@ void do_cross_exam(int cross_exam_nb, struct evidence *evidences) {
 						choice = do_present_menu(evidences);
 						if(choice != 0) {
 							good_objection = objection_try(choice - 1 , &cross_exam_infos);
+							objecting = "Phoenix Wrigh";
+							do_objection();
 						}
 						printf("\n");
 					break;
@@ -1845,6 +1965,8 @@ void do_cross_exam(int cross_exam_nb, struct evidence *evidences) {
 						choice = do_present_menu(evidences);
 						if(choice != 0) {
 							good_objection = objection_try(choice - 1, &cross_exam_infos);
+							objecting = "Phoenix Wrigh";
+							do_objection();
 						}
 						printf("\n");
 					break;
@@ -1852,10 +1974,7 @@ void do_cross_exam(int cross_exam_nb, struct evidence *evidences) {
 			break;
 		}
 		
-	} while(good_objection == 0);
-	
-	printf("OBJECTION !");
-	printf("CROSS EXAMINATION FINISHED\n");
+	} while(good_objection == 0);	
 }
 
 void get_cross_exam_info(struct cross_exam_struct *cross_exam_infos, int cross_exam_nb) {
@@ -1925,11 +2044,13 @@ int do_cross_exam_menu(struct cross_exam_struct *cross_exam_infos) {
 }
 
 void do_hold_it(int hold_it_nb, int cross_exam_nb) {
+	sdlevent.type = SDL_KEYDOWN;
+	sdlevent.key.keysym.sym = SDLK_r;
+	SDL_PushEvent(&sdlevent);
 	char hold_it_path[70];
 	int nb_digits_1 = floor(log10(abs(hold_it_nb))) + 1;
 	int nb_digits_2 = floor(log10(abs(cross_exam_nb))) + 1;
 	snprintf(hold_it_path, strlen(CROSS_EXAM_PATH) + nb_digits_1 + strlen("/holdit/") + nb_digits_2 + strlen(".txt") + 1, "%s%d/holdit%d.txt", CROSS_EXAM_PATH, cross_exam_nb, hold_it_nb);
-	printf("%s\n", hold_it_path);
 	FILE *fic = fopen(hold_it_path, "r");
 
 	char buf[512];
@@ -1939,10 +2060,16 @@ void do_hold_it(int hold_it_nb, int cross_exam_nb) {
 		tmp = strdup(buf);
 		if(tmp[0] == '*') {
 			talking = tmp + 1;
+			change_point_of_view();
 			printf("%s", talking);
 		} else if (strstr(tmp, "[HOLD_IT]") != NULL){
 			printf("\n");
 			printf("HOLD IT!");
+		} 
+		else if (strstr(tmp, "[DESK_SLAM]") != NULL){
+			strtok(tmp, "->");
+			slamming = strtok(NULL, "->");
+			do_slam();
 		} else {
 			printf("%s", tmp);
 		}

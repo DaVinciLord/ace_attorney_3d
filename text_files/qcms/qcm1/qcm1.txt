@@ -5,10 +5,10 @@
 Please state the name of_the defendant in this case.
 
 [ANSWER]
-CASE_3
+CASE_2
 
 [PROPOSITION]
 CASE_1->Phoenix Wright->case1.txt
-CASE_2->Mia Fey->case2.txt
-CASE_3->Larry Butz->case3.txt
+CASE_2->Larry Butz->case2.txt
+CASE_3->Mia Fey->case3.txt
 __

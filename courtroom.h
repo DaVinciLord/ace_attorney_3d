@@ -52,10 +52,14 @@ static Mix_Music *musique_moderate;
 static Mix_Music *musique_allegro;
 static Mix_Music *musique_foule;
 static Mix_Music *musique_marteau;
-static Mix_Music *musique_slam;
-static Mix_Music *musique_takethat;
-static Mix_Music *musique_payne;
-static Mix_Music *musique_holdit;
+
+
+static Mix_Chunk *chunk;
+static Mix_Chunk *musique_holdit;
+static Mix_Chunk *musique_takethat;
+static Mix_Chunk *musique_slam;
+static Mix_Chunk *musique_payne;
+static Mix_Chunk *musique_phoenix;
 
 static SDL_Event sdlevent;
 
@@ -137,7 +141,10 @@ void *run(void);
 #define EVIDENCES_FILE "./text_files/evidences.txt"
 
 static char *talking;
-static char witness;
+static char *slamming;
+static char *objecting;
+static int witness;
+static int good_objection;
 
 struct key_value {
 	char *key;
@@ -188,4 +195,7 @@ void do_hold_it(int hold_it_nb, int cross_exam_nb);
 void do_extras(struct cross_exam_struct *cross_exam_infos);
 int do_present_menu(struct evidence *evidences);
 int objection_try(int choice, struct cross_exam_struct *cross_exam_infos);
+void do_slam();
+void do_objection();
+
 #endif // COURTROOM_H_

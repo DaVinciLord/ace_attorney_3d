@@ -1,6 +1,9 @@
 *Phoenix
 [HOLD_IT]
 
+++
+[DESK_SLAM]->Phoenix Wright
+
 *Phoenix
 You "thought" to call the
 police? Does that mean you
