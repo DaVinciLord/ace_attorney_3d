@@ -8,6 +8,7 @@ Mix_Music *musique_moderate = NULL;
 Mix_Music *musique_allegro = NULL;
 Mix_Music *musique_foule = NULL;
 Mix_Music *musique_marteau = NULL;
+Mix_Music *musique_slam = NULL;
 
 int main(int argc, char **argv) {
 	if (argc != 1) {
@@ -113,7 +114,7 @@ void init_SDL(void) {
 	musique_trial = Mix_LoadMUS("music/Trial.ogg");
 	musique_foule = Mix_LoadMUS("music/Bruit_Foule.ogg");
 	musique_marteau = Mix_LoadMUS("music/Marteau.ogg");
-
+	musique_slam = Mix_LoadMUS("music/Desk_Slaming.ogg");
 }
 
 
@@ -649,13 +650,16 @@ void game_loop() {
 					
 					musique = (cross < 1 ) ? musique_moderate : musique_allegro;
 					Mix_PlayMusic(musique, -1);
-					cross ++;
+					cross = (cross + 1) % 5 ;
 				break;
 				case SDLK_c :
 					desk_slaming_pw();
+					musique = musique_slam;
+					Mix_PlayMusic(musique, 1);
 				break;
 				case SDLK_v :
-					Mix_PlayMusic(musique_foule, 1);
+					musique = musique_foule;
+					Mix_PlayMusic(musique, 1);
 					public_noding();
 				break;
 				case SDLK_j :
