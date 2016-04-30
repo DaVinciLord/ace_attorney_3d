@@ -6,7 +6,8 @@ Mix_Music *musique_objection = NULL;
 Mix_Music *musique_cornered = NULL;
 Mix_Music *musique_moderate = NULL;
 Mix_Music *musique_allegro = NULL;
-
+Mix_Music *musique_foule = NULL;
+Mix_Music *musique_marteau = NULL;
 
 int main(int argc, char **argv) {
 	if (argc != 1) {
@@ -110,6 +111,8 @@ void init_SDL(void) {
 	musique_objection = Mix_LoadMUS("music/Objection.ogg");
 	musique_cornered = Mix_LoadMUS("music/Cornered.ogg");
 	musique_trial = Mix_LoadMUS("music/Trial.ogg");
+	musique_foule = Mix_LoadMUS("music/Bruit_Foule.ogg");
+	musique_marteau = Mix_LoadMUS("music/Marteau.ogg");
 
 }
 
@@ -644,7 +647,7 @@ void game_loop() {
 				case SDLK_x :
 					anim_bras_pw(-1);
 					
-					musique = (cross < 2 ) ? musique_moderate : musique_allegro;
+					musique = (cross < 1 ) ? musique_moderate : musique_allegro;
 					Mix_PlayMusic(musique, -1);
 					cross ++;
 				break;
@@ -652,6 +655,7 @@ void game_loop() {
 					desk_slaming_pw();
 				break;
 				case SDLK_v :
+					Mix_PlayMusic(musique_foule, 1);
 					public_noding();
 				break;
 				case SDLK_j :
@@ -678,7 +682,10 @@ void game_loop() {
 					look_mia_from_phoenix();
 				break;
 				case SDLK_h :
+				    
 					anim_marteau();
+					Mix_PlayMusic(musique_marteau, 1);
+					
 				break;
 				case SDLK_t :
 				lookwitness();
@@ -1404,7 +1411,6 @@ void public_noding() {
     
 }
 void anim_marteau() {
-	for (int n = 0; n < 3; n++) {
 	for (int i = 0;  i < 90; i += 5) {
         mouvementmarteau += 1;
         display();
@@ -1413,7 +1419,7 @@ void anim_marteau() {
         mouvementmarteau -= 1;
         display();
     }
-	}
+	
 }
 
 
