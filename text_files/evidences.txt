@@ -1,6 +1,5 @@
-Attorney's Badge -> Other -> One of my possessions -> No one would believe I'm a defense attorney if I didn't carry this.->1
-Cindy's Autopsy Report -> Reports -> Received from Mia Fey -> Time of death: 7/31, 4PM-5PM_Cause of death: loss of_blood die to blunt trauma.->1
-Statue -> Weapons -> Submitted as evidence by Prossecutor Payne -> A statue in the shape_of "The Thinker."_It's Rather heavy.->0
-Passport -> Evidence -> Submitted as evidence by Prossecutor Payne -> The victim apparently arrived_home from Paris on 7/30,_the day before the murder.->0
-Blackout Record -> Documents -> Submitted as evidence by Prossecutor Payne -> Electricity to Ms Stone's_building was out from noon to_6PM on the day of the crime.->0
-
+Attorney's Badge>Other>One of my possessions>No one would believe I'm a defense attorney if I didn't carry this.>1
+Cindy's Autopsy Report>Reports>Received from Mia Fey>Time of death: 7/31, 4PM-5PM_Cause of death: loss of_blood die to blunt trauma.>1
+Statue>Weapons>Submitted as evidence by Prossecutor Payne>A statue in the shape_of "The Thinker."_It's Rather heavy.>0
+Passport>Evidence>Submitted as evidence by Prossecutor Payne>The victim apparently arrived_home from Paris on 7/30,_the day before the murder.>0
+Blackout Record>Documents>Submitted as evidence by Prossecutor Payne> Electricity to Ms Stone's_building was out from noon to_6PM on the day of the crime.>0

@@ -1,0 +1,41 @@
+[CASE_1]
+*Phoenix
+(I know! I'll send him
+a signal...)
+
+*Phoenix
+[DESK_SLAM]
+(TELL THE TRUTH)
+[OBJECTION_STANCE]
+
+*Butz
+Er... Yeah! Yeah!
+I was there! I went!
+
+*Judge
+Order!
+
+*Judge
+Well, Mr. Butz?
+
+*Butz
+Dude, chill!
+
+*Butz
+She wasn't home, man...
+So, like, I didn't see her.
+
+
+[OBJECTION]->Payne
+
+*Payne
+Your Honor, the defendant
+is lying.
+
+*Judge
+Lying?
+
+*Payne
+The prosecution would like
+to call a witness who can
+prove Mr. Butz is lying.

@@ -50,13 +50,13 @@ void init(void) {
 }
 
 void init_globals(void) {
-	whereiamx = 0.;
-	whereiamy = 0.;
-	whereiamz = 1000.;
+	whereiamx = -0.000000;
+	whereiamy = -760.000000;
+	whereiamz = 690.000000;
     
-	whereilookx = 0.;
-	whereilooky = 100.;
-	whereilookz = 180.;
+	whereilookx = 0.000000;
+	whereilooky = 100.000000;
+	whereilookz = 180.000000;
 
 	near = 10.;
 	far = 3000.;
@@ -741,14 +741,16 @@ void display() {
 	creer_winston();
 	creer_mia();
 	creer_juge();
-	if(witness == '1') {
-		creer_witness_1();
-	} else if (witness == '2') {
-		creer_witness_2();
+	switch(witness) {
+		case 1:
+			creer_witness_1();
+		break;
+		case 2:
+			creer_witness_2();
+		break;
 	}
+	
 	creer_public();
-	
-	
 	creer_arcade();
 
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matOr);
@@ -1466,32 +1468,47 @@ void GL_Quit() {
 
 void *run() {
 		
+	struct evidence evidences;
+	load_evidences(&evidences);
+
 	FILE *fic = fopen(SCRIPT_PATH, "r");
 	char buf[512];
 	
 	while (fgets(buf, 512, fic)) {
 		remove_newline(buf);
+		char *tmp = strdup(buf);
 		if (buf[0] == '*') {
-			char *tmp = strdup(buf);
 			extract_talking(tmp);
 			printf("%s", talking);
 			change_point_of_view();
 			getchar();
 		} else if(strstr(buf, "[QCM]") != NULL) {
-			char *tmp = strdup(buf);
 			char* token = strtok(tmp, "->");
 			token = strtok(NULL, "->");
 			remove_newline(token);
-			do_qcm(token);
+			do_qcm(atoi(token));
 		} else if(strstr(buf, "++") != NULL) {	
 		
 		} else if (strstr(buf, "[WITNESS]") != NULL) {
-			char *tmp = strdup(buf);
 			strtok(tmp, "->");
-			witness = strtok(NULL, "->")[0];
+			witness = atoi(strtok(NULL, "->"));
 			sdlevent.type = SDL_KEYDOWN;
 			sdlevent.key.keysym.sym = SDLK_y;
 			SDL_PushEvent(&sdlevent);
+		} else if (strstr(buf, "[EVIDENCE]") != NULL) {
+			strtok(tmp, "->");
+			int evidence_nb = atoi(strtok(NULL, "->"));
+			evidences.evidence_active[evidence_nb] = !evidences.evidence_active[evidence_nb];
+		} else if (strstr(buf, "[TESTIMONY]") != NULL) {
+			char* token = strtok(tmp, "->");
+			token = strtok(NULL, "->");
+			remove_newline(token);
+			do_testimony(atoi(token));
+		} else if (strstr(buf, "[CROSS_EXAM]") != NULL) {
+			char* token = strtok(tmp, "->");
+			token = strtok(NULL, "->");
+			remove_newline(token);
+			do_cross_exam(atoi(token), &evidences);
 		} else {
 			printf("%s", buf);
 			getchar();
@@ -1501,6 +1518,28 @@ void *run() {
 	fclose(fic);
 	
 	return NULL;
+}
+
+void load_evidences(struct evidence *evidences) {
+	FILE *fic = fopen(EVIDENCES_FILE, "r");
+	char buf[512];
+	
+	int i = 0;
+	while (fgets(buf, 512, fic)) {
+		remove_newline(buf);
+		char *tmp = strdup(buf);
+		evidences->evidence_name[i] = strtok(tmp, ">");
+		evidences->evidence_type[i] = strtok(NULL, ">");
+		evidences->evidence_other[i] = strtok(NULL, ">");
+		evidences->evidence_description[i] = strtok(NULL, ">");
+		char *token = strtok(NULL, ">");
+		evidences->evidence_active[i] = atoi(token);
+		memset(buf, 512, sizeof(char));
+		i++;
+	}
+	evidences->nb_evidence = i;
+	printf("%d\n", evidences->nb_evidence);
+	fclose(fic);
 }
 
 
@@ -1525,7 +1564,7 @@ void change_point_of_view() {
 
 }
 
-void do_qcm(char *qcm_nb) {
+void do_qcm(int qcm_nb) {
 	
 	struct qcm_struct qcm;
 	get_info_qcm(&qcm, qcm_nb);
@@ -1550,9 +1589,10 @@ void do_qcm(char *qcm_nb) {
 	} while(good_answer == 0);
 }
 
-void get_info_qcm(struct qcm_struct *qcm, char *qcm_nb) {
+void get_info_qcm(struct qcm_struct *qcm, int qcm_nb) {
 	char qcm_file[30];
-	snprintf(qcm_file, strlen(QCM_PATH) + strlen(qcm_nb) + strlen("/qcm/") + strlen(qcm_nb) + strlen(".txt") + 1, "%s%s/qcm%s.txt", QCM_PATH, qcm_nb, qcm_nb);
+	int nb_digits = floor(log10(abs(qcm_nb))) + 1;
+	snprintf(qcm_file, strlen(QCM_PATH) + nb_digits + strlen("/qcm/") + nb_digits + strlen(".txt") + 1, "%s%d/qcm%d.txt", QCM_PATH, qcm_nb, qcm_nb);
 	
 	char last_string[50];
 	FILE *fic = fopen(qcm_file, "r");
@@ -1637,10 +1677,11 @@ int do_question_menu(char *talking, char *question, struct key_value *propositio
 	return choice;
 }
 
-void do_answer(char *qcm_nb, int choice, char **case_files) {
+void do_answer(int qcm_nb, int choice, char **case_files) {
 	printf("\n");
 	char case_path[40];
-	snprintf(case_path, strlen(QCM_PATH) + strlen(qcm_nb) + strlen(case_files[choice]) + 2, "%s%s/%s", QCM_PATH, qcm_nb, case_files[choice]);
+	int nb_digits = floor(log10(abs(qcm_nb))) + 1;
+	snprintf(case_path, strlen(QCM_PATH) + nb_digits + strlen(case_files[choice]) + 2, "%s%d/%s", QCM_PATH, qcm_nb, case_files[choice]);
 	FILE *fic = fopen(case_path, "r");
 
 	char buf[512];
@@ -1661,6 +1702,265 @@ void do_answer(char *qcm_nb, int choice, char **case_files) {
 	fclose(fic);
 }
 
+void do_testimony(int testimony_nb) {
+	
+	printf("\n");
+	char testimony_path[70];
+	int nb_digits = floor(log10(abs(testimony_nb))) + 1;
+	snprintf(testimony_path, strlen(TESTIMONY_PATH) + nb_digits + strlen(".txt") + 1, "%s%d.txt", TESTIMONY_PATH, testimony_nb);
+	FILE *fic = fopen(testimony_path, "r");
+
+	char buf[512];
+	while (fgets(buf, 512, fic)) {
+		remove_newline(buf);
+		if(buf[0] == '*') {
+			extract_talking(buf);
+			change_point_of_view();
+			printf("%s", talking);
+		} else {
+			printf("%s", buf);
+		}
+		getchar();
+	}
+	fclose(fic);
+	
+}
+
+void do_cross_exam(int cross_exam_nb, struct evidence *evidences) {
+	printf("\n");
+	
+	struct cross_exam_struct cross_exam_infos;
+	get_cross_exam_info(&cross_exam_infos, cross_exam_nb);
+	
+	int good_objection = 0;
+	cross_exam_infos.current_line = 0;
+	char *line;
+	char *token;
+	int choice;
+	printf("CROSS EXAMINATION\n-- Witness's Account --\n");
+	do {
+		line = cross_exam_infos.lines[cross_exam_infos.current_line];
+		token = strdup(line);
+		token = strtok(token, "_");
+		talking = token + 1;
+		getchar();
+		printf("%s", talking);
+		getchar();
+		while(token != NULL) {
+			token = strtok(NULL, "_");
+			if (token != NULL)  {
+				printf("%s", token);
+			}
+			getchar();
+		}
+		
+		choice = do_cross_exam_menu(&cross_exam_infos);
+		
+		switch(cross_exam_infos.current_line) {
+			case 0:
+				switch(choice) {
+					case 1:
+						cross_exam_infos.current_line++;
+						printf("\n");
+					break;
+					case 2:
+						do_hold_it(cross_exam_infos.current_line + 1, cross_exam_nb);
+						cross_exam_infos.current_line++;
+						printf("\n");
+					break;
+					case 3:
+						printf("\n");
+						choice = do_present_menu(evidences);
+						if(choice != 0) {
+							good_objection = objection_try(choice - 1 , &cross_exam_infos);
+						}
+						printf("\n");
+					break;
+				}
+			break;
+			
+			default:
+				switch(choice) {
+					case 1:
+						cross_exam_infos.current_line--;
+						printf("\n");
+					break;
+					case 2:
+						cross_exam_infos.current_line++;
+						if(cross_exam_infos.current_line + 1 > cross_exam_infos.nb_lines) {
+							do_extras(&cross_exam_infos);
+						}
+						printf("\n");
+					break;
+					case 3:
+						do_hold_it(cross_exam_infos.current_line + 1, cross_exam_nb);
+						cross_exam_infos.current_line++;
+						if(cross_exam_infos.current_line + 1 > cross_exam_infos.nb_lines) {
+							do_extras(&cross_exam_infos);
+						}
+						printf("\n");
+					break;
+					case 4:
+						printf("\n");
+						choice = do_present_menu(evidences);
+						if(choice != 0) {
+							good_objection = objection_try(choice - 1, &cross_exam_infos);
+						}
+						printf("\n");
+					break;
+				}
+			break;
+		}
+		
+	} while(good_objection == 0);
+	
+	printf("OBJECTION !");
+	printf("CROSS EXAMINATION FINISHED\n");
+}
+
+void get_cross_exam_info(struct cross_exam_struct *cross_exam_infos, int cross_exam_nb) {
+	char cross_exam_path[70];
+	int nb_digits = floor(log10(abs(cross_exam_nb))) + 1;
+	snprintf(cross_exam_path, strlen(CROSS_EXAM_PATH) + nb_digits + strlen("/cross_exam/") + nb_digits + strlen(".txt") + 1, "%s%d/cross_exam%d.txt", CROSS_EXAM_PATH, cross_exam_nb, cross_exam_nb);
+	
+	FILE *fic = fopen(cross_exam_path, "r");
+
+	char buf[512];
+	int i = 0;
+	while (fgets(buf, 512, fic)) {
+		remove_newline(buf);
+		char *tmp = strdup(buf);
+		if (strstr(buf, "[ANSWER]") != NULL) {
+			strtok(tmp, "->");
+			cross_exam_infos->answer_line = strtok(NULL, "->");
+		} else if (strstr(buf, "[EVIDENCE]") != NULL) {
+			strtok(tmp, "->");
+			cross_exam_infos->evidence_to_show = atoi(strtok(NULL, "->"));
+		} else if (strstr(buf, "[LINE") != NULL) {
+			strtok(tmp, ">");
+			cross_exam_infos->lines[i] = strtok(NULL, ">");
+			i++;
+		} else if (strstr(buf, "++") != NULL) {
+			cross_exam_infos->nb_lines = i;
+			i = 0;
+		} else if (strstr(buf, "[EXTRA") != NULL) {
+			strtok(tmp, ">");
+			cross_exam_infos->extras[i] = strtok(NULL, ">");
+			i++;
+		} else if (strstr(buf, "__") != NULL) {
+			cross_exam_infos->nb_extras = i;
+			i = 0;
+		}
+	}
+	fclose(fic);
+}
+
+int do_cross_exam_menu(struct cross_exam_struct *cross_exam_infos) {
+	int nb_proposition;
+	printf("=========================\n");
+	switch(cross_exam_infos->current_line)  {
+		case 0:
+				nb_proposition = 3;
+				printf("1) %s\n", "Next");
+				printf("2) %s\n", "Press");
+				printf("3) %s\n", "Present");
+		break;
+		default:
+			nb_proposition = 4;
+			printf("1) %s\n", "Previous");
+			printf("2) %s\n", "Next");
+			printf("3) %s\n", "Press");
+			printf("4) %s\n", "Present");
+		break;
+	}
+	
+	printf("=========================\n");
+	int choice;
+	do {
+		printf("Make your choice : ");
+		fscanf(stdin, "%d", &choice);
+	} while(choice < 1 || choice > nb_proposition);
+	
+	return choice;
+}
+
+void do_hold_it(int hold_it_nb, int cross_exam_nb) {
+	char hold_it_path[70];
+	int nb_digits_1 = floor(log10(abs(hold_it_nb))) + 1;
+	int nb_digits_2 = floor(log10(abs(cross_exam_nb))) + 1;
+	snprintf(hold_it_path, strlen(CROSS_EXAM_PATH) + nb_digits_1 + strlen("/holdit/") + nb_digits_2 + strlen(".txt") + 1, "%s%d/holdit%d.txt", CROSS_EXAM_PATH, cross_exam_nb, hold_it_nb);
+	printf("%s\n", hold_it_path);
+	FILE *fic = fopen(hold_it_path, "r");
+
+	char buf[512];
+	char *tmp;
+	while (fgets(buf, 512, fic)) {
+		remove_newline(buf);
+		tmp = strdup(buf);
+		if(tmp[0] == '*') {
+			talking = tmp + 1;
+			printf("%s", talking);
+		} else if (strstr(tmp, "[HOLD_IT]") != NULL){
+			printf("\n");
+			printf("HOLD IT!");
+		} else {
+			printf("%s", tmp);
+		}
+		
+		getchar();
+	}
+	fclose(fic);
+}
+
+void do_extras(struct cross_exam_struct *cross_exam_infos) {
+	char *extra;
+	char *token;
+	for (int i = 0; i < cross_exam_infos->nb_extras; i++) {
+		extra = cross_exam_infos->extras[i];
+		token = strdup(extra);
+		token = strtok(token, "_");
+		talking = token + 1;
+		getchar();
+		printf("%s", talking);
+		getchar();
+		while(token != NULL) {
+			token = strtok(NULL, "_");
+			if (token != NULL)  {
+				printf("%s", token);
+			}
+			getchar();
+		}
+	}
+	cross_exam_infos->current_line = 0;
+}
+
+int do_present_menu(struct evidence *evidences) {
+	printf("=========================\n");
+	printf("0) Cancel\n");
+	for(int i = 0; i < evidences->nb_evidence; i++) {
+		printf("%d) %s\n", i + 1, evidences->evidence_name[i]);
+	}
+	printf("=========================\n");
+	int choice;
+	do {
+		printf("Select evidence : ");
+		fscanf(stdin, "%d", &choice);
+	} while(choice < 1 || choice > evidences->nb_evidence);
+	
+	
+	return choice;
+}
+
+int objection_try(int choice, struct cross_exam_struct *cross_exam_infos) {
+	char try_answer[8];
+	int nb_digits = floor(log10(abs(cross_exam_infos->current_line))) + 1;
+	snprintf(try_answer, strlen("LINE_") + nb_digits + 1, "LINE_%d", cross_exam_infos->current_line + 1);
+	if(strcmp(cross_exam_infos->answer_line, try_answer) == 0 && choice == cross_exam_infos->evidence_to_show) {
+		return 1;
+	}
+	
+	return 0;
+}
 
 void remove_newline(char *line) {
 	line[strcspn(line, "\r\n")] = 0;

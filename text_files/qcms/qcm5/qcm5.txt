@@ -1,0 +1,13 @@
+[TALKING]
+*Phoenix Wright
+
+[QUESTION]
+(What do I do?)
+
+[ANSWER]
+CASE_1&CASE_2
+
+[PROPOSITION]
+CASE_1->Have him answer honestly->case1.txt
+CASE_2->Stop him from answering->case2.txt
+__

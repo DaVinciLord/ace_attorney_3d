@@ -349,3 +349,248 @@ the wrong directions.)
 
 ++
 [QCM]->4
+
+*Butz
+I'm gonna die.
+I'm just gonna drop dead!
+
+*Butz
+Yeah, and when I meet her in
+the afterlife...
+
+*Butz
+I'm going to get to the bottom
+of this!
+
+*Judge
+Let's continue with the trial,
+shall we?
+
+*Payne
+I believe the accused's
+motive is clear to everyone.
+
+*Judge
+Yes, quite.
+
+*Phoenix
+(Oh boy. This is so not
+looking good.)
+
+*Payne
+Next question!
+
+*Payne
+You went to the victim's
+apartment on the day of
+the murder, did you not?
+
+*Butz
+Gulp!
+
+*Payne
+Well, did you, or did you not?
+
+*Butz
+Heh? Heh heh. Well, maybe
+I did, and maybe I didn't!
+
+*Phoenix
+(Uh oh. He went.)
+
+++
+[QCM]->5
+
+*Judge
+Well, that simplifies matters.
+Who is your witness?
+
+*Payne
+The man who found
+the victim's body.
+
+*Payne
+Just before making the
+gruesome discovery...
+
+*Payne
+He saw the defendant fleeing
+the scene of the crime!
+
+*Judge
+Order! Order in the court!
+
+*Judge
+Mr. Payne, the prosecution
+may call its witness.
+
+*Payne
+Yes, Your Honor.
+
+*Phoenix
+(This is bad...)
+
+*Payne
+On the day of the murder, my
+witness was selling newspapers
+at the victim's building.
+
+*Payne
+Please bring Mr. Frank Sahwit
+to the stand!
+
+++
+[WITNESS]->2
+
+*Payne
+Mr. Sahwit, you sell newspaper
+subscriptions, is this correct?
+
+*Sahwit
+Oh, oh yes!
+Newspapers, yes!
+
+*Judge
+Mr. Sahwit, you may
+proceed with your testimony.
+
+*Judge
+Please tell the court what
+you saw on the day of the
+murder.
+
+++
+[TESTIMONY]->1
+
+*Judge
+Hmm...
+
+*Phoenix
+(Larry! Why didn't you
+tell the truth?)
+
+*Phoenix
+(I can't defend you against
+a testimony like that!)
+
+*Judge
+Incidentally, why wasn't
+the phone in the victim's
+apartment working?
+
+*Payne
+Your Honor, at the time of
+the murder, there was a
+blackout in the building.
+
+*Judge
+Aren't phones supposed to
+work during a blackout?
+
+*Payne
+Yes, Your Honor...
+
+*Payne
+However, some cordless phones
+do not function normally.
+
+*Payne
+The phone that Mr. Sahwit
+used was one of those.
+
+*Payne
+Your Honor...
+
+*Payne
+I have a record of the
+blackout, for your perusal.
+
+Blackout Record added
+to the Court Record.
+
+++
+[EVIDENCE]->4
+
+*Judge
+Now, Mr. Wright...
+
+*Phoenix
+Yes!
+Er... yes, Your Honor?
+
+*Judge
+You may begin your
+cross-examination.
+
+*Phoenix
+C-Cross-examination,
+Your Honor?
+
+*Mia
+Alright, Wright, this is it.
+The real deal!
+
+*Phoenix
+Uh... what exactly am I
+supposed to do?
+
+*Mia
+Why, you expose the lies in
+the testimony the witness
+just gave!
+
+*Phoenix
+Lies! What?! He was lying!?
+
+*Mia
+Your client is innocent,
+right?
+
+*Mia
+Then that witness must have
+lied in his testimony!
+
+*Mia
+Or is your client really...
+guilty?
+
+*Phoenix
+!!! How do I prove he's not?
+
+*Mia
+You hold the key!
+It's in the evidence!
+
+*Mia
+Compare the witness's
+testimony to the
+evidence at hand.
+
+*Mia
+There's bound to be a
+contradiction in there!
+
+*Mia
+First find contradictions
+between the Court Record
+and the witness's testimony.
+
+*Mia
+Then, once you've found the
+contradicting evidence...
+
+*Mia
+present it and rub
+it in the witness's face!
+
+*Phoenix
+Um... okay.
+
+
+*Mia
+Touch the Court Record button
+and point out contradictions
+in the testimony!
+
+++
+[CROSS_EXAM]->1
