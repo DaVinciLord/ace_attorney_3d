@@ -1,7 +1,5 @@
 #include "courtroom.h"
 
-Mix_Music *musique = NULL;
-
 
 
 int main(int argc, char **argv) {
@@ -65,6 +63,8 @@ void init_globals(void) {
 	noding = 0;
 	langledubrasdephoenixwright = 0;
 	mouvementmarteau = 0;
+	cornered = 0;
+	cross = 0;
 }
 
 
@@ -98,10 +98,18 @@ void init_SDL(void) {
 	if (Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 4096) < 0) {
 		printf("SDL_Mixer Error: %s\n", Mix_GetError());
 	}
-	musique = Mix_LoadMUS("music/Trial.ogg");
-	if (musique == NULL) {
-	    printf("Couldn't load beat.wav: %s\n", Mix_GetError());
-	}
+
+	musique_allegro = Mix_LoadMUS("music/Examination_Allegro.ogg");
+	musique_moderate = Mix_LoadMUS("music/Examination_Moderate.ogg");
+	musique_objection = Mix_LoadMUS("music/Objection.ogg");
+	musique_cornered = Mix_LoadMUS("music/Cornered.ogg");
+	musique_trial = Mix_LoadMUS("music/Trial.ogg");
+	musique_foule = Mix_LoadMUS("music/Bruit_Foule.ogg");
+	musique_marteau = Mix_LoadMUS("music/Marteau.ogg");
+	musique_slam = Mix_LoadMUS("music/Desk_Slaming.ogg");
+	musique_takethat = Mix_LoadMUS("music/TakeThat.ogg");
+	musique_holdit = Mix_LoadMUS("music/HoldIt.ogg");
+	musique_payne = Mix_LoadMUS("music/Objection_Payne.ogg");
 }
 
 
@@ -572,7 +580,7 @@ void game_loop() {
 	SDL_Event event;
 	while (continuer) {
 		// On attend le prochain évènement
-		SDL_PollEvent(&event);
+		SDL_WaitEvent(&event);
 		// On traite l'évènement
 		switch (event.type) {
 			case SDL_QUIT:
@@ -627,14 +635,26 @@ void game_loop() {
 				break;        
 				case SDLK_w :
 					anim_bras_pw(1);
+					
+					musique = cross < 2 ? musique_objection  :  musique_cornered;
+					
+					Mix_PlayMusic(musique, -1);
 				break;
 				case SDLK_x :
 					anim_bras_pw(-1);
+					
+					musique = (cross < 1 ) ? musique_moderate : musique_allegro;
+					Mix_PlayMusic(musique, -1);
+					cross = (cross + 1) % 5 ;
 				break;
 				case SDLK_c :
 					desk_slaming_pw();
+					musique = musique_slam;
+					Mix_PlayMusic(musique, 1);
 				break;
 				case SDLK_v :
+					musique = musique_foule;
+					Mix_PlayMusic(musique, 1);
 					public_noding();
 				break;
 				case SDLK_j :
@@ -642,15 +662,12 @@ void game_loop() {
 				break;
 				case SDLK_u :
 					lookjudge();
+					
 					if (Mix_PlayingMusic() == 0) {
+						musique = musique_trial;
 						Mix_PlayMusic(musique, -1);
-			        } else {
-			            if (Mix_PausedMusic() == 1) {
-			                Mix_ResumeMusic();
-			            } else {
-			                Mix_PauseMusic();
-			            }
-			        }
+					}
+
 				break;
 				case SDLK_p :
 					lookphoenix();
@@ -668,7 +685,34 @@ void game_loop() {
 					lookwitness();
 				break;
 				case SDLK_h :
+				    musique = musique_marteau;
 					anim_marteau();
+					Mix_PlayMusic(musique, 1);
+					
+				break;
+				case SDLK_r :
+				    musique = musique_holdit;
+					Mix_PlayMusic(musique, 1);
+					
+				break;
+				
+				case SDLK_f :
+				    musique = musique_takethat;
+					Mix_PlayMusic(musique, 1);
+					
+				break;
+				
+				case SDLK_g :
+				    musique = musique_payne;
+					Mix_PlayMusic(musique, 1);
+					
+				break;
+				case SDLK_t :
+				lookwitness();
+				if (!(musique == musique_allegro || musique == musique_moderate || musique == musique_objection || musique == musique_cornered)) {
+					musique = (cross < 2 ) ? musique_moderate : musique_allegro;
+					Mix_PlayMusic(musique, -1);
+				}
 				break;
 				case SDLK_b :
 					printf("%f, %f, %f, %f, %f, %f\n", whereiamx, whereiamy, whereiamz, whereilookx, whereilooky, whereilookz);
@@ -1391,16 +1435,14 @@ void public_noding() {
     
 }
 void anim_marteau() {
-	for (int n = 0; n < 5; n++) {
-		for (int i = 0;  i < 90; i += 5) {
-			mouvementmarteau += 1;
-			display();
-		}
-		for (int i = 0;  i < 90; i += 5) {
-			mouvementmarteau -= 1;
-			display();
-		}
-	}
+	for (int i = 0;  i < 90; i += 5) {
+        mouvementmarteau += 1;
+        display();
+    }
+	for (int i = 0;  i < 90; i += 5) {
+        mouvementmarteau -= 1;
+        display();
+    }
 }
 
 
@@ -1452,6 +1494,9 @@ void lookjudge() {
 	movecamera(0.000000, 480.0, 320.000000, 0.000000, 1010.0, 350.000000);
 }
 
+void lookwitness() {
+	movecamera(0.000000, -30.000000, 180.000000, 0.000000, -180.000000, 180.000000);
+}
 
 void quit_all() {
 	GL_Quit();
@@ -1550,7 +1595,7 @@ void extract_talking(char *buf) {
 void change_point_of_view() {
 	sdlevent.type = SDL_KEYDOWN;
 	if(strcmp(talking, "Judge") == 0) {
-		sdlevent.key.keysym.sym = SDLK_j;
+		sdlevent.key.keysym.sym = SDLK_u;
 	} else if(strcmp(talking, "Payne") == 0) {
 		sdlevent.key.keysym.sym = SDLK_i;
 	} else if (strcmp(talking, "Phoenix") == 0) {
