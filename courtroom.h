@@ -42,6 +42,7 @@ static int deskslaming;
 static int noding;
 static int langledubrasdephoenixwright;
 static int mouvementmarteau;
+static int cross;
 
 static SDL_Event sdlevent;
 
@@ -105,7 +106,7 @@ void lookpublic(void);
 void lookpayne(void);
 void look_mia_from_phoenix(void);
 void lookjudge(void);
-
+void lookwitness(void);
 // Quit functions
 void quit_all(void);
 void GL_Quit(void);

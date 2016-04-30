@@ -66,6 +66,7 @@ void init_globals(void) {
 	langledubrasdephoenixwright = 0;
 	mouvementmarteau = 0;
 	cornered = 0;
+	cross = 0;
 }
 
 
@@ -668,8 +669,15 @@ void game_loop() {
 				break;
 				case SDLK_m :
 					look_mia_from_phoenix();
+				break;
 				case SDLK_h :
 					anim_marteau();
+				break;
+				case SDLK_t :
+				lookwitness();
+				musique = cross == 0 ? Mix_LoadMUS("music/Examination_Moderate.ogg") : Mix_LoadMUS("music/Examination_Allegro.ogg");
+				Mix_PlayMusic(musique, -1);
+				cross = (cross + 1) % 2;
 				break;
 				case SDLK_b :
 					printf("%f, %f, %f, %f, %f, %f\n", whereiamx, whereiamy, whereiamz, whereilookx, whereilooky, whereilookz);
@@ -1443,6 +1451,9 @@ void lookjudge() {
 	movecamera(0.000000, 480.0, 320.000000, 0.000000, 1010.0, 350.000000);
 }
 
+void lookwitness() {
+	movecamera(0.000000, -30.000000, 180.000000, 0.000000, -180.000000, 180.000000);
+}
 
 void quit_all() {
 	GL_Quit();
