@@ -179,6 +179,9 @@ it into evidence.
 Statue added to
 the Court Record.
 
+++
+[EVIDENCE]->2
+
 *Mia
 Wright...
 
@@ -225,3 +228,124 @@ say anything... unfortunate.
 *Phoenix
 (Uh oh, Larry gets excited
 easily... this could be bad.)
+
+++
+[WITNESS]->1
+
+*Payne
+Ahem.
+
+*Payne
+Mr. Butz. Is it not true that
+the victim had recently
+dumped you?
+
+*Butz
+Hey, watch it buddy!
+
+*Butz
+We were great together!
+We were Romeo and Juliet,
+Cleopatra and Mark Anthony!
+
+*Phoenix
+(Um... didn't they all die?)
+
+*Butz
+I wasn't dumped! She just
+wasn't taking my phone calls.
+Or seeing me... Ever.
+
+*Butz
+WHAT'S IT TO YOU, ANYWAY!?
+
+*Payne
+Mr. Butz, what you describe
+is generally what we mean
+by "dumped."
+
+*Payne
+In fact, she had completely
+abandoned you... and was
+seeing other men!
+
+*Payne
+She had just returned from
+overseas with one of them
+the day before the murder!
+
+*Butz
+Whaddya mean, "one of them"!?
+
+*Butz
+Lies! All of it, lies!
+I don't believe a word of it!
+
+*Payne
+Your Honor, the
+victim's passport.
+
+*Payne
+According to this, she was
+in Paris until the day before
+she died.
+
+Passport added to
+the Court Record.
+
+++
+[EVIDENCE]->3
+
+*Judge
+Hmm... Indeed, she appears
+to have returned the day
+before the murder.
+
+*Butz
+Dude... no way...
+
+*Payne
+The victim was a model, but
+did not have a large income.
+
+*Payne
+It appears that she had
+several "Sugar Daddies."
+
+*Butz
+Daddies?
+Sugar?
+
+*Payne
+Yes. Older men, who gave
+her money and gifts.
+
+*Payne
+She took their money and used
+it to support her lifestyle.
+
+*Butz
+Duuude!
+
+*Payne
+We can clearly see what kind
+of woman this Ms. Stone was.
+
+*Payne
+Tell me, Mr. Butz, what do
+you think of her now?
+
+*Mia
+Wright...
+
+*Mia
+I don't think you want
+him to answer that question.
+
+*Phoenix
+(Yeah... Larry has a way of
+running his mouth in all
+the wrong directions.)
+
+++
+[QCM]->4

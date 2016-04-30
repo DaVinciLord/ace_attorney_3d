@@ -104,6 +104,7 @@ void lookpublic(void);
 void lookpayne(void);
 void look_mia_from_phoenix(void);
 void lookjudge(void);
+void lookwitness(void);
 
 // Quit functions
 void quit_all(void);
@@ -120,6 +121,7 @@ void *run(void);
 
 
 static char *talking;
+static char witness;
 
 struct key_value {
 	char *key;
@@ -129,7 +131,7 @@ struct key_value {
 struct qcm_struct {
 	char *talking;
 	char *question;
-	char *answer;
+	char *answer[5];
 	int nb_proposition;
 	struct key_value proposition_case[5];
 	char *case_files[5];

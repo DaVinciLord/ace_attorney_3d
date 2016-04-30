@@ -77,8 +77,8 @@ void init_SDL(void) {
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
 
 	fenetre = SDL_CreateWindow("The first Turnabout",
-		SDL_WINDOWPOS_CENTERED,
-		SDL_WINDOWPOS_CENTERED,
+		0,
+		0,
 		640, 640,
 		SDL_WINDOW_OPENGL);
 
@@ -663,6 +663,10 @@ void game_loop() {
 				break;
 				case SDLK_m :
 					look_mia_from_phoenix();
+				break;
+				case SDLK_y :
+					lookwitness();
+				break;
 				case SDLK_h :
 					anim_marteau();
 				break;
@@ -737,9 +741,12 @@ void display() {
 	creer_winston();
 	creer_mia();
 	creer_juge();
-	// creer_witness_1();
+	if(witness == '1') {
+		creer_witness_1();
+	} else if (witness == '2') {
+		creer_witness_2();
+	}
 	creer_public();
-	creer_witness_2();
 	
 	
 	creer_arcade();
@@ -1383,14 +1390,14 @@ void public_noding() {
 }
 void anim_marteau() {
 	for (int n = 0; n < 5; n++) {
-	for (int i = 0;  i < 90; i += 5) {
-        mouvementmarteau += 1;
-        display();
-    }
-	for (int i = 0;  i < 90; i += 5) {
-        mouvementmarteau -= 1;
-        display();
-    }
+		for (int i = 0;  i < 90; i += 5) {
+			mouvementmarteau += 1;
+			display();
+		}
+		for (int i = 0;  i < 90; i += 5) {
+			mouvementmarteau -= 1;
+			display();
+		}
 	}
 }
 
@@ -1434,6 +1441,11 @@ void lookpublic() {
     movecamera(-0.000000, -760.000000, 690.000000, 0.000000, 100.000000, 180.000000);
 }
 
+void lookwitness() {
+	movecamera(10.000000, -10.000000, 170.000000, 0.000000, -280.000000, 180.000000);
+
+}
+
 void lookjudge() {
 	movecamera(0.000000, 480.0, 320.000000, 0.000000, 1010.0, 350.000000);
 }
@@ -1473,6 +1485,13 @@ void *run() {
 			do_qcm(token);
 		} else if(strstr(buf, "++") != NULL) {	
 		
+		} else if (strstr(buf, "[WITNESS]") != NULL) {
+			char *tmp = strdup(buf);
+			strtok(tmp, "->");
+			witness = strtok(NULL, "->")[0];
+			sdlevent.type = SDL_KEYDOWN;
+			sdlevent.key.keysym.sym = SDLK_y;
+			SDL_PushEvent(&sdlevent);
 		} else {
 			printf("%s", buf);
 			getchar();
@@ -1499,6 +1518,8 @@ void change_point_of_view() {
 		sdlevent.key.keysym.sym = SDLK_p;
 	} else if (strcmp(talking, "Mia") == 0) {
 		sdlevent.key.keysym.sym = SDLK_m;
+	} else if (strcmp(talking, "Butz") == 0){
+		sdlevent.key.keysym.sym = SDLK_y;
 	}
 	SDL_PushEvent(&sdlevent);
 
@@ -1508,16 +1529,25 @@ void do_qcm(char *qcm_nb) {
 	
 	struct qcm_struct qcm;
 	get_info_qcm(&qcm, qcm_nb);
-	
+
 	int choice;
 	char choice2[10];
+	int good_answer = 0;
 	do {
 		choice = do_question_menu(qcm.talking, qcm.question, qcm.proposition_case, qcm.nb_proposition);
 		do_answer(qcm_nb, choice - 1, qcm.case_files);
 		printf("\n");
-		snprintf(choice2, strlen(qcm.answer) + 1, "CASE_%d", choice);
+		snprintf(choice2, strlen(qcm.answer[0]) + 1, "CASE_%d", choice);
 		printf("\n");
-	} while(strcmp(choice2, qcm.answer) != 0);
+		int i = 0;
+		while(qcm.answer[i] != NULL) {
+			if(strcmp(choice2, qcm.answer[i]) == 0) {
+				good_answer = 1;
+				break;
+			}
+			i++;
+		}
+	} while(good_answer == 0);
 }
 
 void get_info_qcm(struct qcm_struct *qcm, char *qcm_nb) {
@@ -1551,7 +1581,18 @@ void get_info_qcm(struct qcm_struct *qcm, char *qcm_nb) {
 				qcm->question = tmp;
 				snprintf(last_string, 1, "0");
 			} else if(strstr(last_string, "[ANSWER]") != NULL) {
-				qcm->answer = tmp;
+				if(strstr(tmp, "&") != NULL) {
+					int i = 0;
+					char *token = strtok(tmp, "&");
+					qcm->answer[i] = token;
+					i++;
+					while(token != NULL) {
+						token = strtok(NULL, "&");
+						qcm->answer[i] = token;
+					}
+				} else {
+					qcm->answer[0] = tmp;
+				}
 				snprintf(last_string, 1, "0");
 			} else if(strstr(last_string, "[PROPOSITION]") != NULL) {
 				qcm->proposition_case[n].key = strtok(tmp, "->");
