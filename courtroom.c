@@ -663,8 +663,9 @@ void game_loop() {
 				break;
 				case SDLK_u :
 					lookjudge();
-					musique = musique_trial;
+					
 					if (Mix_PlayingMusic() == 0) {
+						musique = musique_trial;
 						Mix_PlayMusic(musique, -1);
 					}
 
