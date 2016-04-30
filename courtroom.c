@@ -1,7 +1,11 @@
 #include "courtroom.h"
 
 Mix_Music *musique = NULL;
-
+Mix_Music *musique_trial = NULL;
+Mix_Music *musique_objection = NULL;
+Mix_Music *musique_cornered = NULL;
+Mix_Music *musique_moderate = NULL;
+Mix_Music *musique_allegro = NULL;
 
 
 int main(int argc, char **argv) {
@@ -100,11 +104,13 @@ void init_SDL(void) {
 	if (Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 4096) < 0) {
 		printf("SDL_Mixer Error: %s\n", Mix_GetError());
 	}
-	musique = Mix_LoadMUS("music/Trial.ogg");
-	
-	if (musique == NULL) {
-	    printf("Couldn't load beat.wav: %s\n", Mix_GetError());
-	}
+
+	musique_allegro = Mix_LoadMUS("music/Examination_Allegro.ogg");
+	musique_moderate = Mix_LoadMUS("music/Examination_Moderate.ogg");
+	musique_objection = Mix_LoadMUS("music/Objection.ogg");
+	musique_cornered = Mix_LoadMUS("music/Cornered.ogg");
+	musique_trial = Mix_LoadMUS("music/Trial.ogg");
+
 }
 
 
@@ -631,16 +637,16 @@ void game_loop() {
 				case SDLK_w :
 					anim_bras_pw(1);
 					
-					musique = cornered == 0 ? Mix_LoadMUS("music/Objection.ogg") : Mix_LoadMUS("music/Cornered.ogg");
+					musique = cross < 2 ? musique_objection  :  musique_cornered;
 					
 					Mix_PlayMusic(musique, -1);
-					cornered = (cornered + 1) % 2;
 				break;
 				case SDLK_x :
 					anim_bras_pw(-1);
 					
-					musique = Mix_LoadMUS("music/Trial.ogg");
+					musique = (cross < 2 ) ? musique_moderate : musique_allegro;
 					Mix_PlayMusic(musique, -1);
+					cross ++;
 				break;
 				case SDLK_c :
 					desk_slaming_pw();
@@ -653,6 +659,7 @@ void game_loop() {
 				break;
 				case SDLK_u :
 					lookjudge();
+					musique = musique_trial;
 					if (Mix_PlayingMusic() == 0) {
 						Mix_PlayMusic(musique, -1);
 					}
@@ -675,9 +682,11 @@ void game_loop() {
 				break;
 				case SDLK_t :
 				lookwitness();
-				musique = cross == 0 ? Mix_LoadMUS("music/Examination_Moderate.ogg") : Mix_LoadMUS("music/Examination_Allegro.ogg");
+				if (!(musique == musique_allegro || musique == musique_moderate || musique == musique_objection || musique == musique_cornered)) {
+				musique = (cross < 2 ) ? musique_moderate : musique_allegro;
 				Mix_PlayMusic(musique, -1);
-				cross = (cross + 1) % 2;
+				
+				}
 				break;
 				case SDLK_b :
 					printf("%f, %f, %f, %f, %f, %f\n", whereiamx, whereiamy, whereiamz, whereilookx, whereilooky, whereilookz);
@@ -1508,7 +1517,7 @@ void extract_talking(char *buf) {
 void change_point_of_view() {
 	sdlevent.type = SDL_KEYDOWN;
 	if(strcmp(talking, "Judge") == 0) {
-		sdlevent.key.keysym.sym = SDLK_j;
+		sdlevent.key.keysym.sym = SDLK_u;
 	} else if(strcmp(talking, "Payne") == 0) {
 		sdlevent.key.keysym.sym = SDLK_i;
 	} else if (strcmp(talking, "Phoenix") == 0) {
