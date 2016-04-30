@@ -1,0 +1,33 @@
+[ANSWER]->LINE_9
+[EVIDENCE]->1
+
+[LINE_1]>*Sahwit_I was going door-to-door,_selling subscriptions when I saw_a man fleeing an apartment.
+
+[LINE_2]>*Sahwit_I thought he must be in a_hurry because he left the_door half-open behind him.  
+
+[LINE_3]>*Sahwit_Thinking it strange, I looked_inside the apartment.
+
+[LINE_4]>*Sahwit_Then I saw her lying there..._A woman... not moving... dead!
+
+[LINE_5]>*Sahwit_I quailed in fright and found_myself unable to go inside.
+
+[LINE_6]>*Sahwit_I thought to call the police_immediately!
+
+[LINE_7]>*Sahwit_However, the phone in her_apartment wasn't working.
+
+[LINE_8]>*Sahwit_I went to a nearby park and_found a public phone.
+
+[LINE_9]>*Sahwit_I remember the time exactly:_It was 1:00 PM.
+
+[LINE_10]>*Sahwit_The man who ran was, without_a doubt, the defendant sitting_right over there.
+
+++
+[EXTRA_1]>*Mia_That's all of it.
+
+[EXTRA_2]>*Mia_There must be a contradiction_in there somewhere.
+
+[EXTRA_3]>*Mia_Examine the Court Record button_if something strikes you as_being suspicious.
+
+[EXTRA_4]>*Mia_Then, find the evidence that_contradicts his testimony,_and present it to him!
+
+__
