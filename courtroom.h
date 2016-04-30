@@ -44,6 +44,19 @@ static int langledubrasdephoenixwright;
 static int mouvementmarteau;
 static int cross;
 
+static Mix_Music *musique;
+static Mix_Music *musique_trial;
+static Mix_Music *musique_objection;
+static Mix_Music *musique_cornered;
+static Mix_Music *musique_moderate;
+static Mix_Music *musique_allegro;
+static Mix_Music *musique_foule;
+static Mix_Music *musique_marteau;
+static Mix_Music *musique_slam;
+static Mix_Music *musique_takethat;
+static Mix_Music *musique_payne;
+static Mix_Music *musique_holdit;
+
 static SDL_Event sdlevent;
 
 // Constant varaibles

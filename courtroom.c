@@ -1,14 +1,6 @@
 #include "courtroom.h"
 
-Mix_Music *musique = NULL;
-Mix_Music *musique_trial = NULL;
-Mix_Music *musique_objection = NULL;
-Mix_Music *musique_cornered = NULL;
-Mix_Music *musique_moderate = NULL;
-Mix_Music *musique_allegro = NULL;
-Mix_Music *musique_foule = NULL;
-Mix_Music *musique_marteau = NULL;
-Mix_Music *musique_slam = NULL;
+
 
 int main(int argc, char **argv) {
 	if (argc != 1) {
@@ -115,6 +107,9 @@ void init_SDL(void) {
 	musique_foule = Mix_LoadMUS("music/Bruit_Foule.ogg");
 	musique_marteau = Mix_LoadMUS("music/Marteau.ogg");
 	musique_slam = Mix_LoadMUS("music/Desk_Slaming.ogg");
+	musique_takethat = Mix_LoadMUS("music/TakeThat.ogg");
+	musique_holdit = Mix_LoadMUS("music/HoldIt.ogg");
+	musique_payne = Mix_LoadMUS("music/Objection_Payne.ogg");
 }
 
 
@@ -687,9 +682,26 @@ void game_loop() {
 					look_mia_from_phoenix();
 				break;
 				case SDLK_h :
-				    
+				    musique = musique_marteau;
 					anim_marteau();
-					Mix_PlayMusic(musique_marteau, 1);
+					Mix_PlayMusic(musique, 1);
+					
+				break;
+				case SDLK_r :
+				    musique = musique_holdit;
+					Mix_PlayMusic(musique, 1);
+					
+				break;
+				
+				case SDLK_f :
+				    musique = musique_takethat;
+					Mix_PlayMusic(musique, 1);
+					
+				break;
+				
+				case SDLK_g :
+				    musique = musique_payne;
+					Mix_PlayMusic(musique, 1);
 					
 				break;
 				case SDLK_t :
