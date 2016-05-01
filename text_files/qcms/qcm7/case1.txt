@@ -1,0 +1,17 @@
+[CASE_1]
+*Phoenix
+You're lying!
+
+*Phoenix
+You were inside the apartment
+on the day of the murder!
+
+*Sahwit
+Oh yeah? Prove it!
+Prove I went in there!
+
+*Phoenix
+[DESK_SLAM]->Phoenix Wrigth
+I'll do better than that!
+I can prove you were the one
+who killed her!

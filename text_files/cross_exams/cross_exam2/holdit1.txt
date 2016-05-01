@@ -1,0 +1,50 @@
+*Phoenix
+[HOLD_IT]
+
+*Phoenix
+You said "heard"...
+Not "saw"?
+
+*Sahwit
+Yes, heard.
+
+*Sahwit
+All I saw was the body
+lying there...
+
+*Sahwit
+I didn't think to look at
+anything else, least of all
+my watch.
+
+*Phoenix
+Hmm...
+Isn't that a little strange?
+
+*Phoenix
+So you're saying you
+"heard" something.
+
+*Phoenix
+But if you were so shocked by
+the body, you wouldn't hear
+anything at all!
+
+[OBJECTION]->Payne
+
+*Payne
+The witness did say he
+actually heard the time.
+
+*Payne
+It's ludicrous to suggest
+he "wouldn't hear anything"!
+
+*Judge
+Hmm...
+I have to agree with
+the prosecution.
+
+*Judge
+Witness, continue
+your testimony.

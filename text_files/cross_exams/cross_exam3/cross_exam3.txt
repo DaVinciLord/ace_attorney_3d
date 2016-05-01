@@ -1,0 +1,13 @@
+[NAME]->Hearing the Time
+[ANSWER]>LINE_2&LINE_3&LINE_4
+[EVIDENCE]->2
+
+[LINE_1]>*Sahwit_Actually, I didn't "hear"_the time... I "saw" it!
+
+[LINE_2]>*Sahwit_There was a table clock in_the apartment, wasn't there!
+
+[LINE_3]>*Sahwit_Yeah, the murder weapon!_The killer used it to_hit the victim!
+
+[LINE_3]>*Sahwit_That must have_been what I saw.
+
+[EXTRA_1]>*Mia_Now, find the contradiction!

@@ -1,0 +1,13 @@
+[TALKING]
+*Phoenix
+
+[QUESTION]
+The witness knew it was_a clock, because he...
+
+[ANSWER]
+CASE_1
+
+[PROPOSITION]
+CASE_1->Went into the apartment->case1.txt
+CASE_2->Knew the victim->case2.txt
+__

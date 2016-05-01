@@ -1,0 +1,11 @@
+*Phoenix
+[HOLD_IT]
+
+*Phoenix
+[OBJECTION_STANCE]
+How do you explain the gap!
+
+*Judge
+Well, witness?
+Can you explain this?
+[END_OBJECTION_STANCE]

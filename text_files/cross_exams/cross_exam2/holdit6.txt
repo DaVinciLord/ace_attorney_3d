@@ -1,0 +1,12 @@
+*Phoenix
+[HOLD_IT]
+
+*Phoenix
+[OBJECTION_STANCE]
+Well, you just watch it!
+[END_OBJECTION_STANCE]
+
+*Phoenix
+(Hmm... Not much point
+pressing him on that one,
+was there?)

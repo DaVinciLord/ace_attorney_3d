@@ -1,0 +1,47 @@
+[CASE_2]
+*Phoenix
+Tell me, isn't it true that
+you knew the victim?
+
+*Phoenix
+In fact, you were one of her
+"sugar daddies"! Be frank
+with us, Mr. Sahwit!
+
+*Sahwit
+Hmph.
+
+*Sahwit
+"Frank"? I'm always "Frank"!
+
+*Payne
+Your Honor.
+
+*Payne
+We have complete records of
+the victim's relationships.
+
+*Payne
+Mr. Frank Sahwit does
+not appear anywhere.
+
+*Phoenix
+[END_OBJECTION_STANCE]
+Huh?
+Oh, really?
+
+*Judge
+Please, Mr. Wright...
+Is "Huh" the best response
+you can muster up?
+
+*Judge
+Try to refrain from making
+off-the-cuff accusations
+in the future.
+
+*Phoenix
+Y-yes, Your Honor.
+Let me think this over.
+
+[OBJECTION_STANCE]

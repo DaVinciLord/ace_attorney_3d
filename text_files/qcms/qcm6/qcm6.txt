@@ -1,0 +1,13 @@
+[TALKING]
+*Judge
+
+[QUESTION]
+Do yout have any problems_with his testimony now ?
+
+[ANSWER]
+CASE_1&CASE_2
+
+[PROPOSITION]
+CASE_1->No->case1.txt
+CASE_2->Yes->case2.txt
+__

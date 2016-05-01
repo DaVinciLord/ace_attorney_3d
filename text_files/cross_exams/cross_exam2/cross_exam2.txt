@@ -1,0 +1,17 @@
+[NAME]->The Time of Discovery
+[ANSWER]>LINE_1&LINE_2&LINE_3&LINE_4&LINE_5&LINE_6
+[EVIDENCE]->4
+
+[LINE_1]>*Sahwit_You see, when I found the_body, I heard the time.
+
+[LINE_2]>*Sahwit_There was a voice saying the_time... It was probably_coming from the television.
+
+[LINE_3]>*Sahwit_Oh, but it was three hours_off, wasn't it?
+
+[LINE_4]>*Sahwit_I guess the victim must_have been watching a video_of a taped program!
+
+[LINE_5]>*Sahwit_That's why I thought_it was 1:00 PM!
+
+[LINE_6]>*Sahwit_Terribly sorry about_the misunderstanding...
+
+[EXTRA_1]>*Mia_Notice anything suspicious?
