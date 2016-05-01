@@ -1320,9 +1320,10 @@ running slow!
 
 [QCM]->10
 
-
 *Phoenix
-TAKE THAT!
+[TAKE_THAT]
+
+[DESK_SLAM]->Phoenix Wrigth
 
 *Phoenix
 The victim had just returned
