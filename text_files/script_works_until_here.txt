@@ -769,6 +769,9 @@ And this record proves it!
 You couldn't have heard
 a television... or a video!
 
+++
+[OBJECTION_MUSIC]
+
 *Sahwit
 Gah!!!
 
@@ -1099,6 +1102,8 @@ listen very carefully...
 *Alarm clock
 I think it's 8:25.
 
+[CORNERED]
+
 *Judge
 That certainly is a strange
 way to announce the time.
@@ -1168,6 +1173,8 @@ on the day of the murder!?
 If you can't prove that,
 you don't have a case!
 
+[PAUSE_MUSIC]
+
 *Phoenix
 ...!
 
@@ -1225,6 +1232,7 @@ You lawyers are all slime!
 (There's nothing I can
 do about it now...)
 
+[CORNERED]
 
 *Mia
 Not so fast, Mr. Sahwit!
