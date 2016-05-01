@@ -37,12 +37,10 @@ static GLfloat whereilookz;
 static GLdouble near;
 static GLdouble far;
 static int lock;
-static int cornered;
 static int deskslaming;
 static int noding;
 static int langledubrasdephoenixwright;
 static int mouvementmarteau;
-static int cross;
 
 static Mix_Music *musique;
 static Mix_Music *musique_trial;
@@ -52,7 +50,7 @@ static Mix_Music *musique_moderate;
 static Mix_Music *musique_allegro;
 static Mix_Music *musique_foule;
 static Mix_Music *musique_marteau;
-
+static Mix_Music *musique_examination;
 
 static Mix_Chunk *chunk;
 static Mix_Chunk *musique_holdit;
@@ -145,6 +143,7 @@ static char *slamming;
 static char *objecting;
 static int witness;
 static int good_objection;
+static int allegro;
 
 struct key_value {
 	char *key;
@@ -170,10 +169,11 @@ struct evidence {
 };
 
 struct cross_exam_struct {
-	char *answer_line;
+	char *answer_line[15];
 	int evidence_to_show;
 	char *lines[20];
 	char *extras[20];
+	char *name;
 	int current_line;
 	int nb_lines;
 	int nb_extras;
