@@ -1,6 +1,7 @@
 [CASE_1]
 *Phoenix
-TAKE THAT!
+
+[TAKE_THAT]
 
 *Judge
 Um, excuse me. This proves
