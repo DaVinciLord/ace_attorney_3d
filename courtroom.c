@@ -1681,7 +1681,6 @@ void do_qcm(int qcm_nb) {
 		printf("\n");
 		int i = 0;
 		while(qcm.answer[i] != NULL) {
-			printf("%s\n", qcm.answer[i]);
 			if(strcmp(choice2, qcm.answer[i]) == 0) {
 				good_answer = 1;
 				break;
@@ -1731,6 +1730,7 @@ void get_info_qcm(struct qcm_struct *qcm, int qcm_nb) {
 					while(token != NULL) {
 						token = strtok(NULL, "&");
 						qcm->answer[i] = token;
+						i++;
 					}
 				} else {
 					qcm->answer[0] = tmp;
