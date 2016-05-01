@@ -110,16 +110,9 @@ void init_GL(void) {
 
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-	//glEnable(GL_LIGHT1);
-	// glEnable(GL_LIGHT2);
 	GLfloat intensite[] = {0.2,0.2,0.2, 1.};
 
-	//glLightfv(GL_LIGHT1, GL_DIFFUSE, intensite);
 	glLightfv(GL_LIGHT0, GL_AMBIENT, intensite);
-	//glLightfv(GL_LIGHT2, GL_DIFFUSE, intensite);
-	// glLightfv(GL_LIGHT2, GL_SPECULAR, intensite);
-
-
 
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 	quad = gluNewQuadric();
