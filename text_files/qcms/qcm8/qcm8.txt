@@ -1,0 +1,15 @@
+[TALKING]
+*Phoenix
+
+[QUESTION]
+A fact which is clear
+if you simply...
+
+[ANSWER]
+CASE_3
+
+[PROPOSITION]
+CASE_1->Examine the clock's batteries->case1.txt
+CASE_2->Ask the neighbors->case2.txt
+CASE_3->Try sounding the clock->case3.txt
+__

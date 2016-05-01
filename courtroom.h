@@ -132,7 +132,7 @@ void GL_Quit(void);
 typedef void *(*start_routine_type)(void *);
 void *run(void);
 
-#define SCRIPT_PATH "./text_files/testScript.txt"
+#define SCRIPT_PATH "./text_files/script_works_until_here.txt"
 #define QCM_PATH "./text_files/qcms/qcm"
 #define	TESTIMONY_PATH "./text_files/testimonies/testimony"
 #define	CROSS_EXAM_PATH "./text_files/cross_exams/cross_exam"

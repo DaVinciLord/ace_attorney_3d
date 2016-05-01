@@ -1470,6 +1470,10 @@ void anim_marteau() {
 
 
 void movecamera(GLfloat wtbx, GLfloat wtby, GLfloat wtbz, GLfloat wtlx, GLfloat wtly, GLfloat wtlz) {
+	if (whereiamx == wtbx && whereiamy == wtby && whereiamz == wtbz 
+	 && whereilookx == wtlx && whereilooky == wtly && whereilookz == wtlz) { 
+		 return;
+	 }
     GLfloat locwiax = (wtbx - whereiamx) / 100.;
     GLfloat locwiay = (wtby - whereiamy) / 100.;
     GLfloat locwiaz = (wtbz - whereiamz) / 100.;

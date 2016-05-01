@@ -936,25 +936,6 @@ Clearly, a contradiction!
 *Judge
 Hmm... indeed!
 
-[QCM]->6
-
-*Phoenix
-The only way he could have
-known the weapon was a clock
-is to hold it in his hand.
-
-*Phoenix
-Yet the witness testified
-that he never entered the
-apartment!
-
-*Phoenix
-[DESK_SLAM]->Phoenix Wrigth
-Clearly, a contradiction!
-
-*Judge
-Hmm... indeed!
-
 [QCM]->7
 
 *Phoenix
@@ -1104,7 +1085,330 @@ Yes, Your Honor.
 The sound Mr. Sahwit heard
 was definitely this clock.
 
+
+
+[QCM]->8
+
 *Phoenix
-A fact which is clear
-if you simply...
+I ask the court to
+listen very carefully...
+
+*Alarm clock
+...*beep*...
+
+*Alarm clock
+I think it's 8:25.
+
+*Judge
+That certainly is a strange
+way to announce the time.
+
+*Phoenix
+Well, he is "The Thinker,"
+after all.
+
+*Judge
+So, we've heard the clock.
+What are your conclusions,
+Mr. Wright?
+
+*Phoenix
+Mr. Payne... can you tell me
+what time it is now?
+
+*Payne
+It's 11:25...
+
+*Payne
+Ack!
+
+*Phoenix
+As you can see, this clock
+is exactly three hours slow!
+
+*Phoenix
+Precisely the discrepancy
+between what Mr. Sahwit heard
+and the actual time of death!
+
+*Phoenix
+So, Mr. Sahwit...
+
+*Phoenix
+Try to talk your
+way out of this one!
+
+*Sahwit
+...
+
+*Sahwit
+...Hah! Hah hah!
+
+*Sahwit
+You forgot one thing!
+
+*Phoenix
+(Uh oh... what's he
+talking about...?)
+
+*Sahwit
+While it may seem like
+that clock IS running three
+hours slow...
+
+*Sahwit
+It proves nothing!
+
+*Sahwit
+How do you know it was
+running three days slow
+on the day of the murder!?
+
+*Sahwit
+If you can't prove that,
+you don't have a case!
+
+*Phoenix
+...!
+
+*Phoenix
+(He's right! How am I
+going to prove that!?)
+
+*Phoenix
+(Dammit! I was so close!)
+
+*Judge
+Mr. Wright?
+
+*Judge
+It seems you lack the
+critical evidence to
+support your claim.
+
+*Phoenix
+...!
+
+*Phoenix
+Yes, Your Honor.
+
+*Judge
+This means I cannot let
+you indict the witness.
+
+*Judge
+Unfortunately...
+
+*Judge
+This ends the cross-examination
+of Mr. Frank Sahwit.
+
+*Sahwit
+I come all the way down here
+to testify, and look
+what happens!
+
+*Sahwit
+They treat me like a
+criminal! A criminal!
+
+*Sahwit
+You lawyers are all slime!
+
+*Phoenix
+(Grr! I almost had him!)
+
+*Phoenix
+(Sorry, Larry... I failed you.)
+
+*Phoenix
+(There's nothing I can
+do about it now...)
+
+
+*Mia
+Not so fast, Mr. Sahwit!
+
+*Phoenix
+Mia! I mean, Chief!
+
+*Mia
+Listen up, Wright!
+
+*Mia
+Don't throw this one away,
+not like this! Think!
+
+*Phoenix
+But, Chief, it's over.
+
+*Phoenix
+I can't prove the clock was
+slow the day of the murder!
+
+*Phoenix
+Nobody can prove that!
+
+*Mia
+Um... well, yes.
+
+*Mia
+But that doesn't mean you
+can't still win! Try thinking
+out of the box!
+
+*Mia
+Don't waste time doubting the
+facts. Assume the clock was
+three hours slow and...
+
+*Mia
+Think through it!
+
+*Mia
+Ask yourself, "Why was
+the clock three hours slow"?
+
+*Mia
+Figure out the reason,
+and you'll have your proof!
+
+*Mia
+Right, Wright?
+
+*Mia
+Can you think of a reason as
+to why the clock would be
+three hours slow?
+
+[QCM]->9
+
+
+*Judge
+You say the clock was already
+running slow on the day of
+the murder...
+
+*Judge
+Have you found evidence
+to support this claim?
+
+*Phoenix
+Of course.
+
+*Phoenix
+There is a piece of evidence
+in the Court Record that can
+prove my claim beyond a doubt!
+
+*Sahwit
+Hah! Tough words! Let's see
+you pull this one off!
+
+*Judge
+Let's see this evidence that
+proves why the clock was
+running slow!
+
+[QCM]->10
+
+
+*Phoenix
+TAKE THAT!
+
+*Phoenix
+The victim had just returned
+home from abroad the day
+before the murder.
+
+*Phoenix
+As we all know, the time
+difference between here and
+Paris is nine hours!
+
+*Phoenix
+When it's 4:00 PM here,
+it's 1:00 AM the next day
+there.
+
+*Phoenix
+The clock wasn't three hours
+slow, it was nine hours fast!
+
+*Phoenix
+The victim hadn't reset her
+clock since returning home!
+
+*Phoenix
+That's why the time you heard
+when you struck her dead in
+her apartment was wrong!
+
+*Phoenix
+Proof enough for you,
+Mr. Sahwit? Or should
+I say... Mr. Did It!
+
+*Sahwit
+Ngh! ...!
+
+[PUBLIC_TALK]
+[JUDGE_HAMMER]->3
+
+*Judge
+O-order! Order, I say!
+
+*Judge
+Well...
+
+*Judge
+This case has certainly
+turned out differently
+than we all expected.
+
+*Judge
+Mr. Payne... your client?
+
+*Payne
+He... er... he was arrested
+and has been taken away,
+Your Honor.
+
+*Judge
+Very well.
+
+*Judge
+Mr. Wright?
+
+*Phoenix
+Yes, Your Honor.
+
+*Judge
+I have to say, I'm impressed.
+
+*Judge
+I don't think I've ever seen
+someone complete a defense
+so quickly...
+
+*Judge
+and find the true culprit
+at the same time!
+
+*Phoenix
+Thank you, Your Honor.
+
+*Judge
+At this point, this is
+only a formality, but...
+
+*Judge
+This court finds the
+defendant, Mr. Larry Butz...
+N O T   G U I L T Y
+
+*Judge
+And with that...
+The court is adjourned.
+
 

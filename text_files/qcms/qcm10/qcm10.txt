@@ -1,0 +1,16 @@
+[TALKING]
+*Phoenix
+
+[QUESTION]
+The evidence is
+
+[ANSWER]
+CASE_4
+
+[PROPOSITION]
+CASE_1->Attorney's Badge->case1.txt
+CASE_2->Cindy's Autopsy Report->case1.txt
+CASE_3->Clock->case1.txt
+CASE_4->Passport->case2.txt
+CASE_5->Blackout Record->case1.txt
+__
