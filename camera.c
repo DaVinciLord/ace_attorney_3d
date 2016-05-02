@@ -20,6 +20,13 @@ void movecamera(GLfloat wtbx, GLfloat wtby, GLfloat wtbz, GLfloat wtlx, GLfloat 
         whereilookz += locwilz;
         display();
     }
+        whereiamx = wtbx;
+        whereiamy = wtby;
+        whereiamz = wtbz;
+        whereilookx = wtlx;
+        whereilooky = wtly;
+        whereilookz = wtlz;
+    
 }
 
 void lookfromjudge() {
