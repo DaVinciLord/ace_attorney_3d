@@ -2,36 +2,36 @@
 
 \subsection{Les Fonctions Utisant OpenGL}
 	\subsubsection{Le sol}
-	Le sol et constitué de 6 pavés mis côte à côte, afin d'avoir une plus belle reflexion de la lumière. Ces pavés sont eux même composés de sous pavés, qui ne sont au final que de simples GL\_ QUADS, sur lesquels on plaque une texture de pavage à neuf cases.
+	Le sol et constitué de 6 pavés mis côte à côte, afin d'avoir une plus belle réflexion de la lumière. Ces pavés sont eux même composés de sous pavés, qui ne sont au final que de simples GL\_QUADS, sur lesquels on plaque une texture de pavage à neuf cases.
 	
 	\subsubsection{Les meubles}
-	Les meubles sont créer grâce à la fonction creer pave, qui prends en paramêtre les coordonées du centre du pavé, ainsi que sa largeur, sa profondeur et sa hauteur. Cette fonction crée correctement toutes les faces vers l'exterrieur, et fixe leurs normales, afin que la lumière et les textures ajoutées s'affichent correctement.
+	Les meubles sont créer grâce à la fonction creer\_pave, qui prends en paramêtre les coordonées du centre du pavé, ainsi que sa largeur, sa profondeur et sa hauteur. Cette fonction crée correctement toutes les faces vers l'exterieur, et fixe leurs normales, afin que la lumière et les textures ajoutées s'affichent correctement.
 	\subsubsection{Les murs}
-	Les murs sont crées par la fonction creer\_ mur, qui ressemble beaucoup à creer\_ pave, mais ne crée pas les faces en z et -z, et qui de plus, crée les faces vers l'interieur du solide.
+	Les murs sont crées par la fonction creer\_mur, qui ressemble beaucoup à creer\_pave, mais ne crée pas les faces en z et -z, et qui de plus, crée les faces vers l'interieur du solide.
 	\subsubsection{Le blason, et la balance}
 	Les éléments situés au dessus du juge ont été crées à l'aide des fonctions de la glu, gluCylinder, et gluDisk. Elles sont tournées et translatées sur le fond de la pièce, et des texture réalistes sont plaquées dessus.
 	\subsubsection{Le marteau et son support}
 	Le marteau, tout comme les précédents éléments, est crée à l'aide d'un quadric, avec les fonctions de la glu. Il a aussi été ajouté un glRotatef dedans, afin de pouvoir faire varier la position du marteau. Cela simule un coup au rendu convainquant.
 	\subsubsection{Le Stand des Témoins}
-	Ce stand est constitué en bas d'un ensemble de pavés, crée par la fonction décrite si dessus, repartis de façon homogène sur un demi-cercle. Il est surmonté par des gluPartialDisk enpilés les un sur les autres.
+	Ce stand est constitué en bas d'un ensemble de pavés, créé par la fonction décrite si dessus, repartis de façon homogène sur un demi-cercle. Il est surmonté par des gluPartialDisk empilés les uns sur les autres.
 	\subsubsection{Les personnages}
-	Pour créer les personnages, une nouvelle fonction à due être definie, c'est la fonction creer\_ pave\_ with\_ texture, cette fonction permet d'associer à chaques faces d'un pavé, une texture diférente, fournie en argument de la fonction. De plus, certains personages ont subit quelques modification, permetant des animations, au grés du scénario.
-	En effet, les bras du personage principal sont affublés de deux glRotatef, ce qui leurs permet de bouger dans deux directions différentes, le bras du juge, à l'aide d'un glTranslate, bouge au rythme de son marteau, et les têtes des spectateurs de la foules peuvent, à l aide d'un glRotatef tourner de gauche à droite.
+	Pour créer les personnages, une nouvelle fonction a due être definie, c'est la fonction creer\_pave\_with\_texture, cette fonction permet d'associer à chaques faces d'un pavé, une texture différente, fournie en argument de la fonction. De plus, certains personnages ont subit quelques modifications, permettant des animations, au grés du scénario.
+	En effet, les bras du personnage principal sont affublés de deux glRotatef, ce qui leurs permet de bouger dans deux directions différentes, le bras du juge, à l'aide d'un glTranslatef, bouge au rythme de son marteau, et les têtes des spectateurs de la foule peuvent, à l aide d'un glRotatef, tourner de gauche à droite.
 	\subsubsection{Les arcades}
-	Des arcades ont été appliquées sur les murs afin d'améliorer leur esthétisme. Deux pavés créer normalements surmontés de deux autres, qui sont tournés à 45 degrés et déplacés au dessus des prémiers.
+	Des arcades ont été appliquées sur les murs afin d'améliorer leur esthétisme. Deux pavés créés normalement, surmontés de deux autres, qui sont tournés à 45 degrés et déplacés au dessus des premiers.
 \subsection{Le modèle de vu}
-	Afin d'afficher la scene, un gluPerspective est fait à l'initialisation. Les arguments associés sont un fovy de 60, ce qui nous a semblé rendre une scène correcte, non déformée. Le rapport d'aspect reste à 1, near est à 10 et far est à 3000 ce qui permet, quelque soit notre enplacement dans la scène, de pouvoir l'afficher en entier.\newline
-	Un gluLookAt est fait à chaques fois que la scène est affichée, il prend en paramètre des variables globales ce qui permet de pouvoir facilement deplacer la camera dans la scene. Il y deux façons de se déplacer dans la scène
+	Afin d'afficher la scène, un gluPerspective est fait à l'initialisation. Les arguments associés sont un fovy de 60, ce qui nous a semblé rendre une scène correcte, non déformée. Le rapport d'aspect reste à 1, near est à 10 et far est à 3000 ce qui permet, quelque soit notre emplacement dans la scène, de pouvoir l'afficher en entier.\newline
+	Un gluLookAt est fait à chaque fois que la scène est affichée, il prend en paramètre des variables globales ce qui permet de pouvoir facilement déplacer la camera dans la scène. Il y deux façons de se déplacer dans la scène.
 	\subsubsection{Le mode "Vue libre"}
-	Grace à la fonction PollEvent de le SDL, on peut recuperer les inputs faient au clavier quand la fenêtre a le focus, cela permet de pouvoir modifier les globales whereiam{x,y,z} et whereialook{x,y,z} offrant une totale liberté de mouvement dans la scène
+	Grâce à la fonction PollEvent de le SDL, on peut récupérer les inputs fait au clavier quand la fenêtre à le focus, cela permet de pouvoir modifier les globales whereiam{x,y,z} et whereialook{x,y,z} offrant une totale liberté de mouvement dans la scène.
 	\subsubsection{Le mode automatique}
-	Certaines touches, ou certaines balises dans le script, lancent les fonction de déplacement, qui elle même appellent movecamera, qui permet de deplacer de manière fluide la camera dans la scène, en faisant un display de la scène tous les 1/100 ème de la distance entre où je suis et l'endroit où je dois être.
+	Certaines touches, ou certaines balises dans le script, lancent les fonctions de déplacement, qui elles-mêmes appellent movecamera, qui permet de deplacer de manière fluide la camera dans la scène, en faisant un display de la scène tous les 1/100 ème de la distance entre où je suis et l'endroit où je dois être.
 \subsection{Les animations}
-	Plusieurs fonctions permettent que créer de petites animations, et sont lancées par des évements clavier crées manuellement ou par le biais du script. Ces fonctions modifient la valeur des variables globales mentionnées plus haut, et affiche la scène plusieurs fois afin de pouvoir voir l'animation complète.
+	Plusieurs fonctions permettent de créer de petites animations, et sont lancées par des évements clavier créés manuellement ou par le biais du script. Ces fonctions modifient la valeur des variables globales mentionnées plus haut, et affichent la scène plusieurs fois afin de pouvoir voir l'animation complète.
 \subsection{La musique}
-	Grace à SDLmixer, de la musique à été ajoutée au projet, reprenant les sonorités classique du jeu. Ces musiques sont jouées lors d'évènement de clavier, ou bien lors d'animation (comme par exemple celle du marteau est associé au son du marteau). Il y deux types de musiques.
+	Grace à SDLmixer, de la musique à été ajoutée au projet, reprenant les sonorités classiques du jeu. Ces musiques sont jouées lors d'évènements de clavier, ou bien lors d'animations (comme par exemple celui du marteau qui est associé à son mouvement). Il y a deux types de musiques.
 	\subsubsection{Les musiques standarts}
-	Ce sont celles courament jouées en fond sonore, pendant la lecture du script. Une seule peut etre jouée à la fois, et certaines boucles alors que d'autres ne sont jouées qu'une fois.
+	Ce sont celles couramment jouées en fond sonore, pendant la lecture du script. Une seule peut être jouée à la fois, et certaines bouclent alors que d'autres ne sont jouées qu'une fois.
 	\subsubsection{Les "morceaux" de musique}
-	Ce sont les bruitage que ne couperont pas la musique de fond quand ils seront joués. Ce sont principalement les objections des avocats, et autres interjections.
+	Ce sont les bruitages qui ne couperont pas la musique de fond quand ils seront joués. Ce sont principalement les objections des avocats, et autres interjections.
 	
