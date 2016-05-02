@@ -1,123 +1,95 @@
-\section{Interface Homme Machine}
-	Dans toute application où les interactions avec l'utilisateur sont fréquentes, et notamment dans un jeu tel que la bataille navale, il est bon que cette application possède une Interface Homme Machine (IHM)\footnote{Voir lexique} qui va prendre en compte les actions de l'utilisateur et modifier ce qu'il voit en conséquence. \newline
-	
-	Nous avons donc développé une IHM permettant à un joueur de pouvoir jouer aisément et sans difficultés. Notre application se découpe en deux fenêtres principales. La première est la fenêtre de démarrage où l'utilisateur pourra définir les différentes options liées à la nouvelle partie et la seconde est l'interface principale du jeu où toute la partie se déroulera. Nous allons donc exposer ces deux fenêtres dans deux parties distinctes où nous expliquerons comment les fenêtres sont construites et détaillerons les différents actions à effectuer. Enfin, nous en profiterons pour mettre en avant, dans une troisième partie, les composants graphiques permettant l'affichage des Boards.
-	
-\subsection{La fenêtre de démarrage}
-	Comme dit plus haut, la fenêtre de démarrage est la première fenêtre que verra le joueur au lancement de l'application. Pour nous aider à décrire cette fenêtre, voici une capture d'écran:
+\section{Les fonctionnalités du script}
 
-	
-	Comme on peut le voir, la fenêtre de démarrage est séparée en plusieurs morceaux. Pour s'y repérer, nous allons d'abord nous intéresser aux différents champs à remplir et actions à effectuer pour pouvoir créer une partie locale contre une IA, puis nous réitérerons cette logique pour soit créer, soit rejoindre une partie en ligne.
-	
-	\subsubsubsection{Une partie en local}
-		Pour effectuer une partie en local, il faut premièrement indiquer, dans le champ de texte en haut à droite symbolisé par un "A", les dimensions de notre plateau de jeu, chaque dimension étant séparée par le symbole ",". Puis, nous devons choisir, grâce à la liste déroulante symbolisé par un "B" à gauche, le niveau de difficulté choisi pour l'IA qui sont, à l'heure actuelle, au nombres de trois. Enfin, Nous pouvons lancer la partie en cliquant sur le bouton "commencer une partie contre l'IA, qui se situe en bas à gauche symbolisé par un "C".
+	Le but de notre projet était de revisiter l'univers d'Ace Attorney et ce de deux manières différentes:
+d'une part  grâce à la réalisation graphique, que nous verrons plus tard dans ce rapport, et d'autre part par le suivi du script.\newline
 
-	\subsubsubsection{Une partie en réseau}
-		Pour pouvoir jouer en ligne, il faut bien entendu indiquer les dimensions du plateau de jeu, cependant cette information n'est nécessaire que pour le joueur qui hébergera la partie. Comme pour la partie en local, il faut remplir le champ de texte marqué d'un "1" en haut à droite de la fenêtre. Ensuite, chaque joueur doit rentrer son adresse IPv4 dans le champ numéroté "2" et l'adresse IPv4 de l'adversaire dans le champ numéro "3" au centre de la fenêtre. \newline
-Il est également possible de récupérer une adresse mémorisée au préalable dans un fichier texte, apparaissant dans les listes déroulantes notées "4" mais aussi de mémoriser l'adresse, qui est écrite dans les champ de textes sus-mentionné, grâce aux boutons sur la droite.
-\newline
-Enfin, le joueur hôte lance la partie en cliquant sue le bouton "créer une partie en ligne", noté "6" en bas au centre de la fenêtre et le joueur invité peut rejoindre une partie après avoir cliqué sur le bouton indiqué par un "7".
+	En effet, comme dit en introduction, le script a une place majeure dans le déroulement du jeu car c'est lui qui fait avancer ou non l'intrigue.\newline
+Pour des soucis de temps, nous avons choisi de ne ré-implémenter que la première affaire du premier jeu.\newline
 
-\subsection{L'interface du jeu}
-	\subsubsection{Le placement des navires}
+	Cette partie du rapport se découpe de la manière suivante: dans un premier temps, nous verrons comment les différents fichiers de script s'organisent entre eux.Dans un second temps, nous décrirons les structures utilisées pour la bonne gestion des fichiers de textes selon la situation. Enfin, nous verrons comment l'implémentation de cette partie en elle même.\newline
 
-	Le  joueur doit avant tout cliquer sur une des cases du plateau de jeu, ce composant graphique un peu spécial sera explicité dans une autre sous-partie. La case cliquée représentera alors la proue du navire("1") et, en cliquant sur une seconde case, nous choisissons la poupe("2") de celui-ci. Il est à noter que, sur la gauche de la fenêtre, il est possible d'entrer les coordonnées des deux cases en format textuel, c'est à dire "X,X"("3").
-	\newline
-	
-	Il faut ensuite cliquer sur le bouton "Placer ce navire"("4"), en dessous des champs de texte permettant de renseigner les coordonnées. Le fait de cliquer sur ce bouton a pour effet de faire passer le navire à placer au suivant dans la liste déroulante en haut à gauche("7"). Naturellement, il est aussi possible de retirer un navire précédemment placé en le choisissant dans cette même liste et en cliquant dur le bouton "retirer ce navire" ("6").
-	\newline
-	
-	Enfin, une fois tous les navires placés, le bouton "prêt"("8") est activé et nous pouvons cliquer dessus pour débuter une partie.
-	\newline
-	
-	Toutes ces étapes mènent au commencement de la partie. Nous allons donc maintenant décrire ce que l'utilisateur voit et peut faire lors d'un tour de jeu sur une partie déjà avancée.
-	
-	\subsubsection{Une partie typique}
-	Pour comprendre l'interface mise en œuvre ici, il est nécessaire de pouvoir la visualiser correctement. Pour cela, une capture de la fenêtre est donnée ci-après:\newline
+\subsection{Les fichiers}
+Tout d'abord, les fichiers de textes sont tous placés dans le dossier ./text\_files/ afin de bien séparer les morceaux de l'application finale.
+Ces fichiers s'articulent donc en plusieurs catégories qui sont les suivantes:
 
-	Sur cette image, nous pouvons tout d'abord parler du plateau de jeu. En effet, celui ci voit ses cases changées au cours de la partie suivant si la case a été ciblé on non ("1"). Si elle a été ciblé, cette case peut marqué comme "manqué" ("A"), "touchée" ("B") ou ecnore "coulée" ("C").
-	\newline
-	
-	Lors du tour du joueur, celui-ci doit renseigner la case ou les coordonnées sur lesquelles il souhaite tirer. Il a donc à sa disposition la possibilité de soit cliquer directement sur la case voulue("1") ou alors de rentrer les coordonnées de la case au format textuel comme défini plus haut ("2"). Le joueur fait ensuite feu grâce au bouton "Feu!" ("3") et obtient le résultat de son tir qui affiche donc une image différente pour les trois cas possibles("A", "B" ou "C") ainsi qu'un petit texte décrivant la nature du résultat ("4"). Le joueur a également la possibilité de regarder son plateau de jeu, en cliquant sur l'onglet "Mon Board" ("5").
-\newline
-
-	Voici typiquement comment l'IHM s'arrange et les différentes actions que le joueur peut effectuer au cous d'une partie. 
-	 \newline
-	  
-	Nous allons maintenant évoquer et expliquer le composant graphique majeur de l'application, le plateau de jeu qui se décline en plusieurs composants suivant quel plateau nous souhaitons regarder~: soit le nôtre avec la position de nos navires, soit celui de l'adversaire contenant tous les résultats de nos tirs.
-
-\subsection{La représentation du plateau de jeu}
-	La représentation d'un espace à deux, trois ou plus de dimensions se complexifie avec le nombre de dimensions.
-Nous avons choisi de représenter les plateaux à deux dimensions de manière classique, une surface avec un quadrillage. La représentation des plateaux à trois dimensions utilise une succession de plateaux à deux dimensions empilés entre lesquels on peut naviguer facilement. \newline
-
-	Pour les nombres de dimensions supérieures, nous avons fait le choix de ne pas tout représenter étant donné la difficulté de visualiser un espace à quatre dimensions pour les humains et l'absence de conventions communément partagées sur la représentation de cet espace.
-
-\subsubsection{Explications sur les axes}
-
-	Plutôt que de montrer une représentation qui ne serait pas comprise par les joueurs, nous avons opté pour un système de composantes fixes pour les dimensions non représentées. Ainsi, pour représenter un Board de dimensions (5, 5, 5, 5), on peut fixer la quatrième composante de chaque case représentée à la valeur t~: les cases représentées seront celles dont les coordonnées sont (x, y, z, t) pour x, y et z entre 0 et 4, et pour t fixé. Les cases de coordonnées dont la quatrième composante n'est pas égale à t ne sont pas représentées.
-\newline
-
-	Nos composants graphiques utilisent des objets Coordinates d'une façon spéciale pour déterminer les axes et les composantes fixées des coordonnées.
-	\newline	
-	
-	Dans ces coordonnées, les composantes de valeurs positives ou nulles représentent des composantes fixées et les valeurs -1, -2, -3 désignent respectivement qu'il faut représenter les composantes correspondantes sur l'axe X (horizontal, de gauche à droite), l'axe Y (vertical, de haut en bas) ou sur l'axe Z (en profondeur, vers l'écran).
-\newline
-	
-	Exemple~: Dans une représentation en 3 dimensions d'un Board de dimensions (5, 4, 5, 3, 6), si on fixe l'axe à (-1, 2, -3, 1, -2). Les cases représentées seront celles de coordonnées (a, 2, b, 1, c) avec a, b et c des valeurs entières dans les limites des dimensions du Board.
-Chaque case représentée sera située à la a-ième place sur l'axe des X, la c-ième place sur l'axe des Y et la b-ième place sur l'axe des Z.
-\newline
-
-	Dans la suite et dans le code source, nous appelons "axes" ces objets qui déterminent quelles composantes sont représentées sur quels axes et lesquelles sont fixées.
-
-\subsubsection{Représentation en deux dimensions~: les GraphicBoards}
-
-
-	Un objet GraphicBoard est un JComponent permettant la représentation en deux dimensions, il connaît le Board qu'il représente ainsi qu'un axe pour déterminer quelles cases du Board il doit représenter et dans quel sens. \newline
-
-	En plus de ça, le GraphicBoard contient deux modes d'interaction~: un passif et un actif.
-Le mode passif répond aux clics de souris en envoyant un événement simple dont la sémantique est tout simplement "on m'a cliqué dessus". \newline
-
-	Le mode actif répond aux clics de souris par un CoordinatesEvent contenant les coordonnées de la case cliquée dans le modèle du Board. Ce ne sont pas les coordonnées "graphiques" mais bien celles correspondantes à la case du Board dont on a cliqué sur la représentation graphique.
-
-\subsubsection{Représentation en trois dimensions~: Les GraphicBoardLayers}
-	Un GraphicBoardLayer est un JPanel contenant plusieurs GraphicBoards en couches superposées.
-Il permet de naviguer entre ses couches de plusieurs manières : en cliquant sur la couche qu'on veut voir entièrement (elles sont toujours cliquables car la superposition est en décalé), en utilisant le slider sur le coté ou avec la molette de souris.
-\newline
-
-	Le GraphicBoardLayer s'assure qu'un seul GraphicBoard est en mode d'interaction actif et qu'il soit entièrement visible (en décalant ceux du dessus).
-	\newline
-	
-	Il contient également des options de changement de la représentation, comme les changements d'axes, avec des boutons radios, et dans le cas où le Board qu'il représente contient plus de trois dimensions, il permet de fixer les composantes non représentées sur les axes.
-\newline
-
-Le GraphicBoardLayer relaie les CoordinatesEvents du GraphicBoard en mode actif.
-
-\subsubsection{Délégation de l'affichage spécifique~: les BoardDrawer}
-
-	GraphicBoard et GraphicBoardLayer sont des classes génériques, aptes à représenter les plateaux sur lesquels sont placés les navires comme les plateaux de tir. L'affichage spécifique de chaque type de plateau ne peut donc pas être pris en charge.\newline
-	
-	Cet affichage est donc délégué à des objets de type BoardDrawer, qui est une interface elle aussi générique, mais que nous avons implanté en deux classes non génériques, ShipDrawer et ShootDrawer.
-
-\subsubsection{La représentation des tirs~: GraphicBoardShooter}
-
-	Le GraphicBoardShooter contient un GraphicBoardLayer dont il récupère les CoordinatesEvents pour remplir un champ de coordonnée de tir.
-Il est doté d'un bouton "feu" qui s'active si les deux conditions suivantes sont remplies :
 \begin{itemize}
-\item La case correspondante aux coordonnées actuelles n'a pas encore été visée.
-\item C'est le tour du joueur (attribut booléen myTurn qui passe systématiquement à Faux après un tir, et que le contrôleur de jeu peut passer à VRAI ou FAUX)~: C'est ce contrôleur (LocalController ou SuperController) qui donne donc l'autorisation de tirer avant chaque tir.
+	\item evidences.txt -> ce fichier sert à lister toutes les preuves ainsi qu'une petite description de celles-ci
+	\item script.txt -> le script général. C'est le fichier parent à tous les autres.
+	\item qcms/ -> les différents qcms du script en cours
+	\item cross\_exams/ -> les fichiers représentant la contre-argumentation en cours
+	\item testimonies/ -> les différents témoignages du script en cours.
 \end{itemize}
 
+	Dans le fichier script.txt, et ceux qui en découlent, nous trouveront un certains nombre de balises, délimitées par "[" et "]", qui indiquent une certaine action à effectuer en fonction du contenu de la balise (que ce soit le lancement d'une musique ou d'une autre partie du script), sauf quand un personnage parle: cette information est indiquée par une "*" avant le nom du personnage, et les lignes de dialogues qui suivent sont affichées sur la console.
 
-Comme tout n'est pas forcément visible, un label indique la dernière coordonnée de tir et son effet sur l'adversaire (s'il a touché ou coulé un navire).
 
-\subsubsection{La représentation des navires~: GraphicShipBoard}
+\subsection{Les structures}
 
-	Le GraphicShipBoard contient lui aussi un GraphicBoardLayer dont il récupère les CoordinatesEvents pour remplir alternativement deux champs de coordonnées (c'est-à-dire qu'il remplit le premier au premier événement, le second au second événement, puis de nouveau le premier, etc). \newline
+	Dans cette partie, nous allons décrire les différentes structures associées à la gestion du script et à sa bonne exécution.
+
+\begin{verbatim}
+
+struct key_value {
+	char *key;
+	char *value;
+};
+\end{verbatim}
+
+	Cette structure est la structure classique pour contenir un couple de clé-valeur.
+
+\begin{verbatim}
+
+struct qcm_struct {
+	char *talking;
+	char *question;
+	char *answer[5];
+	int nb_proposition;
+	struct key_value proposition_case[5];
+	char *case_files[5];
+};
+\end{verbatim}
+
+	La structure d'un QCM renseigne toutes les informations utiles à la progression de celui-ci, c'est à dire le personnage posant la question, la question en elle même, les réponses possibles, le nombre de propositions, un couple de clé/valeur associant comme clé "CASE_i" à la valeur de texte qui sera affiché dans le menu du QCM. Enfin, la structure enregistre les différents fichiers qui seront lus quand une réponse est proposée.
+
+\begin{verbatim}
+
+
+struct evidence {
+	char *evidence_name[30];
+	char *evidence_type[30];
+	char *evidence_other[30];
+	char *evidence_description[30];
+	int evidence_active[30];
+	int nb_evidence;
+};
+\end{verbatim}
+
+	Cette structure permet l'enregistrement des informations sur les preuves contenues dans le fichier "evidences.txt", avec notamment son nom, son type, sa description, si elle est active ou non et ses informations complémentaires. La structure renseigne également sur le nombre de preuves totales du fichier.
+
+\begin{verbatim}
+
+struct cross_exam_struct {
+	char *answer_line[15];
+	int evidence_to_show;
+	char *lines[20];
+	char *extras[20];
+	char *name;
+	int current_line;
+	int nb_lines;
+	int nb_extras;
+};
+
+\end{verbatim}
+
+	Dernière structure de données permettant l'emcapsulation des informations pour le bon déroulement d'une contre-argumentation. Elle possède toutes les lignes du témoignage, les lignes correctes sur lesquelles on peut présenter une preuve et si le numéro de la preuve (evidence_to_show) est la bonne fini la contre-argumentation. Après avoir passé toutes les lignes du témoignage, on affiche les lignes "extras", c'est à dire, un petit dialogue qui se passe après mais qui en conclue pas cette phase de jeu.
 	
-	Avec ces deux champs de coordonnées qui représentent les coordonnées potentielles des extrémités d'un navire, le joueur peut essayer de placer le navire actuellement sélectionné dans la liste déroulante, s'il n'est pas déjà placé.
-Si les conditions d'un bon placement de navires sont réunies, le navire sera alors placé. Sinon, un message s'affichera, expliquant pour quelle raison le navire n'a pas pu être placé.
-\newline
-	Lorsque tous les navires sont placés et que le joueur clique sur le bouton "prêt", le panneau de placement des navires disparaît.
-	Le GraphicShipBoard représente les tirs subis en plus des navires. \newline
+\subsection{L'implémentation de la lecture du script}
 	
-	Nous avons donc vu ensemble la partie graphique de l'application, de son démarrage jusqu'au déroulement d'une partie classique. Il nous reste une dernière partie à présenter, qui est la partie "humaine" du projet, c'est à dire les choses que nous avons acquis au cours du projet, les divers problèmes rencontrées, les idées d'améliorations potentielles ainsi que les technologies que nous avons utilisées tout au long du projet.
+	En premier lieu, pour éviter que la lecture du script n'empiète sur l'affichage de la scène, et donc pouvoir utilisé les différentes touches claviers pour effectuer les actions que nous avons définies, nous avons dû l'encapsuler dans un thread POSIX afin de vraiment dissocier le thread principal gérant l'affichage de la scène et le thread utilisateur permettant la lecture des différents fichiers.\newline
+	
+	Dans un second temps, dès qu'une ligne indiquant le changement de fichier (par les balises [QCM] ou [CROSS_EXAM]), un nouveau fichier est lu, mettant en suspend la lecture en cours. Des fonctions sont prévues pour ces deux cas là, car ils sont différents d'une simple lecture puisqu'ils répondent à un certain gameplay.\newline
+	
+	Dans l'implémentation proposée, on vérifie également la ligne du script lue pour savoir le comportement a adopté. En effet, si la ligne commence par une étoile, on indique qu'il faut changer le point de vue de la caméra pour pointer sur le personnage qui parle.\newline
+	Pour des balises de type [START_MUSIC_TRIAL] ou [JUDGE_HAMMER] cela lance la musique ou bien la petite animation associée à ce type d'évènement.\newline
+	
+	Pour parvenir à indiquer à la partie graphique qu'un changement doit être opéré, et ce parce que les deux parties de l'application sont sur deux threads différents, nous avons dû nous servir de la fonction SDL_PushEvent(SDL_Event *event) permettant d'empiler sur la pile des évènements de la SDL pour que la partie graphique puisse se mettre à jour en fonction des données du script. Nous avons pu utiliser cette fonction puisque la documentation de la SDL indique que celle-ci est "thread-safe" et que les changements opérés sur un thread seront visibles sur un autre.

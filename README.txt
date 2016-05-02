@@ -1,6 +1,11 @@
-Se déplacer dans le dossier src/
-Compiler le programme à l'aide de make
-Lancer avec ./courtroom
+Pour compiler et exécuter:
+Rendre make.sh exécutable
+Lancer ./make.sh
+Lancer ./courtroom
+
+Pour nettoyer le dossier:
+Rendre clean.sh exécutable
+Lancer ./clean.sh
 
 -> <- ^ v + - permettent de se déplacer dans la scène
 zqsdae permettent de modifier le point regardé
