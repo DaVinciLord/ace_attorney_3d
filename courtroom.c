@@ -50,19 +50,7 @@ void init_globals(void) {
 	mouvementmarteau = 0;
 	sdlevent.type = SDL_KEYDOWN;
 	
-	musique_allegro = Mix_LoadMUS("music/Examination_Allegro.ogg");
-	musique_moderate = Mix_LoadMUS("music/Examination_Moderate.ogg");
-	musique_examination = Mix_LoadMUS("music/Start_Examination.ogg");
-	musique_objection = Mix_LoadMUS("music/Objection.ogg");
-	musique_cornered = Mix_LoadMUS("music/Cornered.ogg");
-	musique_trial = Mix_LoadMUS("music/Trial.ogg");
-	musique_foule = Mix_LoadMUS("music/Bruit_Foule.ogg");
-	musique_marteau = Mix_LoadMUS("music/Marteau.ogg");
-	musique_slam = Mix_LoadWAV("music/Desk_Slaming.ogg");
-	musique_takethat = Mix_LoadWAV("music/TakeThat.ogg");
-	musique_holdit = Mix_LoadWAV("music/HoldIt.ogg");
-	musique_phoenix = Mix_LoadWAV("music/Objection_Phoenix.ogg");
-	musique_payne = Mix_LoadWAV("music/Objection_Payne.ogg");
+
 }
 
 
@@ -98,6 +86,19 @@ void init_SDL(void) {
 	}
 	Mix_AllocateChannels(32);
 
+	musique_allegro = Mix_LoadMUS("music/Examination_Allegro.ogg");
+	musique_moderate = Mix_LoadMUS("music/Examination_Moderate.ogg");
+	musique_examination = Mix_LoadMUS("music/Start_Examination.ogg");
+	musique_objection = Mix_LoadMUS("music/Objection.ogg");
+	musique_cornered = Mix_LoadMUS("music/Cornered.ogg");
+	musique_trial = Mix_LoadMUS("music/Trial.ogg");
+	musique_foule = Mix_LoadMUS("music/Bruit_Foule.ogg");
+	musique_marteau = Mix_LoadMUS("music/Marteau.ogg");
+	musique_slam = Mix_LoadWAV("music/Desk_Slaming.ogg");
+	musique_takethat = Mix_LoadWAV("music/TakeThat.ogg");
+	musique_holdit = Mix_LoadWAV("music/HoldIt.ogg");
+	musique_phoenix = Mix_LoadWAV("music/Objection_Phoenix.ogg");
+	musique_payne = Mix_LoadWAV("music/Objection_Payne.ogg");
 
 	
 }

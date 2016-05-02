@@ -2,8 +2,7 @@
 *Phoenix
 
 [QUESTION]
-A fact which is clear
-if you simply...
+A fact which is clear_if you simply...
 
 [ANSWER]
 CASE_3

@@ -1367,6 +1367,7 @@ Ngh! ...!
 *Judge
 O-order! Order, I say!
 
+[START_MUSIC_TRIAL]
 *Judge
 Well...
 
