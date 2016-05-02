@@ -1,61 +1,37 @@
-\section{Le modèle réseau}
+\section{Les Fonctionalités Graphiques}
 
-\subsection{Protocoles}
-	\subsubsection{Protocole Réseau}
-	Le protocole réseau\footnote{Tous les termes demandant explications sont disponibles dans le lexique} utilisé pour que deux joueurs puissent se connecter et jouer en réseau est le protocole TCP\footnote{Transmission Control Protocol : https://tools.ietf.org/html/rfc793} qui est un protocole en mode connecté mais également fiable quant à la connexion entre deux machines et pour la réception des paquets envoyés sur le réseau. \newline
+\subsection{Les Fonctions Utisant OpenGL}
+	\subsubsection{Le sol}
+	Le sol et constitué de 6 pavés mis côte à côte, afin d'avoir une plus belle reflexion de la lumière. Ces pavés sont eux même composés de sous pavé, qui ne sont au final que de simples GL QUADS, sur lesquels on plaque une texture de pavage à neuf cases.
 	
-	Nous avons préféré le protocole TCP au protocole UDP \footnote{User Datagram Protocol : https://tools.ietf.org/html/rfc768} car, premièrement, son implémentation est bien plus aisée. En effet, nous n'avons pas à traiter certains cas d'erreurs, notamment dans le cas d'un paquet qui soit mal formé ou incomplet car TCP assure que celui-ci sera totalement prêt avant de l'envoyer. \newline
-	Deuxièmement, malgré le fait que le protocole UDP soit plus rapide dans l'envoi des données, utiliser le protocole TCP dans notre cadre n'a pas d'impact significatif puisque, comme il sera exposé un peu plus tard, chaque joueur doit attendre la réception de données avant de continuer son traitement. Ainsi, il n'est pas, en pratique, possible de recevoir des données qui ne sont pas attendues à des moments précis.
-
-	\subsubsection{Protocole de l'application}
-		L'application doit suivre un certain protocole pour que les deux joueurs puissent communiquer correctement et sans problèmes majeurs. Il a donc été décidé de suivre un type de protocole classique qui est celui du question/réponse. Néanmoins, nous n'avons pas choisi d'implémenter de serveur d'hébergement centralisant toutes les parties et dirigeant toutes les actions des clients, nous avons opté pour un échange de type pair à pair\footnote{Voir lexique}, c'est à dire que les deux joueurs doivent jouer les deux rôles: le processus serveur et le processus client, chacun à des temps déterminés et non mutables. \newline
-		Nous expliquerons dans cette partie la connexion entre les deux joueurs, comment se passe l'échange de données ainsi que le format que les données doivent respectées. Les deux premières parties seront également accompagnées de schémas explicatifs sous forme d'automates disponibles en annexe.
-		
-		\subsubsubsection{Connexion des joueurs}
-			Comme dit plus haut, chaque joueur doit jouer deux rôles bien distincts, celui du processus serveur comme celui du processus client. Dans ce cas-ci, il est donc bon de noter l'ordre des différentes opérations effectuées entre un joueur qui va accueillir la partie et celui qui va en être l'invité, nous allons donc expliciter quelles actions font parties du processus client et lesquelles font parties du processus serveur. \newline			
-			
-			Les deux joueurs vont, en premier lieu, créer et lancer leurs serveurs respectifs, en spécifiant l'adresse de la machine en format IPv4, un port d'écoute (nous vérifions qu'il soit compris entre 1024 et 65535), ainsi qu'un nombre de connexions autorisées qu'on nommera "backlog". \newline
-			
-			Ensuite, le joueur hôte met son serveur en attente d'une demande de connexion via sa socket d'écoute\footnote{Voir lexique} (il est donc considéré en tant que processus serveur) et, de son côté, le joueur invité (considéré comme le processus client à ce moment) va se connecter à l'adresse du joueur hôte. Cela aura pour effet, côté processus serveur, de créer une socket de service\footnote{Voir lexique} par laquelle le joueur passera pour communiquer avec le joueur invité. \newline
-			
-			À cette étape, il reste à faire la connexion inverse, c'est à dire que le joueur hôte (qui est maintenant le processus client) doit faire une demande de connexion à l'adresse du serveur du joueur invité (devenu le processus serveur) et, une fois la connexion acceptée par la socket d'écoute du processus serveur, une nouvelle socket de service est créée pour que le joueur invité puisse communiqué avec le joueur hôte.\newline
-			
-			Suite à ces différentes étapes, la connexion entre le joueur hôte et le joueur invité est établie, les échanges de données peuvent donc être effectués.
-
-		\subsubsubsection{Échanges des données}
-			Mais avant de pouvoir commencer la partie et à échanger des données, chaque joueur doit placer ses navires puis attendre que l'adversaire finisse de placer les siens. Pour nos besoins, nous n'avons pas décidé de laisser l'application choisir au hasard qui commence une partie~: ce sera toujours le joueur hôte. \newline
-			
-			De ce fait, le joueur hôte devient donc le processus client qui doit alors choisir puis envoyer les coordonnées de son tir, ces dernières étant réceptionnées par le processus serveur, i.e le joueur invité, qui est en attente de ces coordonnées et rien d'autre. En effet, nous verrons plus tard comment ces données sont formatées pour que notre protocole fonctionne correctement (voir \ref{dataformat}).  \newline
-			
-			La prochaine étape consiste, pour le joueur invité maintenant devenu le processus client, d'envoyer le résultat du tir qui est un état de la case visée. Cet état peut être de trois natures~: "touché", "coulé" ou bien "manqué". Le joueur hôte, quant à lui, attend l'arrivée de ce résultat en tant que processus serveur.\newline \label{states}
-			
-			Enfin, les joueurs mettent à jour leur vue respective pour finalement changer le tour de jeu, c'est à dire que le joueur hôte passe la main au joueur invité. \newline
-			
-			Ce schéma, se répète quand c'est au tour du joueur invité de jouer, il suffit simplement d'inverser les rôles pour obtenir un tour de jeu complet et ce jusqu'à la victoire d'un des joueurs qui fermeront correctement ensuite les différentes sockets\footnote{Voir lexique} mises en jeu.
-			
-		\subsubsubsection{Format des données}
-		\label{dataformat}
-			Dans le cadre de notre protocole, il a fallu décider d'un certain format que les données doivent respectées pour pouvoir être acceptées et ainsi traitées. De ce fait, tout paquet est formé de cette manière afin de faciliter l'extraction des données utiles au protocole~:
-			\begin{quote}
-				"Objet:Valeur"
-			\end{quote}
-			Ces deux composantes définissent donc le format des données envoyées. Nous allons donc maintenant définir quels sont les types d'objets possible ainsi que leurs valeurs associées.
-			
-			\begin{enumerate}
-				\item "Coordinates:(X,)*X" $\Rightarrow$ Ce format permet d'envoyer les coordonnées d'un tir, la valeur est une suite de nombres séparés par des virgules représentant la coordonnée sur un axe donné. Par exemple, si nous recevons "Coordinates:1,2", cela signifie que nous voulons tirer sur la case dont les composantes de coordonnées sont 1 pour la première composante et 2 pour la seconde.
-			 
-				\item "State:X" $\Rightarrow$ Ce format permet d'envoyer l'état de la case qui a été visée. Les valeurs possibles ont déjà été définies dans la partie \ref{states}. Par exemple, en recevant "State:HIT", cela signifie que la case visée a été touchée.
-				
-				\item "String:X" $\Rightarrow$ Un objet String est une chaîne de caractères, la valeur pouvant être n'importe quelle chaîne. Grâce à ce format, nous pouvons envoyer des messages simples, comme le fait d'avoir gagné la partie ou bien un message d'erreur que nous affichons à l'utilisateur. 
-				
-			\end{enumerate}
-			
-
-\subsection{Gestion des erreurs}
-	La gestion des erreurs est faite sur plusieurs niveaux d'abstraction dans notre projet. En effet, le premier niveau d'abstraction est le fait d'utiliser le protocole TCP/IP, car celui-ci, en opposition au protocole UDP, en plus de recevoir le paquet fait une vérification afin de valider le paquet avant de le transmettre. De ce fait, une partie des vérifications est déjà effectuée par ce biais.\newline
+	\subsubsection{Les meubles}
+	Les meubles sont créer grâce à la fonction creer pave, qui prends en paramêtre les coordonées du centre du pavé, ainsi que sa largeur, sa profondeur et sa hauteur. Cette fonction créer corectement toutes les face vers l'exterieur, et fixe leur normale, afin que la lumière et les textures ajoutées s'affiche correctement.
+	\subsubsection{Les murs}
+	Les murs sont crées par la fonction creer mur, qui ressemble beaucoup à creer pave, mais ne crée pas les faces en z et -z, et qui de plus, crée les faces vers l'interieur du solide.
+	\subsubsection{Le blason, et la balance}
+	Les éléments situés au dessus du juge ont été crée à l'aide des fonction de la glu, gluCylinder, et gluDisk. Elle sont tournées et translatées sur le fond de la pièce, et des texture réalistes sont plaquées dessus.
+	\subsubsection{Le marteau et son support}
+	Le marteau, tout comme les présédents éléments, est créer à l'aide d'un quadric, avec les fonction de la glu. Il a aussi été ajouté un glRotatef dedans, afin de pouvoir faire varier la position du marteau. Cela simule un coup de marteau au rendu convainquant.
+	\subsubsection{Le Stand des Témoins}
+	Ce stand est constitué en bas, d'un ensemble de pave, crée par la fonction décrite si dessus, repartis de façon homogène sur un demi-cercle. Il est surmonté par des gluPartialDisk enpilés les un sur les autres.
+	\subsubsection{Les personnages}
+	Pour créer les personnages, une nouvelle fonction à du être definie, c'est la fonction creer pave with texture, cette fonction permet d'associer à chaques faces d'un pavé, une texture diférente, fournie en argument de la fonction. De plus, certain personage on subit quelques modification, permetant des animations, au grés du scénario.
+	En effet, les bras du personages principal sont affublé de deux glRotate, ce qui leur permet de bouger dans deux direction différent, le bras du juge, a l'aide d'un glTranslate, bouge au rhythme de son marteau, et les têtes des spectateurs de la foules peuvent, a l aide d'un glRotatef tourner de gauche à droite.
+	\subsubsection{Les arcades}
+	Donc arcade on été appliquées sur les mur afin d'améliorer leur esthétisme. Deux pavés creer normalement surmontés de deux autres, qui sont tournés à 45 degrés et déplacés au dessus des prémiers.
+\subsection{Le modèle de vu}
+	Afin d'afficher la scene, un gluPerspective est fait à l'initialisation. Les arguments associés sont un fovy de 60, ce qui nous a semblé rendre une scéne correcte, non déformée. Le rapport d'aspect reste à 1, near est à 10 et far est à 3000 ce qui permet, quelque soit notre enplacement dans la scène, de pouvoir l'afficher en entier.\newline
+	Un gluLookAt est fait à chaques fois que la scène est affichée, il prends en paramettre des variable globale ce qui permet de pouvoir facilement deplacer la camera dans la scene. Il y deux façon de se déplacer dans la scène
+	\subsubsection{Le mode "Vue libre"}
+	Grace à la fonction PollEvent de le SDL, on peut recuperer les input fait au clavier quand la fenêtre a le focus, cela permet de pouvoir modifier les globales whereiam{x,y,z} et whereialook{x,y,z} ce qui permet d avoir une totale liberté de mouvement dans la scène
+	\subsubsection{Le mode automatique}
+	Certaines touches, ou certaines balises dans le script, lance les fonction de déplacement, qui elle même appelent movecamera, qui permet de deplacer de maniere fluide la camera dans la scène, en faisant un display de la scène tous les 1/100 eme de la distance ou je suis et l'endroit où je dois être.
+\subsection{Les animations}
+	Plusieurs fonctions permettent que créer de petites animations, et sont lancées par des évements clavier lancés manuellement ou par le biais du script. Ces fonction modifient la valeur des variables globales mentionnée plus haut, et affiche la scène plusieurs fois afin de pouvoir voir l'animation complète.
+\subsection{La musique}
+	Grace à SDLmixer, de la musique à été ajoutée au projet, reprenant les sonorités classique du jeu. Ces musiques sont jouer lors d'evenement de clavier, ou bien lors d'animation (comme par exemple celle du marteau est associé au son du marteau). Il y deux types de musiques.
+	\subsubsection{Les musiques standarts}
+	Ce sont celles courament jouées en fond sonore, pendant la lecture du script. Une seul peut etre jouée à la fois, et certaines boucles alors que d'autres ne sont jouées qu'une fois.
+	\subsubsection{Les "morceau" de musique}
+	Ce sont les bruitage que ne couperont pas la musique de fond quand ils seront joués. Ce sont principalement les objections des avocats, et autres interjections.
 	
-	Le second niveau d'abstraction est lié au langage que nous avons choisi. En effet, Java implémente les protocoles TCP et UDP. Hors, Java effectue aussi des vérifications quand à la validité des données et permet facilement de vérifier si le paquet reçu est valide ou non, par le biais des Exceptions présentes dans l'API de base.\newline
-	
-	Au final, nous avons implanté notre propre protocole de validité des données, afin d'être sûr de ce que nous recevons. Comme vous avez pu le lire précédemment, chacune de nos données envoyées possède un format propre a notre protocole et si, lors d'un envoi de donnée, nous n'avons pas le bon type de données, alors nous gérons le problème en indiquant qu'un problème est survenue lors de l'envoi des données, ce qui n'est pas normal et qui indique un problème au niveau du programme. De ce fait, nous fermons donc proprement l'application afin d'éviter tout problèmes lors d'une exécution prolongée du logiciel.\newline
-	
-	Voici ce qui conclut notre présentation de la partie réseau du projet. Nous avons donc vu ensemble le fonctionnement de notre protocole réseau ainsi que la façon dont nous avons géré les potentielles erreurs pouvant survenir dans le cadre d'une partie en réseau. Il nous reste donc plus qu'une seule partie de l'application, il s'agit de l'IHM \footnote{Interface Homme-Machine, aussi appelé Graphical User Interface, voir lexique}, que nous allons vous expliquer dans la prochaine partie.
