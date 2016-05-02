@@ -2,10 +2,11 @@ CFLAGS = -std=c11 -pedantic -Wall -Wextra -Werror `sdl2-config --cflags` -D_XOPE
 LDLIBS = -lGLU -lGL `sdl2-config --libs` -lSDL2_mixer -lSDL2_image -pthread -lm 
 LIBS = libCourtroom.a
 
-all: $(LIBS)
+all: courtroom
 
-courtroom: courtroom.c all
+courtroom: courtroom.c $(LIBS)
 	gcc $(CFLAGS) $< $(LIBS) $(LDLIBS)  -o courtroom
+	mv courtroom ../
 
 libCourtroom.a:  draw_functions.o animations.o camera.o script_read.o keyboard.o
 	ar r $@ $^ 
@@ -14,7 +15,9 @@ libCourtroom.a:  draw_functions.o animations.o camera.o script_read.o keyboard.o
 	$(CC) -lm  -c $(CFLAGS) $< -o $@
 	
 clean:
-	$(RM) *.o *~ courtroom
+	$(RM) *.o *~
+	$(RM) ../courtroom
 
 distclean:
-	$(RM) $(LIBS) *.o *~ courtroom
+	$(RM) $(LIBS) *.o *~ 
+	$(RM) ../courtroom

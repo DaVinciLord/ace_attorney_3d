@@ -8,6 +8,6 @@
 
 [LINE_3]>*Sahwit_Yeah, the murder weapon!_The killer used it to_hit the victim!
 
-[LINE_3]>*Sahwit_That must have_been what I saw.
+[LINE_4]>*Sahwit_That must have_been what I saw.
 
 [EXTRA_1]>*Mia_Now, find the contradiction!
