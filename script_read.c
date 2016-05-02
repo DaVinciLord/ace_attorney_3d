@@ -91,6 +91,7 @@ void check_line(char *buf) {
 		objecting = strtok(NULL, "->");
 		do_objection();
 	} else if (strstr(buf, "[TAKE_THAT]") != NULL) {
+		printf("TAKE THAT!");
 		sdlevent.key.keysym.sym = SDLK_f;
 		SDL_PushEvent(&sdlevent);
 	} else if (strstr(buf, "[ALLEGRO]") != NULL) {
@@ -102,7 +103,7 @@ void check_line(char *buf) {
 		sdlevent.key.keysym.sym = SDLK_COMMA;
 		SDL_PushEvent(&sdlevent);
 	} else if(strstr(buf, "[CASE") != NULL || strstr(buf, "++") != NULL){ 
-		
+		getchar();
 	} else {
 		printf("%s", buf);
 		getchar();
@@ -571,7 +572,6 @@ int objection_try(int choice, struct cross_exam_struct *cross_exam_infos) {
 	snprintf(try_answer, strlen("LINE_") + nb_digits + 1, "LINE_%d", cross_exam_infos->current_line + 1);
 	int i = 0;
 	while(cross_exam_infos->answer_line[i] != NULL) {
-		printf("%s\t%s\n", try_answer, cross_exam_infos->answer_line[i]);
 		if(strcmp(try_answer, cross_exam_infos->answer_line[i]) == 0 && choice == cross_exam_infos->evidence_to_show) {
 			return 1;
 		}
