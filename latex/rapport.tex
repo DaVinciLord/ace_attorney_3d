@@ -1,0 +1,105 @@
+\documentclass[a4paper,11pt,final]{article}
+% Pour une impression recto verso, utilisez plutôt ce documentclass :
+%\documentclass[a4paper,11pt,twoside,final]{article}
+
+\usepackage[english,francais]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[pdftex]{graphicx}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage[french]{varioref}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{titlesec}
+\usepackage[title,titletoc]{appendix}
+\usepackage{rotating}
+\usepackage{alltt}
+
+\newcommand{\reporttitle}{Rapport de projet Infographie$\newline$Ace Attorney 3D}     % Titre
+\newcommand{\reportauthor}{Vincent \textsc{Metton}, Grégoire \textsc{Pommier}} % Auteur
+\newcommand{\reportsubject}{}  % Sujet
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\setlength{\parskip}{1ex} % Espace entre les paragraphes
+
+\hypersetup{
+    pdftitle={\reporttitle},%
+    pdfauthor={\reportauthor},%
+    colorlinks=false,
+    pdfborder={0 0 0},
+}
+
+\titleclass{\subsubsubsection}{straight}[\subsection]
+
+\newcounter{subsubsubsection}[subsubsection]
+
+\renewcommand\thesubsubsubsection{\thesubsubsection.\arabic{subsubsubsection}}
+\renewcommand\theparagraph{\thesubsubsubsection.\arabic{paragraph}}
+\renewcommand\thesubparagraph{\theparagraph.\arabic{subparagraph}}
+
+\titleformat{\subsubsubsection}
+  {\normalfont\normalsize\bfseries}{\thesubsubsubsection}{1em}{}
+\titlespacing*{\subsubsubsection}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{5}{\z@}%
+  {3.25ex \@plus1ex \@minus.2ex}%
+  {-1em}%
+  {\normalfont\normalsize\bfseries}}
+\renewcommand\subparagraph{\@startsection{subparagraph}{6}{\parindent}
+  {3.25ex \@plus1ex \@minus .2ex}%
+  {-1em}%
+  {\normalfont\normalsize\bfseries}}
+\def\toclevel@subsubsubsection{4}
+\def\toclevel@paragraph{5}
+\def\toclevel@paragraph{6}
+\def\l@subsubsubsection{\@dottedtocline{4}{7em}{4em}}
+\def\l@paragraph{\@dottedtocline{5}{10em}{5em}}
+\def\l@subparagraph{\@dottedtocline{6}{14em}{6em}}
+\@addtoreset{subsubsubsection}{section}
+\@addtoreset{subsubsubsection}{subsection}
+\@addtoreset{paragraph}{subsubsubsection}
+\makeatother
+
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+
+\begin{document}
+  \include{title}
+  \newpage
+  \pagestyle{empty}
+  \mbox{}
+  \cleardoublepage % Dans le cas du recto verso, ajoute une page blanche si besoin
+  \pagestyle{fancy}
+  \fancyhf{}
+  \fancyhead[LE,RO]{\reporttitle}
+  \fancyhead[RE,LO]{L3 Informatique}
+  \fancyfoot[CE,CO]{\reportauthor}
+  \renewcommand{\headrulewidth}{2pt}
+  \renewcommand{\footrulewidth}{1pt}
+  \tableofcontents % Table des matières
+  \newpage
+  \listoffigures  % table des figures
+  \sloppy          % Justification moins stricte : des mots ne dépasseront pas des paragraphes
+  \cleardoublepage
+  \setcounter{page}{1}
+  \fancyfoot[LE,RO]{\thepage/\pageref{LastPage}}
+  \include{remerciements}
+  \cleardoublepage
+  \include{intro}
+  \cleardoublepage
+  \include{partie1}
+  \cleardoublepage
+  \newpage
+  \include{partie2}
+  \cleardoublepage
+  \include{partie3}
+  \cleardoublepage
+  \include{partie4}
+  \cleardoublepage
+  \include{concl}
+  \cleardoublepage
+  \include{appendix}
+\end{document}
+
