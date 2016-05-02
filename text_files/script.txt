@@ -6,7 +6,7 @@ Courtroom No. 2
 [PUBLIC_TALK]
 
 ++
-[JUDGE_HAMMER]->3
+[JUDGE_HAMMER]->1
 
 ++
 [START_MUSIC_TRIAL]
