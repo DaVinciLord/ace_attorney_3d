@@ -45,11 +45,11 @@ struct qcm_struct {
 	char *answer[5];
 	int nb_proposition;
 	struct key_value proposition_case[5];
-	char *case_files[5];
+	char *case\_files[5];
 };
 \end{verbatim}
 
-	La structure d'un QCM renseigne toutes les informations utiles à la progression de celui-ci, c'est à dire le personnage posant la question, la question en elle même, les réponses possibles, le nombre de propositions, un couple de clé/valeur associant comme clé "CASE_i" à la valeur de texte qui sera affiché dans le menu du QCM. Enfin, la structure enregistre les différents fichiers qui seront lus quand une réponse est proposée.
+	La structure d'un QCM renseigne toutes les informations utiles à la progression de celui-ci, c'est à dire le personnage posant la question, la question en elle même, les réponses possibles, le nombre de propositions, un couple de clé/valeur associant comme clé "CASE\_i" à la valeur de texte qui sera affiché dans le menu du QCM. Enfin, la structure enregistre les différents fichiers qui seront lus quand une réponse est proposée.
 
 \begin{verbatim}
 
@@ -81,15 +81,15 @@ struct cross_exam_struct {
 
 \end{verbatim}
 
-	Dernière structure de données permettant l'emcapsulation des informations pour le bon déroulement d'une contre-argumentation. Elle possède toutes les lignes du témoignage, les lignes correctes sur lesquelles on peut présenter une preuve et si le numéro de la preuve (evidence_to_show) est la bonne fini la contre-argumentation. Après avoir passé toutes les lignes du témoignage, on affiche les lignes "extras", c'est à dire, un petit dialogue qui se passe après mais qui en conclue pas cette phase de jeu.
+	Dernière structure de données permettant l'emcapsulation des informations pour le bon déroulement d'une contre-argumentation. Elle possède toutes les lignes du témoignage, les lignes correctes sur lesquelles on peut présenter une preuve et si le numéro de la preuve (evidence\_to\_show) est la bonne fini la contre-argumentation. Après avoir passé toutes les lignes du témoignage, on affiche les lignes "extras", c'est à dire, un petit dialogue qui se passe après mais qui en conclue pas cette phase de jeu.
 	
 \subsection{L'implémentation de la lecture du script}
 	
 	En premier lieu, pour éviter que la lecture du script n'empiète sur l'affichage de la scène, et donc pouvoir utilisé les différentes touches claviers pour effectuer les actions que nous avons définies, nous avons dû l'encapsuler dans un thread POSIX afin de vraiment dissocier le thread principal gérant l'affichage de la scène et le thread utilisateur permettant la lecture des différents fichiers.\newline
 	
-	Dans un second temps, dès qu'une ligne indiquant le changement de fichier (par les balises [QCM] ou [CROSS_EXAM]), un nouveau fichier est lu, mettant en suspend la lecture en cours. Des fonctions sont prévues pour ces deux cas là, car ils sont différents d'une simple lecture puisqu'ils répondent à un certain gameplay.\newline
+	Dans un second temps, dès qu'une ligne indiquant le changement de fichier (par les balises [QCM] ou [CROSS\_EXAM]), un nouveau fichier est lu, mettant en suspend la lecture en cours. Des fonctions sont prévues pour ces deux cas là, car ils sont différents d'une simple lecture puisqu'ils répondent à un certain gameplay.\newline
 	
 	Dans l'implémentation proposée, on vérifie également la ligne du script lue pour savoir le comportement a adopté. En effet, si la ligne commence par une étoile, on indique qu'il faut changer le point de vue de la caméra pour pointer sur le personnage qui parle.\newline
-	Pour des balises de type [START_MUSIC_TRIAL] ou [JUDGE_HAMMER] cela lance la musique ou bien la petite animation associée à ce type d'évènement.\newline
+	Pour des balises de type [START\_MUSIC\_TRIAL] ou [JUDGE\_HAMMER] cela lance la musique ou bien la petite animation associée à ce type d'évènement.\newline
 	
-	Pour parvenir à indiquer à la partie graphique qu'un changement doit être opéré, et ce parce que les deux parties de l'application sont sur deux threads différents, nous avons dû nous servir de la fonction SDL_PushEvent(SDL_Event *event) permettant d'empiler sur la pile des évènements de la SDL pour que la partie graphique puisse se mettre à jour en fonction des données du script. Nous avons pu utiliser cette fonction puisque la documentation de la SDL indique que celle-ci est "thread-safe" et que les changements opérés sur un thread seront visibles sur un autre.
+	Pour parvenir à indiquer à la partie graphique qu'un changement doit être opéré, et ce parce que les deux parties de l'application sont sur deux threads différents, nous avons dû nous servir de la fonction SDL\_PushEvent(SDL\_Event *event) permettant d'empiler sur la pile des évènements de la SDL pour que la partie graphique puisse se mettre à jour en fonction des données du script. Nous avons pu utiliser cette fonction puisque la documentation de la SDL indique que celle-ci est "thread-safe" et que les changements opérés sur un thread seront visibles sur un autre.
